@@ -99,7 +99,10 @@ namespace Tools
 
             if (!string.IsNullOrEmpty(loadSceneData.SceneNameToActivate))
             {
-                SceneManager.SetActiveScene(SceneManager.GetSceneByName(loadSceneData.SceneNameToActivate));
+                if (_loadedSceneNames.Contains(loadSceneData.SceneNameToActivate))
+                {
+                    SceneManager.SetActiveScene(SceneManager.GetSceneByName(loadSceneData.SceneNameToActivate));
+                }
             }
 
             _isLoading = false;

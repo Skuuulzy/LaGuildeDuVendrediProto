@@ -8,7 +8,9 @@ public class Boot : MonoBehaviour
     
     private void Awake()
     {
-        SceneManager.LoadScene("PersistantManager", LoadSceneMode.Additive);
-        _sceneToLoad.Load();
+        SceneManager.LoadSceneAsync("PersistantManager", LoadSceneMode.Additive).completed += delegate
+        {
+            _sceneToLoad.Load();
+        };
     }
 }
