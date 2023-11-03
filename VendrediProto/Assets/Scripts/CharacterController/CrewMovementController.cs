@@ -1,3 +1,4 @@
+using System;
 using Sirenix.OdinInspector;
 using UnityEngine;
 
@@ -43,6 +44,9 @@ public class CrewMovementController : MonoBehaviour
     [TabGroup("Components")]
     [SerializeField] InputManager _inputManager;
     
+    [TabGroup("Character Components")]
+    [SerializeField] private Transform _footTransform;
+    
     #endregion
 
     // Player
@@ -64,11 +68,15 @@ public class CrewMovementController : MonoBehaviour
         _fallTimeoutDelta = _fallTimeout;
     }
 
-    private void Update()
+    private void LateUpdate()
     {
         JumpAndGravity();
-        //GroundedCheck();
         Move();
+    }
+
+    private void FixedUpdate()
+    {
+        GroundedCheck();
     }
 
     #region Methods
@@ -76,7 +84,7 @@ public class CrewMovementController : MonoBehaviour
     private void GroundedCheck()
     {
         // The sphere will represent a zone where collisions will be detected. We are setting this zone to the position of our player.
-        var position = transform.position;
+        var position = _footTransform.position;
         Vector3 spherePosition = new(position.x, position.y - _groundedOffset, position.z);
 
         // Check if the sphere zone overlaps with any collider that has a ground layer
