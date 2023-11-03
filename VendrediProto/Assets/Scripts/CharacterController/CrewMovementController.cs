@@ -45,9 +45,11 @@ public class CrewMovementController : MonoBehaviour
     [SerializeField] private CharacterController _controller;
     [TabGroup("Components")]
     [SerializeField] InputManager _inputManager;
-    
-    [TabGroup("Character Components")]
+    [TabGroup("Components")]
     [SerializeField] private Transform _footTransform;
+    
+    [TabGroup("Components")]
+    [SerializeField] private bool _drawDebugGizmos;
     
     #endregion
 
@@ -91,6 +93,21 @@ public class CrewMovementController : MonoBehaviour
 
         // Check if the sphere zone overlaps with any collider that has a ground layer
         _grounded = Physics.CheckSphere(spherePosition, _groundedRadius, _groundLayers, QueryTriggerInteraction.Ignore);
+    }
+    
+    private void OnDrawGizmos()
+    {
+        if (!_drawDebugGizmos)
+        {
+            return;
+        }
+        
+        // The sphere will represent a zone where collisions will be detected. We are setting this zone to the position of our player.
+        var position = _footTransform.position;
+        Vector3 spherePosition = new(position.x, position.y - _groundedOffset, position.z);
+
+        // Check if the sphere zone overlaps with any collider that has a ground layer
+        Gizmos.DrawSphere(spherePosition, _groundedRadius);
     }
 
     private void Move()
