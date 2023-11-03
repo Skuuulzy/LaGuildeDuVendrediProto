@@ -1,3 +1,4 @@
+using System;
 using Sirenix.OdinInspector;
 using UnityEngine;
 
@@ -9,6 +10,8 @@ public class CrewMovementController : MonoBehaviour
     [SerializeField] private float _moveSpeed = 2.0f;
     [TabGroup("Main Parameters")]
     [SerializeField] private float _sprintSpeed = 5.335f;
+    [TabGroup("Main Parameters")]
+    [SerializeField] private float _airMoveSpeed = 2.0f;
     [TabGroup("Main Parameters")]
     [SerializeField] private float _speedChangeRate = 10.0f;
     [TabGroup("Main Parameters")]
@@ -42,6 +45,11 @@ public class CrewMovementController : MonoBehaviour
     [SerializeField] private CharacterController _controller;
     [TabGroup("Components")]
     [SerializeField] InputManager _inputManager;
+    [TabGroup("Components")]
+    [SerializeField] private Transform _footTransform;
+    
+    [TabGroup("Components")]
+    [SerializeField] private bool _drawDebugGizmos;
     
     #endregion
 
@@ -64,11 +72,15 @@ public class CrewMovementController : MonoBehaviour
         _fallTimeoutDelta = _fallTimeout;
     }
 
-    private void Update()
+    private void LateUpdate()
     {
         JumpAndGravity();
-        //GroundedCheck();
         Move();
+    }
+
+    private void FixedUpdate()
+    {
+        GroundedCheck();
     }
 
     #region Methods
@@ -76,16 +88,41 @@ public class CrewMovementController : MonoBehaviour
     private void GroundedCheck()
     {
         // The sphere will represent a zone where collisions will be detected. We are setting this zone to the position of our player.
-        var position = transform.position;
+        var position = _footTransform.position;
         Vector3 spherePosition = new(position.x, position.y - _groundedOffset, position.z);
 
         // Check if the sphere zone overlaps with any collider that has a ground layer
         _grounded = Physics.CheckSphere(spherePosition, _groundedRadius, _groundLayers, QueryTriggerInteraction.Ignore);
     }
+    
+    private void OnDrawGizmos()
+    {
+        if (!_drawDebugGizmos)
+        {
+            return;
+        }
+        
+        // The sphere will represent a zone where collisions will be detected. We are setting this zone to the position of our player.
+        var position = _footTransform.position;
+        Vector3 spherePosition = new(position.x, position.y - _groundedOffset, position.z);
+
+        // Check if the sphere zone overlaps with any collider that has a ground layer
+        Gizmos.DrawSphere(spherePosition, _groundedRadius);
+    }
 
     private void Move()
     {
-        float targetSpeed = _inputManager.Sprint ? _sprintSpeed : _moveSpeed;
+        float targetSpeed;
+
+        if (_grounded)
+        {
+            targetSpeed = _inputManager.Sprint ? _sprintSpeed : _moveSpeed;
+        }
+        else
+        {
+            targetSpeed = _airMoveSpeed;
+        }
+        
         if (_inputManager.Move == Vector2.zero)
         {
             targetSpeed = 0.0f;
@@ -133,7 +170,7 @@ public class CrewMovementController : MonoBehaviour
             // Stop our velocity dropping infinitely when grounded.
             if (_verticalVelocity < 0.0f)
             {
-                _verticalVelocity = _gravity;
+                _verticalVelocity = -2f;
             }
 
             // If we're trying to jump and the time before being able to jump again has passed, jump.
