@@ -1354,8 +1354,8 @@ MonoBehaviour:
   _jumpTimeout: 0
   _fallTimeout: 0.15
   _grounded: 1
-  _groundedOffset: 0.1
-  _groundedRadius: 0.2
+  _groundedOffset: -0.2
+  _groundedRadius: 0.5
   _groundLayers:
     serializedVersion: 2
     m_Bits: 64
@@ -1363,6 +1363,7 @@ MonoBehaviour:
   _controller: {fileID: 1556983699}
   _inputManager: {fileID: 1556983697}
   _footTransform: {fileID: 1548638293}
+  _drawDebugGizmos: 0
 --- !u!143 &1556983699
 CharacterController:
   m_ObjectHideFlags: 0
