@@ -1007,6 +1007,22 @@ MonoBehaviour:
         m_CallState: 2
     m_ActionId: caa8cca8-410b-4ab9-9adf-b5b61f82fe10
     m_ActionName: Player/Sprint[/Keyboard/shift]
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1556983697}
+        m_TargetAssemblyTypeName: InputManager, Assembly-CSharp
+        m_MethodName: InteractInput
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: 6366c884-47b7-49fb-aefb-eabdf8cba34b
+    m_ActionName: Player/Interact[/Keyboard/q]
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: 
   m_DefaultActionMap: Player
@@ -1040,8 +1056,8 @@ MonoBehaviour:
   _sprintSpeed: 7
   _speedChangeRate: 10
   _rotationSmoothTime: 0.12
-  _jumpHeight: 1.2
-  _gravity: -25
+  _jumpHeight: 0.6
+  _gravity: -9.81
   _jumpTimeout: 0.5
   _fallTimeout: 0.15
   _grounded: 1
