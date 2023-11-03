@@ -1,0 +1,32 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bda315bd0b67a1348a8b1e7e66731f01, type: 3}
+  m_Name: Sample
+  m_EditorClassIdentifier: 
+  _sceneFieldsToLoad:
+  - _sceneOB: {fileID: 102900000, guid: 99c9720ab356a0642a771bea13969a05, type: 3}
+    _name: SampleScene
+    _path: Assets/Scenes/SampleScene.unity
+    _buildIndex: 1
+  _sceneFieldsToUnload:
+  - _sceneOB: {fileID: 102900000, guid: dd81b69b8f3fc504f96e6051b302394b, type: 3}
+    _name: Boot
+    _path: Assets/Scenes/Boot.unity
+    _buildIndex: 0
+  _sceneFieldsToKeepLoaded: []
+  _sceneFieldToActivate:
+    _sceneOB: {fileID: 0}
+    _name: 
+    _path: 
+    _buildIndex: 0
+  _loadType: {fileID: 11400000, guid: 2f7be2306d5c56245a68754ced61c646, type: 2}
+  _minimumLoadTime: 0
