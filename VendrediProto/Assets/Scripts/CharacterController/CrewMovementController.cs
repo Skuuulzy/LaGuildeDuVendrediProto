@@ -11,6 +11,8 @@ public class CrewMovementController : MonoBehaviour
     [TabGroup("Main Parameters")]
     [SerializeField] private float _sprintSpeed = 5.335f;
     [TabGroup("Main Parameters")]
+    [SerializeField] private float _airMoveSpeed = 2.0f;
+    [TabGroup("Main Parameters")]
     [SerializeField] private float _speedChangeRate = 10.0f;
     [TabGroup("Main Parameters")]
     [Tooltip("How fast the character turns to face movement direction")]
@@ -93,7 +95,17 @@ public class CrewMovementController : MonoBehaviour
 
     private void Move()
     {
-        float targetSpeed = _inputManager.Sprint ? _sprintSpeed : _moveSpeed;
+        float targetSpeed;
+
+        if (_grounded)
+        {
+            targetSpeed = _inputManager.Sprint ? _sprintSpeed : _moveSpeed;
+        }
+        else
+        {
+            targetSpeed = _airMoveSpeed;
+        }
+        
         if (_inputManager.Move == Vector2.zero)
         {
             targetSpeed = 0.0f;
