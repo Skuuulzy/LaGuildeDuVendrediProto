@@ -133,7 +133,7 @@ public class CrewMovementController : MonoBehaviour
             // Stop our velocity dropping infinitely when grounded.
             if (_verticalVelocity < 0.0f)
             {
-                _verticalVelocity = _gravity;
+                _verticalVelocity = -2f;
             }
 
             // If we're trying to jump and the time before being able to jump again has passed, jump.
