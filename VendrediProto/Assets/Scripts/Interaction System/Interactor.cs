@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Interactor : MonoBehaviour
 {
-    [SerializeField] private InputManager inputManager;
+    [SerializeField] private InputManager _inputManager;
     private IInteractable _interactable;
     private bool _triggered;
 
@@ -15,24 +15,22 @@ public class Interactor : MonoBehaviour
             _interactable = interactable;
             _triggered = true;
             _interactable.ShowInteractPopUp("E"); //Add key interaction from input manager
-            //Display UI
         }
     }
 
     private void OnTriggerExit(Collider other)
     {
+        _interactable.HideInteractPopUp();
         _triggered = false;
         _interactable = null;
-        //remove UI
 
     }
 
     private void OnTriggerStay(Collider other)
     {
-        if (_triggered && inputManager.Interact)
+        if (_triggered && _inputManager.Interact)
         {
             _interactable.Interact();
-        }
-        //interaction 
+        } 
     }
 }

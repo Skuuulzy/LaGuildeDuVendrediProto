@@ -4,6 +4,8 @@ using UnityEngine;
 
 public interface IInteractable
 {
-     public void Interact();
-     public void ShowInteractPopUp(string key);
+    public void Interact();
+    public void ShowInteractPopUp(string key);
+
+    public void HideInteractPopUp();
 }
