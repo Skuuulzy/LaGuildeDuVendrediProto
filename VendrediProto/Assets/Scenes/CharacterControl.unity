@@ -872,6 +872,12 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1.6759274, y: 1, z: 1.6362238}
   m_Center: {x: 0.0005644858, y: 0, z: 0.25064385}
+--- !u!1 &551008962 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 76732374848991917, guid: 243589958f8688341a515f548343efd7,
+    type: 3}
+  m_PrefabInstance: {fileID: 1980372128061254709}
+  m_PrefabAsset: {fileID: 0}
 --- !u!224 &708779692 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 9157955997044416230, guid: 243589958f8688341a515f548343efd7,
@@ -1132,7 +1138,7 @@ BoxCollider:
     serializedVersion: 2
     m_Bits: 0
   m_LayerOverridePriority: 0
-  m_IsTrigger: 1
+  m_IsTrigger: 0
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
@@ -1216,7 +1222,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dac68fce0667e574a8d1773858f39d55, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _popUp: {fileID: 1980372128061254711}
+  _popUpCanvas: {fileID: 551008962}
   _popUpText: {fileID: 1980372128061254710}
 --- !u!1 &969898848
 GameObject:
@@ -2185,6 +2191,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: InteractionCanvas
       objectReference: {fileID: 0}
+    - target: {fileID: 76732374848991917, guid: 243589958f8688341a515f548343efd7,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 3738111138785842124, guid: 243589958f8688341a515f548343efd7,
         type: 3}
       propertyPath: m_IsActive
@@ -2223,12 +2234,12 @@ PrefabInstance:
     - target: {fileID: 9157955997044416230, guid: 243589958f8688341a515f548343efd7,
         type: 3}
       propertyPath: m_SizeDelta.x
-      value: 100
+      value: 300
       objectReference: {fileID: 0}
     - target: {fileID: 9157955997044416230, guid: 243589958f8688341a515f548343efd7,
         type: 3}
       propertyPath: m_SizeDelta.y
-      value: 100
+      value: 300
       objectReference: {fileID: 0}
     - target: {fileID: 9157955997044416230, guid: 243589958f8688341a515f548343efd7,
         type: 3}
@@ -2273,7 +2284,7 @@ PrefabInstance:
     - target: {fileID: 9157955997044416230, guid: 243589958f8688341a515f548343efd7,
         type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 1.17
+      value: 3.37
       objectReference: {fileID: 0}
     - target: {fileID: 9157955997044416230, guid: 243589958f8688341a515f548343efd7,
         type: 3}
@@ -2307,12 +2318,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!1 &1980372128061254711 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 3738111138785842124, guid: 243589958f8688341a515f548343efd7,
-    type: 3}
-  m_PrefabInstance: {fileID: 1980372128061254709}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
