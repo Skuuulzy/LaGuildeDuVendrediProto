@@ -1,30 +1,47 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class Interactor : MonoBehaviour
 {
     [SerializeField] private InputManager _inputManager;
-    private IInteractable _interactable;
     private bool _triggered;
+
+    private List<IInteractable> _interactables = new List<IInteractable>();
+    // QUESTION : Comment savoir quel IInteractable est t-il
 
     private void OnTriggerEnter(Collider other)
     {
         if (other.TryGetComponent<IInteractable>(out IInteractable interactable))
         {
-            _interactable = interactable;
+            bool containInteractable = _interactables.Contains(interactable);
+            if (!containInteractable)
+            {
+                _interactables.Add(interactable);
+            }
             _triggered = true;
-            _interactable.ShowInteractPopUp("A"); //Add key interaction from input manager
+            foreach (IInteractable _interactable in _interactables)
+            {
+                _interactable.ShowInteractPopUp("A"); //Add key interaction from input manager
+
+            }
         }
     }
 
     private void OnTriggerExit(Collider other)
     {
-        if(_triggered && _interactable != null)
+        if (other.TryGetComponent<IInteractable>(out IInteractable interactable))
         {
-            _interactable.HideInteractPopUp();
-            _triggered = false;
-            _interactable = null;
+
+            bool containInteractable = _interactables.Contains(interactable);
+            if (_triggered && containInteractable)
+            {
+                interactable.HideInteractPopUp();
+                _triggered = false;
+                _interactables.Remove(interactable);
+            }
         }
 
     }
@@ -33,7 +50,13 @@ public class Interactor : MonoBehaviour
     {
         if (_triggered && _inputManager.Interact)
         {
-            _interactable.Interact();
-        } 
+            //TODO : question si même bouton  et si bouton different!=
+
+            foreach (IInteractable interactable in _interactables)
+            {
+                interactable.Interact();
+                //interactable.GetPriority();
+            }
+        }
     }
 }

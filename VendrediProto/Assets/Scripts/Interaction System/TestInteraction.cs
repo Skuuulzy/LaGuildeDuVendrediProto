@@ -25,6 +25,11 @@ public class TestInteraction : MonoBehaviour, IInteractable
         _popUpCanvas.SetActive(false);
     }
 
+    public void GetName()
+    {
+    }
 
-
+    public void GetPriority()
+    {
+    }
 }

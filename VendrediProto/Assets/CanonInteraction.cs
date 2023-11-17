@@ -22,6 +22,16 @@ public class CanonInteraction : MonoBehaviour, IInteractable
         _popUp.SetActive(false);
     }
 
+    public void OnTriggerStay(Collider other)
+    {
+        Debug.Log("Canon");
+    }
 
+    public void GetName()
+    {
+    }
 
+    public void GetPriority()
+    {
+    }
 }
