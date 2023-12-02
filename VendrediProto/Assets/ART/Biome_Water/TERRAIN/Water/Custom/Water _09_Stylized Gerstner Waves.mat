@@ -48,6 +48,10 @@ Material:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
+    - _Foam_Wave_Texture:
+        m_Texture: {fileID: 2800000, guid: 2922157cb1ed44945813fd528dd0ac36, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     - _MainTex:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
@@ -98,7 +102,7 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
-    - _Alpha: 0.9
+    - _Alpha: 1
     - _AlphaClip: 0
     - _AlphaToMask: 0
     - _Amplitude: 0.5
@@ -118,13 +122,14 @@ Material:
     - _Foam_Color: 0
     - _Foam_CutOff: 1.03
     - _Foam_Scale: 400
-    - _Foam_Speed: 0
+    - _Foam_Speed: 0.1
     - _Frequency: 1
     - _Frequency_2: 1
     - _GlossMapScale: 0
     - _Glossiness: 0
     - _GlossyReflections: 0
     - _Metallic: 0
+    - _Neighbor_Distance: 1
     - _OcclusionStrength: 1
     - _Parallax: 0.005
     - _QueueControl: 0
@@ -133,7 +138,9 @@ Material:
     - _Refraction_Scale: 10
     - _Refraction_Speed: 0.05
     - _Refraction_Strengh: 0.0087
-    - _Smoothness: 0.5
+    - _SSS_BlendPower: 1
+    - _SSS_Height: 10
+    - _Smoothness: 0.9
     - _SmoothnessTextureChannel: 0
     - _SpecularHighlights: 1
     - _Speed: 2
@@ -142,13 +149,19 @@ Material:
     - _Surface: 0
     - _WaterDepth: 4
     - _Waves_Amplitude: 0.7
-    - _Waves_Depth: 1
+    - _Waves_Amplitude_01: 0.5
+    - _Waves_Amplitude_02: 0.4
+    - _Waves_Amplitude_03: 0.3
+    - _Waves_Amplitude_04: 0.1
+    - _Waves_Depth: 3
+    - _Waves_Foam_Height: 6
+    - _Waves_Foam_Power_Blend: -1
     - _Waves_Frequency: 1
     - _Waves_Gradient_Direction: 152
     - _Waves_Gradient_Intensity: 0.2
     - _Waves_Gradient_Orientation: 0
     - _Waves_Gradient_Speed: 0.1
-    - _Waves_Gravity: 1
+    - _Waves_Gravity: 0.2
     - _Waves_Intensity: 2
     - _Waves_Phase: 1
     - _Waves_Simple_Intensity: 0
@@ -156,7 +169,7 @@ Material:
     - _Waves_Simple_Speed: 0.05
     - _Waves_Speed: 1
     - _Waves_Strengh: 0.3
-    - _Waves_Time: 1
+    - _Waves_Time: 4
     - _Waves_Vorosnoi_Intensity: 1
     - _Waves_Vorosnoi_Orientation: 90
     - _Waves_Vorosnoi_Speed: 0.1
@@ -169,11 +182,17 @@ Material:
     - _Depth_Water: {r: 0, g: 0.12589458, b: 0.16981131, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
     - _Foam_Color: {r: 1, g: 1, b: 1, a: 1}
+    - _Foam_Wave_Tiling: {r: 10, g: 10, b: 0, a: 0}
     - _SSS_Water: {r: 0, g: 0.5126613, b: 0.5566038, a: 1}
     - _SpecColor: {r: 0.19999996, g: 0.19999996, b: 0.19999996, a: 1}
     - _Surface_Water: {r: 0, g: 0.111194976, b: 0.122641504, a: 1}
+    - _Time_Scale: {r: 1, g: 2, b: 2, a: 3}
     - _Waves_02_Direction: {r: -0.01, g: 0.02, b: 0, a: 0}
     - _Waves_Direction: {r: 1, g: 1.5, b: 0, a: 0}
+    - _Waves_Direction_01: {r: 1, g: 0.5, b: 0, a: 0}
+    - _Waves_Direction_02: {r: 0.5, g: 0.1, b: 0.1, a: 0}
+    - _Waves_Direction_03: {r: 0.2, g: 0.1, b: 0.3, a: 0}
+    - _Waves_Direction_04: {r: 0.1, g: 0.2, b: 0.5, a: 0}
     - _Waves_Gradient_Scale: {r: 3, g: 1, b: 0, a: 0}
     - _Waves_Gradient_Speed: {r: 0.01, g: -0.04, b: 0, a: 0}
     - _Waves_Scale: {r: 1, g: 3, b: 0, a: 0}
