@@ -33,7 +33,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _Caustic_Texture:
-        m_Texture: {fileID: 2800000, guid: 934d58c93afbccd459c3e37b46cfdedd, type: 3}
+        m_Texture: {fileID: 2800000, guid: fbaba4e241fe6344e9ee3930d3009f03, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _DetailAlbedoMap:
@@ -95,24 +95,24 @@ Material:
     m_Ints: []
     m_Floats:
     - _Absorption_Coefficient: 11.73
-    - _Alpha: 1
+    - _Alpha: 0.858
     - _AlphaClip: 0
     - _AlphaToMask: 0
     - _Blend: 0
     - _BlendModePreserveSpecular: 1
     - _BumpScale: 1
-    - _Caustic_CutOut: 0.401
-    - _Caustic_Speed: 0.1
+    - _Caustic_CutOut: 0.001
+    - _Caustic_Speed: 0.03
     - _ClearCoatMask: 0
     - _ClearCoatSmoothness: 0
     - _Coat: 1
     - _Coat_Smothness: 1
     - _Cull: 2
     - _Cutoff: 0.5
-    - _Depth: 6
+    - _Depth: 8
     - _Depth_Distance: 1.15
     - _Depth_Fade: 7
-    - _Depth_Falloff: 1.78
+    - _Depth_Falloff: 2
     - _Depth_Strengh: 0.33
     - _DetailAlbedoMapScale: 1
     - _DetailNormalMapScale: 1
@@ -123,9 +123,9 @@ Material:
     - _Foam_Amount: 1
     - _Foam_Color: 0
     - _Foam_CutOff: 1
-    - _Foam_CutOut: 0.4
-    - _Foam_Depth: 2
-    - _Foam_Falloff: 1
+    - _Foam_CutOut: 0.5
+    - _Foam_Depth: 1.13
+    - _Foam_Falloff: 0.7
     - _Foam_Noise_Scale: 2
     - _Foam_Scale: 10000
     - _Foam_Shore_Width: 1
@@ -164,7 +164,7 @@ Material:
     - _Absorption_Color: {r: 1, g: 1, b: 1, a: 1}
     - _BaseColor: {r: 1, g: 1, b: 1, a: 1}
     - _Bot_Color: {r: 0.17621925, g: 0.26496348, b: 0.37735847, a: 0}
-    - _Caustic_Color: {r: 1, g: 1, b: 1, a: 0}
+    - _Caustic_Color: {r: 0, g: 0.2393868, b: 0.5283019, a: 1}
     - _Caustic_Tiling: {r: 20, g: 20, b: 0, a: 0}
     - _Color: {r: 1, g: 1, b: 1, a: 1}
     - _Deep_Water: {r: 0.08686342, g: 0.14829865, b: 0.30188653, a: 0.78431374}
@@ -172,12 +172,12 @@ Material:
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
     - _Foam_Color: {r: 1, g: 1, b: 1, a: 1}
     - _Foam_Noise_Scale: {r: 10, g: 50, b: 0, a: 0}
-    - _Foam_Speed: {r: 0, g: 0.5, b: 0, a: 0}
-    - _Foam_Tiling: {r: 1, g: 4, b: 0, a: 0}
-    - _Main_Water_Color: {r: 0, g: 0.5024101, b: 0.7169812, a: 0}
+    - _Foam_Speed: {r: 0.1, g: 1, b: 0, a: 0}
+    - _Foam_Tiling: {r: 2, g: 8, b: 0, a: 0}
+    - _Main_Water_Color: {r: 0, g: 0.5024101, b: 0.7169812, a: 1}
     - _Normal_Tiling: {r: 10, g: 10, b: 0, a: 0}
     - _Shalow_Water_Color: {r: 0.004716992, g: 0.6607819, b: 1, a: 0}
-    - _Shore_Water_Color: {r: 0.086117744, g: 0, b: 0.2, a: 0}
+    - _Shore_Water_Color: {r: 0.06784289, g: 0, b: 0.3490566, a: 1}
     - _SpecColor: {r: 0.19999996, g: 0.19999996, b: 0.19999996, a: 1}
     - _Surface_Water: {r: 0.06341207, g: 0.4900052, b: 0.53773564, a: 0.78431374}
     - _Top_Color: {r: 0.14702737, g: 0.40476888, b: 0.5283019, a: 0}

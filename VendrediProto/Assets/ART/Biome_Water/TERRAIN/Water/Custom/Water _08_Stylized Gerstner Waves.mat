@@ -118,7 +118,7 @@ Material:
     - _Foam_Color: 0
     - _Foam_CutOff: 1.03
     - _Foam_Scale: 400
-    - _Foam_Speed: 0
+    - _Foam_Speed: 1
     - _Frequency: 1
     - _Frequency_2: 1
     - _GlossMapScale: 0
@@ -132,10 +132,10 @@ Material:
     - _ReceiveShadows: 1
     - _Refraction_Scale: 10
     - _Refraction_Speed: 0.05
-    - _Refraction_Strengh: 0.0087
-    - _SSS_Height: 2
-    - _SSS_Power: 3.5
-    - _Smoothness: 0.5
+    - _Refraction_Strengh: 0.0027
+    - _SSS_Height: 3
+    - _SSS_Power: 2
+    - _Smoothness: 0.693
     - _SmoothnessTextureChannel: 0
     - _SpecularHighlights: 1
     - _Speed: 2
@@ -143,9 +143,9 @@ Material:
     - _SrcBlendAlpha: 1
     - _Surface: 0
     - _WaterDepth: 4
-    - _Waves_Amplitude: 0.25
+    - _Waves_Amplitude: 0.6
     - _Waves_Depth: 0
-    - _Waves_Frequency: 1
+    - _Waves_Frequency: 0.4
     - _Waves_Gradient_Direction: 152
     - _Waves_Gradient_Intensity: 0.2
     - _Waves_Gradient_Orientation: 0
@@ -167,11 +167,11 @@ Material:
     m_Colors:
     - _BaseColor: {r: 1, g: 1, b: 1, a: 1}
     - _Color: {r: 1, g: 1, b: 1, a: 1}
-    - _Deep_Water: {r: 0.059362773, g: 0.3699219, b: 0.5471698, a: 0.78431374}
-    - _Depth_Water: {r: 0, g: 0.12589458, b: 0.16981131, a: 1}
+    - _Deep_Water: {r: 0.059362702, g: 0.3699218, b: 0.5471698, a: 0.84313726}
+    - _Depth_Water: {r: 0, g: 0.23168069, b: 0.31132078, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
     - _Foam_Color: {r: 1, g: 1, b: 1, a: 1}
-    - _SSS_Water: {r: 0, g: 0.5126613, b: 0.5566038, a: 1}
+    - _SSS_Water: {r: 0, g: 0.3394234, b: 0.3679245, a: 1}
     - _SpecColor: {r: 0.19999996, g: 0.19999996, b: 0.19999996, a: 1}
     - _Surface_Water: {r: 0, g: 0.111194976, b: 0.122641504, a: 1}
     - _Waves_02_Direction: {r: -0.01, g: 0.02, b: 0, a: 0}
