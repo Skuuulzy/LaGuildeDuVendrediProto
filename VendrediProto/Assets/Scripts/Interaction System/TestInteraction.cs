@@ -10,7 +10,7 @@ public class TestInteraction : MonoBehaviour, IInteractable
     [SerializeField] private TMP_Text _popUpText;
     public void Interact()
     {
-        Debug.Log("OUi: " + gameObject.name);
+        Debug.Log("I am : " + gameObject.name);
         //Do something
     }
 

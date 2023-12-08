@@ -44,7 +44,6 @@ public class Interactor : MonoBehaviour
                     _triggered = false;
                 }
                 _interactables.Remove(interactable);
-                Debug.Log(_interactables.Count());
             }
         }
 
