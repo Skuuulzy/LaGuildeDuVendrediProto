@@ -39,8 +39,12 @@ public class Interactor : MonoBehaviour
             if (_triggered && containInteractable)
             {
                 interactable.HideInteractPopUp();
-                _triggered = false;
+                if(_interactables.Count() == 0)
+                {
+                    _triggered = false;
+                }
                 _interactables.Remove(interactable);
+                Debug.Log(_interactables.Count());
             }
         }
 
@@ -55,7 +59,6 @@ public class Interactor : MonoBehaviour
             foreach (IInteractable interactable in _interactables)
             {
                 interactable.Interact();
-                //interactable.GetPriority();
             }
         }
     }
