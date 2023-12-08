@@ -25,7 +25,6 @@ public class Interactor : MonoBehaviour
             foreach (IInteractable _interactable in _interactables)
             {
                 _interactable.ShowInteractPopUp("A"); //Add key interaction from input manager
-
             }
         }
     }
@@ -34,7 +33,6 @@ public class Interactor : MonoBehaviour
     {
         if (other.TryGetComponent<IInteractable>(out IInteractable interactable))
         {
-
             bool containInteractable = _interactables.Contains(interactable);
             if (_triggered && containInteractable)
             {
@@ -46,7 +44,6 @@ public class Interactor : MonoBehaviour
                 _interactables.Remove(interactable);
             }
         }
-
     }
 
     private void OnTriggerStay(Collider other)

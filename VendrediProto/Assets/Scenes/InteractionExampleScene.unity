@@ -546,6 +546,18 @@ GameObject:
     type: 3}
   m_PrefabInstance: {fileID: 623468264}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &623468268 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 7093536758051323872, guid: 243589958f8688341a515f548343efd7,
+    type: 3}
+  m_PrefabInstance: {fileID: 623468264}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &886411729
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1340,7 +1352,7 @@ GameObject:
   - component: {fileID: 1713738529}
   - component: {fileID: 1713738532}
   - component: {fileID: 1713738528}
-  - component: {fileID: 1713738527}
+  - component: {fileID: 1713738533}
   m_Layer: 0
   m_Name: Cube
   m_TagString: Untagged
@@ -1348,20 +1360,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &1713738527
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1713738526}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: dac68fce0667e574a8d1773858f39d55, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _popUpCanvas: {fileID: 623468267}
-  _popUpText: {fileID: 623468265}
 --- !u!65 &1713738528
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -1472,6 +1470,23 @@ CapsuleCollider:
   m_Height: 1
   m_Direction: 1
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &1713738533
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1713738526}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 32f3e5059c2bdb545878f1ee95cd6c14, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _popUpCanvas: {fileID: 623468267}
+  _popUpText: {fileID: 623468265}
+  _nameOfItemsStored: {fileID: 623468268}
+  _item: {fileID: 11400000, guid: 28d81d60decaaf747a17c4f41c16a927, type: 2}
+  _quantityOfItems: 10
 --- !u!1 &1774815403
 GameObject:
   m_ObjectHideFlags: 0
