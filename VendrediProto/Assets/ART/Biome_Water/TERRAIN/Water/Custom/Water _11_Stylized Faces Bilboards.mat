@@ -8,7 +8,7 @@ Material:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: Water _11_Stylized Faces Bilboards
-  m_Shader: {fileID: -6465566751694194690, guid: adf0e04f5e17def47adea6dab04b2c83,
+  m_Shader: {fileID: -6465566751694194690, guid: 3119d2f0bf7eebf43a1df79a4d7746a0,
     type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
@@ -98,6 +98,8 @@ Material:
     - _Alpha: 1
     - _AlphaClip: 0
     - _AlphaToMask: 0
+    - _BIlboard_Size: 0.71
+    - _Bilboard_Inflate: 1
     - _Blend: 0
     - _BlendModePreserveSpecular: 1
     - _BumpScale: 1
@@ -136,6 +138,7 @@ Material:
     - _Metalilc: 0
     - _Metallic: 0
     - _OcclusionStrength: 1
+    - _Outline_Thickness: 0.1
     - _Parallax: 0.005
     - _QueueControl: 0
     - _QueueOffset: 0
@@ -181,6 +184,7 @@ Material:
     - _Foam_Tiling: {r: 2, g: 8, b: 0, a: 0}
     - _Main_Water_Color: {r: 0, g: 0.5024101, b: 0.7169812, a: 1}
     - _Normal_Tiling: {r: 10, g: 10, b: 0, a: 0}
+    - _Outline_Color: {r: 0, g: 0, b: 0, a: 0}
     - _SSS_Water: {r: 0.1496084, g: 0.7114185, b: 0.7735849, a: 1}
     - _Shalow_Water_Color: {r: 0.004716992, g: 0.6607819, b: 1, a: 0}
     - _Shore_Water_Color: {r: 0.06784289, g: 0, b: 0.3490566, a: 1}
