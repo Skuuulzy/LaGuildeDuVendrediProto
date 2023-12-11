@@ -2,15 +2,15 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using UnityEngine;
 
 public class Interactor : MonoBehaviour
 {
     [SerializeField] private InputManager _inputManager;
-    private bool _triggered;
-
+    private bool _lock = false;
     private List<IInteractable> _interactables = new List<IInteractable>();
-    // QUESTION : Comment savoir quel IInteractable est t-il
+
 
     private void OnTriggerEnter(Collider other)
     {
@@ -21,7 +21,7 @@ public class Interactor : MonoBehaviour
             {
                 _interactables.Add(interactable);
             }
-            _triggered = true;
+
             foreach (IInteractable _interactable in _interactables)
             {
                 _interactable.ShowInteractPopUp("A"); //Add key interaction from input manager
@@ -36,25 +36,23 @@ public class Interactor : MonoBehaviour
         {
 
             bool containInteractable = _interactables.Contains(interactable);
-            if (_triggered && containInteractable)
+            if (containInteractable)
             {
                 interactable.HideInteractPopUp();
-                if(_interactables.Count() == 0)
-                {
-                    _triggered = false;
-                }
                 _interactables.Remove(interactable);
+                if (_interactables.Count() == 0)
+                {
+                    _lock = false;
+                }
             }
         }
-
     }
 
     private void OnTriggerStay(Collider other)
     {
-        if (_triggered && _inputManager.Interact)
+        if (_inputManager.Interact && _interactables.Count() > 0 && !_lock)
         {
-            //TODO : question si même bouton  et si bouton different!=
-
+            _lock = true;
             foreach (IInteractable interactable in _interactables)
             {
                 interactable.Interact();
