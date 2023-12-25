@@ -8,6 +8,7 @@ public class Interactor : MonoBehaviour
 {
     [SerializeField] private InputManager _inputManager;
     private bool _triggered;
+    private bool _isInAction;
 
     private List<IInteractable> _interactables = new List<IInteractable>();
     // QUESTION : Comment savoir quel IInteractable est t-il
@@ -48,8 +49,9 @@ public class Interactor : MonoBehaviour
 
     private void OnTriggerStay(Collider other)
     {
-        if (_triggered && _inputManager.Interact)
+        if (_triggered && _inputManager.Interact && _isInAction == false)
         {
+            _isInAction = true;
             //TODO : question si même bouton  et si bouton different!=
 
             foreach (IInteractable interactable in _interactables)
@@ -57,5 +59,10 @@ public class Interactor : MonoBehaviour
                 interactable.Interact();
             }
         }
+
+        if(_inputManager.EndInteract == true)
+		{
+            _isInAction = false;
+		}
     }
 }

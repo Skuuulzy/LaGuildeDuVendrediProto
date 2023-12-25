@@ -28,6 +28,11 @@ public class PickUpBoxInteraction : MonoBehaviour, IInteractable
 
 	public void Interact()
 	{
+		if (this.gameObject.activeInHierarchy == false)
+		{
+			return;
+		}
+
 		if(_quantityOfItems == 0)
 		{
 			Debug.Log("No more items to take");
