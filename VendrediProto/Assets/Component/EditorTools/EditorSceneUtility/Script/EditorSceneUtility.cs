@@ -17,9 +17,9 @@ public class EditorSceneUtility : MonoBehaviour
     /// </summary>
     private void CheckPersistantManager()
     {
-        if (!ExtensionMethods.LoadedSceneNames().Contains("PersistantManager"))
+        if (!ExtensionMethods.LoadedSceneNames().Contains("PersistentManager"))
         {
-            SceneManager.LoadScene("PersistantManager", LoadSceneMode.Additive);
+            SceneManager.LoadScene("PersistentManager", LoadSceneMode.Additive);
         }
     }
 }
