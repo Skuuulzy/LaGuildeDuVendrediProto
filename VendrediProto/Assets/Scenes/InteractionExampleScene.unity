@@ -710,20 +710,6 @@ GameObject:
     type: 3}
   m_PrefabInstance: {fileID: 886411729}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &933072844
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8117256591336676073}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: dac68fce0667e574a8d1773858f39d55, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _popUpCanvas: {fileID: 2137598425}
-  _popUpText: {fileID: 2137598423}
 --- !u!1 &1036797847
 GameObject:
   m_ObjectHideFlags: 0
@@ -2048,11 +2034,11 @@ GameObject:
   - component: {fileID: 1143095034446161553}
   - component: {fileID: 7233290105106308609}
   - component: {fileID: 9036888637845763201}
-  - component: {fileID: 933072844}
   - component: {fileID: 9036888637845763203}
   - component: {fileID: 9036888637845763202}
+  - component: {fileID: 9036888637845763204}
   m_Layer: 0
-  m_Name: Canon
+  m_Name: Cannon
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2144,6 +2130,22 @@ CapsuleCollider:
   m_Height: 1.0729913
   m_Direction: 1
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &9036888637845763204
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8117256591336676073}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a0e1d54dd42afe747b74154a189ff850, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _popUpCanvas: {fileID: 2137598425}
+  _popUpText: {fileID: 2137598423}
+  _item: {fileID: 11400000, guid: 4283a33a955c5e849968245ce69d6f05, type: 2}
+  _isReloaded: 0
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
