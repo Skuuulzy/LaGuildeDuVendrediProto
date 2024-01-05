@@ -2,15 +2,16 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 using UnityEngine;
 
 public class Interactor : MonoBehaviour
 {
     [SerializeField] private InputManager _inputManager;
-    private bool _lock = false;
-    private List<IInteractable> _interactables = new List<IInteractable>();
+    private bool _triggered;
+    private bool _isInAction;
 
+    private List<IInteractable> _interactables = new List<IInteractable>();
+    // QUESTION : Comment savoir quel IInteractable est t-il
 
     private void OnTriggerEnter(Collider other)
     {
@@ -21,11 +22,10 @@ public class Interactor : MonoBehaviour
             {
                 _interactables.Add(interactable);
             }
-
+            _triggered = true;
             foreach (IInteractable _interactable in _interactables)
             {
                 _interactable.ShowInteractPopUp("A"); //Add key interaction from input manager
-
             }
         }
     }
@@ -34,29 +34,35 @@ public class Interactor : MonoBehaviour
     {
         if (other.TryGetComponent<IInteractable>(out IInteractable interactable))
         {
-
             bool containInteractable = _interactables.Contains(interactable);
-            if (containInteractable)
+            if (_triggered && containInteractable)
             {
                 interactable.HideInteractPopUp();
-                _interactables.Remove(interactable);
-                if (_interactables.Count() == 0)
+                if(_interactables.Count() == 0)
                 {
-                    _lock = false;
+                    _triggered = false;
                 }
+                _interactables.Remove(interactable);
             }
         }
     }
 
     private void OnTriggerStay(Collider other)
     {
-        if (_inputManager.Interact && _interactables.Count() > 0 && !_lock)
+        if (_triggered && _inputManager.Interact && _isInAction == false)
         {
-            _lock = true;
+            _isInAction = true;
+            //TODO : question si même bouton  et si bouton different!=
+
             foreach (IInteractable interactable in _interactables)
             {
                 interactable.Interact();
             }
         }
+
+        if(_inputManager.EndInteract == true)
+		{
+            _isInAction = false;
+		}
     }
 }

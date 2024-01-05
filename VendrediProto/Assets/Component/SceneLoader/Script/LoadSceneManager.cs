@@ -5,7 +5,7 @@ using UnityEngine.SceneManagement;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Tools
+namespace VTools
 {
     public static class LoadSceneManager
     {
