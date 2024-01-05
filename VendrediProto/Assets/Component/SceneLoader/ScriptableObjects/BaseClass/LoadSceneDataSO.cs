@@ -4,7 +4,7 @@ using UnityEngine;
 using System.Linq;
 using System.Diagnostics;
 
-namespace Tools
+namespace VTools
 {
     /// <summary>
     /// This class holds data to load and/or unload scenes
