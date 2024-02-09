@@ -1,3 +1,4 @@
+using GDV.SceneLoader;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -9,17 +10,18 @@ public class EditorSceneUtility : MonoBehaviour
 {
     private void Awake()
     {
-        CheckPersistantManager();
+        CheckPersistentManager();
     }
 
     /// <summary>
-    /// Check if the persistant manager scene is loaded, if not load it.
+    /// Check if the persistent manager scene is loaded, if not load it.
     /// </summary>
-    private void CheckPersistantManager()
+    private void CheckPersistentManager()
     {
         if (!ExtensionMethods.LoadedSceneNames().Contains("PersistentManager"))
         {
             SceneManager.LoadScene("PersistentManager", LoadSceneMode.Additive);
+            SceneLoader.SetOriginalScene();
         }
     }
 }
