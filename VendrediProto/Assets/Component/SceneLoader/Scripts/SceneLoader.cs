@@ -15,8 +15,12 @@ namespace GDV.SceneLoader
         
         private readonly LoadSceneInfoName _loadingScreenInfo = new (SCENE_NAME[SceneIdentifier.LOADING_SCREEN]);
 
+        private readonly LoadSceneInfoName _loadingScreenInfo = new(SCENE_NAME[SceneIdentifier.LOADING_SCREEN]);
+
         public static Action<SceneIdentifier> OnLoadScene;
-        
+
+        #region DATA
+
         public enum SceneIdentifier
         {
             MAIN_MENU,
@@ -35,12 +39,20 @@ namespace GDV.SceneLoader
             { SceneIdentifier.MAP_TEST, "MapTest" },
         };
 
+        #endregion
+
+        #region MONO
+
         private void Awake()
         {
             _sceneLoader = new SceneLoaderUniTask(_sceneManager);
 
             OnLoadScene += HandleSceneLoad;
         }
+
+        #endregion
+
+        #region SCENE LOAD METHODS
 
         private async void HandleSceneLoad(SceneIdentifier identifier)
         {
@@ -53,9 +65,13 @@ namespace GDV.SceneLoader
                 return;
             }
 #endif
-            
+
             _ = await _sceneLoader.TransitionToSceneAsync(new LoadSceneInfoName(SCENE_NAME[identifier]), _loadingScreenInfo);
         }
+
+        #endregion
+
+        #region DEBUG
 
 #if UNITY_EDITOR
         private static Scene _originalScene;
@@ -66,5 +82,7 @@ namespace GDV.SceneLoader
             _originalScene = UnityEngine.SceneManagement.SceneManager.GetActiveScene();
         }
 #endif
+
+        #endregion
     }
 }
