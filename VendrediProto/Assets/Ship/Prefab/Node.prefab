@@ -63,7 +63,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 31321ba15b8f8eb4c954353edc038b1d, type: 2}
+  - {fileID: 2100000, guid: 6578e192e341d57418c15a81ac15ea97, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -119,5 +119,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a940168c00da3ac44bff7027c9bb1744, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _nodeSizeX: 10
-  _nodeSizeZ: 10
+  _nodeSizeX: 15
+  _nodeSizeZ: 15
+  _xPosition: 0
+  _zPosition: 0
+  _baseColor: {r: 1, g: 1, b: 1, a: 1}
+  _offsetColor: {r: 0.4056604, g: 0.39226595, b: 0.39226595, a: 1}
+  _material: {fileID: 2100000, guid: 6578e192e341d57418c15a81ac15ea97, type: 2}
+  _baseMaterial: {fileID: 2100000, guid: 6578e192e341d57418c15a81ac15ea97, type: 2}
+  _offsetMaterial: {fileID: 2100000, guid: 012425287d5c7da45acd37e9cd8da614, type: 2}
