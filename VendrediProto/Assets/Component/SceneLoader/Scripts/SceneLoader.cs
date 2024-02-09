@@ -14,9 +14,7 @@ namespace GDV.SceneLoader
         private ISceneLoaderUniTask _sceneLoader;
         
         private readonly LoadSceneInfoName _loadingScreenInfo = new (SCENE_NAME[SceneIdentifier.LOADING_SCREEN]);
-
-        private readonly LoadSceneInfoName _loadingScreenInfo = new(SCENE_NAME[SceneIdentifier.LOADING_SCREEN]);
-
+        
         public static Action<SceneIdentifier> OnLoadScene;
 
         #region DATA
