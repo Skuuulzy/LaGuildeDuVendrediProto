@@ -8,7 +8,7 @@ public class Node : MonoBehaviour
 
     [SerializeField] public Vector2 _nodeSize;
     [SerializeField] private Vector2 _nodePosition;
-  
+    [SerializeField] private GameObject _highlight;
 
     private const float _sizeRef = 10f;
 
@@ -19,5 +19,31 @@ public class Node : MonoBehaviour
         float scaleZ = _nodeSize.y / _sizeRef;
         gameObject.transform.localScale = new Vector3(scaleX, 1, scaleZ);
     }
+
+    #region Events
+    private void OnMouseEnter()
+    {
+        _highlight.SetActive(true);
+    }
+
+
+    private void OnMouseExit()
+    {
+        _highlight.SetActive(false);
+    }
+
+    private void OnMouseDown()
+    {
+        GridManager.OnNodeClicked(this);
+    }
+    #endregion
+
+    #region Getters
+    public Vector2 GetNodePosition()
+    {
+        return _nodePosition;
+    }
+    #endregion
 }
+
 

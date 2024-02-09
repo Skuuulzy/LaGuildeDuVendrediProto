@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -8,15 +9,25 @@ public class GridManager : MonoBehaviour
     [SerializeField] private int _height;
 
     [SerializeField] private Node _nodePrefab;
+    [SerializeField] private Vector2 _startPosition;
+    [SerializeField] private Vector2 _endPosition;
     [SerializeField] private Transform _camera;
     [SerializeField] private GameObject _gridContainer;
 
     [Header("Debug")]
     [SerializeField] private Color _baseColor;
     [SerializeField] private Color _offsetColor;
+
+    public static Action<Node> OnNodeClicked;
+    
     private void Start()
     {
+        OnNodeClicked += HandleNodeClicked;
         GenerateGrid();
+    }
+    private void OnDestroy()
+    {
+        OnNodeClicked -= HandleNodeClicked;
     }
     private void GenerateGrid()
     {
@@ -29,12 +40,21 @@ public class GridManager : MonoBehaviour
                 spawnedNode.name = $"Node {x}-{z}";
                 spawnedNode.GetComponent<Renderer>().material.color = isOffset ? _offsetColor : _baseColor;
                 spawnedNode.Init(x, z);
+
+                
             }
         }
         _camera.transform.position = new Vector3((float)_width / 2 - 0.5f, 100, (float)_height / 2 - 0.5f);
         _camera.transform.Rotate(new Vector3(90, 0, 0)); 
     }
 
-
+    //Handlers
+  
+    public void HandleNodeClicked(Node node)
+    {
+        Vector2 pos = node.GetNodePosition();
+        _endPosition = pos;
+        Debug.Log("Manager " + pos);
+    }
 
 }
