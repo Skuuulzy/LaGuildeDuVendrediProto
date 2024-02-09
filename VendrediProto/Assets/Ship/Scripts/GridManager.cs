@@ -11,21 +11,24 @@ public class GridManager : MonoBehaviour
     [SerializeField] private Transform _camera;
     [SerializeField] private GameObject _gridContainer;
 
+    [Header("Debug")]
+    [SerializeField] private Color _baseColor;
+    [SerializeField] private Color _offsetColor;
     private void Start()
     {
         GenerateGrid();
     }
     private void GenerateGrid()
     {
-        for(int x = 0; x < _width; x += _nodePrefab._nodeSizeX)
+        for(int x = 0; x < _width; x += (int)_nodePrefab._nodeSize.x)
         {
-            for(int z = 0; z < _height; z+= _nodePrefab._nodeSizeZ)
+            for(int z = 0; z < _height; z+= (int)_nodePrefab._nodeSize.y)
             {
                 Node spawnedNode = Instantiate(_nodePrefab, new Vector3(x, 0, z), Quaternion.identity, _gridContainer.transform);
                 bool isOffset = (x%2 == 0 && z%2!=0) || (x % 2 != 0 && z % 2 == 0);
                 spawnedNode.name = $"Node {x}-{z}";
-
-                spawnedNode.Init(x, z, isOffset);
+                spawnedNode.GetComponent<Renderer>().material.color = isOffset ? _offsetColor : _baseColor;
+                spawnedNode.Init(x, z);
             }
         }
         _camera.transform.position = new Vector3((float)_width / 2 - 0.5f, 100, (float)_height / 2 - 0.5f);
