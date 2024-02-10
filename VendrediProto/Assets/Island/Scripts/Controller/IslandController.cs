@@ -9,17 +9,29 @@ public class IslandController : MonoBehaviour
 
     private MerchandiseType _currentMerchandiseAsked;
     private int _currentMerchandiseAskedValue;
-    private bool _isAskingForAMerchandise;
+	private bool _isAskingForAMerchandise;
 
 	private MerchandiseType _currentMerchandiseToSell;
 	private int _currentMerchandiseToSellValue;
-	private bool _isGivingForAMerchandise;
+	private bool _isGivingAMerchandise;
 
 	private void Start()
 	{
-		// Appelle la fonction AskForMerchandise toutes les 3 minutes, en commençant après une seconde d'attente.
-		InvokeRepeating(nameof(ChangeMerchandiseToSell), 1f, _islandSO.MerchandiseToSellTimeInterval);
-		InvokeRepeating(nameof(GenerateMerchandiseToAsk), 1f, _islandSO.MerchandiseRequestedTimeInterval);
+		InitIslandStat();
+		
+	}
+
+	private void InitIslandStat()
+	{
+		if(_islandSO.MerchandisesRequested != null && _islandSO.MerchandisesRequested.ToDictionary().Count != 0)
+		{
+			// Call the fonction AskForMerchandise every 3 minutes, en commençant après une seconde d'attente.
+			InvokeRepeating(nameof(ChangeMerchandiseToSell), 1f, _islandSO.MerchandiseToSellTimeInterval);
+		}
+		if (_islandSO.MerchandisesToSell != null && _islandSO.MerchandisesToSell.ToDictionary().Count != 0)
+		{
+			InvokeRepeating(nameof(GenerateMerchandiseToAsk), 1f, _islandSO.MerchandiseRequestedTimeInterval);
+		}
 	}
 
 	#region MERCHANDISES MANAGEMENT

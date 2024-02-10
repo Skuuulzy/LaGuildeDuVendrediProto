@@ -18,6 +18,7 @@ public class IslandView : MonoBehaviour
 	[SerializeField] private TextMeshProUGUI _merchandiseToSellText;
 
 	[Header("NeededAssets")]
+	//Change Later with a SO
 	[SerializeField] private SerializableDictionary<MerchandiseType, Sprite> _spriteByMerchandiseType;
 	public void DisplayMerchandiseAsked(MerchandiseType currentMerchandiseAsked, int currentMerchandiseAskedValue)
 	{

@@ -376,13 +376,23 @@ MonoBehaviour:
   _merchandiseRequestedGO: {fileID: 7398451242451754706}
   _merchandiseRequestedImage: {fileID: 8842276968150326567}
   _merchandiseRequestedText: {fileID: 2815308399046831871}
-  _merchandiseToTakeGO: {fileID: 6574590230193863871}
-  _merchandiseToTakeImage: {fileID: 1366595489276995683}
-  _merchandiseToTakeText: {fileID: 217347942554307174}
+  _merchandiseToSellGO: {fileID: 6574590230193863871}
+  _merchandiseToSellImage: {fileID: 1366595489276995683}
+  _merchandiseToSellText: {fileID: 217347942554307174}
   _spriteByMerchandiseType:
     m_Dictionnary:
     - m_key: 0
       m_value: {fileID: 21300000, guid: 1ef4b0afed62d5e4598d3f8cb187bbad, type: 3}
+    - m_key: 1
+      m_value: {fileID: 21300000, guid: 149527ac29ad814499b44cb5cd90ec40, type: 3}
+    - m_key: 2
+      m_value: {fileID: 21300000, guid: 367bb525a2016c5438ecf978ef790d10, type: 3}
+    - m_key: 3
+      m_value: {fileID: 21300000, guid: 754745b2838910a42adb31b59a95f168, type: 3}
+    - m_key: 4
+      m_value: {fileID: 21300000, guid: bbdd459b60400074cbfa9281130a045e, type: 3}
+    - m_key: 5
+      m_value: {fileID: 21300000, guid: 0abeef0eadfd9974b9a4c8a088ab1d35, type: 3}
 --- !u!1 &6005626838971141018
 GameObject:
   m_ObjectHideFlags: 0
