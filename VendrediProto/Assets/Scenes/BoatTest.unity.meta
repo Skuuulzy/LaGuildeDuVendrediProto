@@ -1,5 +1,9 @@
 fileFormatVersion: 2
+<<<<<<<< HEAD:VendrediProto/Assets/Scenes/BoatTest.unity.meta
 guid: bb35577e7c884714c84193545b85cce2
+========
+guid: 5a7d244f8f1096949987db7d6bacc1f9
+>>>>>>>> origin/features/movements:VendrediProto/Assets/Ship/GridTestScene.unity.meta
 DefaultImporter:
   externalObjects: {}
   userData: 

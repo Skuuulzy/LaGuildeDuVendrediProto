@@ -9,11 +9,20 @@ EditorBuildSettings:
     path: Assets/Scenes/Boot.unity
     guid: dd81b69b8f3fc504f96e6051b302394b
   - enabled: 1
+    path: Assets/Scenes/LoadingScreen.unity
+    guid: 1241f3ddc6f23f14daac1f2f42c2f0f4
+  - enabled: 1
     path: Assets/Scenes/MainMenu.unity
     guid: e8e8da8839e859e42afce0ede7aebe15
   - enabled: 1
-    path: Assets/Scenes/PersistantManager.unity
+    path: Assets/Scenes/PersistentManager.unity
     guid: 2f8e476c54ed49343a1b3411e2d75a20
+  - enabled: 1
+    path: Assets/Scenes/MapTest.unity
+    guid: 1562d069b301d8e41baf926774ccccaf
+  - enabled: 1
+    path: Assets/Scenes/InteractionExample.unity
+    guid: 98056a2a00c449c47ab1bbb7e94044a0
   - enabled: 1
     path: Assets/Scenes/CharacterControl.unity
     guid: 99c9720ab356a0642a771bea13969a05
