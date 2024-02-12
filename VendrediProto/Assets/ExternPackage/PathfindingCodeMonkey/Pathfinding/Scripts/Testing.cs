@@ -21,10 +21,11 @@ public class Testing : MonoBehaviour {
     [SerializeField] private PathfindingDebugStepVisual pathfindingDebugStepVisual;
     [SerializeField] private PathfindingVisual pathfindingVisual;
     [SerializeField] private CharacterPathfindingMovementHandler characterPathfinding;
+    [SerializeField] private Vector2Int _gridSize;
     private Pathfinding pathfinding;
 
     private void Start() {
-        pathfinding = new Pathfinding(20, 10);
+        pathfinding = new Pathfinding(_gridSize.x, _gridSize.y);
         pathfindingDebugStepVisual.Setup(pathfinding.GetGrid());
         pathfindingVisual.SetGrid(pathfinding.GetGrid());
     }
