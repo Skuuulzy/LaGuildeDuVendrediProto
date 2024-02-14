@@ -5,32 +5,39 @@ namespace SebastianLague
 {
 	public class Node : IHeapItem<Node> 
 	{
-	
-		public bool walkable;
-		public Vector3 worldPosition;
-		public int gridX;
-		public int gridY;
-		public int movementPenalty;
+		private bool _walkable;
+		private Vector3 _worldPosition;
+		private int _gridX;
+		private int _gridY;
+		private int _movementPenalty;
+		private int _gCost;
+		private int _hCost;
+		private Node _parent;
+		private int _heapIndex;
+		public bool Walkable => _walkable;
+		public Vector3 WorldPosition => _worldPosition;
+		public int GridX => _gridX;
+		public int GridY => _gridY;
+		public int MovementPenalty => _movementPenalty;
 
-		public int gCost;
-		public int hCost;
-		public Node parent;
-		int heapIndex;
+		public int GCost => _gCost;
+		public int HCost => _hCost;
+		public Node Parent => _parent;
 	
-		public Node(bool _walkable, Vector3 _worldPos, int _gridX, int _gridY, int _penalty) 
+		public Node(bool walkable, Vector3 worldPos, int gridX, int gridY, int penalty) 
 		{
-			walkable = _walkable;
-			worldPosition = _worldPos;
-			gridX = _gridX;
-			gridY = _gridY;
-			movementPenalty = _penalty;
+			_walkable = walkable;
+			_worldPosition = worldPos;
+			this._gridX = gridX;
+			this._gridY = gridY;
+			_movementPenalty = penalty;
 		}
 
-		public int fCost 
+		public int FCost 
 		{
 			get 
 			{
-				return gCost + hCost;
+				return _gCost + _hCost;
 			}
 		}
 
@@ -38,23 +45,43 @@ namespace SebastianLague
 		{
 			get 
 			{
-				return heapIndex;
+				return _heapIndex;
 			}
 			set 
 			{
-				heapIndex = value;
+				_heapIndex = value;
 			}
 		}
 
 		public int CompareTo(Node nodeToCompare) 
 		{
-			int compare = fCost.CompareTo(nodeToCompare.fCost);
+			int compare = FCost.CompareTo(nodeToCompare.FCost);
 
 			if (compare == 0) 
 			{
-				compare = hCost.CompareTo(nodeToCompare.hCost);
+				compare = HCost.CompareTo(nodeToCompare.HCost);
 			}
 			return -compare;
+		}
+
+		public void SetMovementPenalty(int value)
+		{
+			_movementPenalty = value;
+		}
+
+		public void SetParent(Node value)
+		{
+			_parent = value;
+		}
+
+		public void SetGCost(int value)
+		{
+			_gCost = value;
+		}
+
+		public void SetHCost(int value)
+		{
+			_hCost = value;
 		}
 	}
 }

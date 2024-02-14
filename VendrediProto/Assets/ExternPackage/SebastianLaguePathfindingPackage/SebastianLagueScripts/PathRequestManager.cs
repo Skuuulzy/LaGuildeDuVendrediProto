@@ -9,26 +9,26 @@ namespace SebastianLague
 	public class PathRequestManager : MonoBehaviour 
 	{
 
-		Queue<PathResult> results = new Queue<PathResult>();
+		private Queue<PathResult> _results = new Queue<PathResult>();
 
-		static PathRequestManager instance;
-		Pathfinding pathfinding;
+		static PathRequestManager Instance;
+		private Pathfinding _pathfinding;
 
 		void Awake() 
 		{
-			instance = this;
-			pathfinding = GetComponent<Pathfinding>();
+			Instance = this;
+			_pathfinding = GetComponent<Pathfinding>();
 		}
 
 		void Update() 
 		{
-			if (results.Count > 0) 
+			if (_results.Count > 0) 
 			{
-				int itemsInQueue = results.Count;
-				lock (results) {
+				int itemsInQueue = _results.Count;
+				lock (_results) {
 					for (int i = 0; i < itemsInQueue; i++) 
 					{
-						PathResult result = results.Dequeue ();
+						PathResult result = _results.Dequeue ();
 						result.callback (result.path, result.success);
 					}
 				}
@@ -38,16 +38,16 @@ namespace SebastianLague
 		public static void RequestPath(PathRequest request) 
 		{
 			ThreadStart threadStart = delegate {
-				instance.pathfinding.FindPath (request, instance.FinishedProcessingPath);
+				Instance._pathfinding.FindPath (request, Instance.FinishedProcessingPath);
 			};
 			threadStart.Invoke ();
 		}
 
 		public void FinishedProcessingPath(PathResult result) 
 		{
-			lock (results) 
+			lock (_results) 
 			{
-				results.Enqueue (result);
+				_results.Enqueue (result);
 			}
 		}
 

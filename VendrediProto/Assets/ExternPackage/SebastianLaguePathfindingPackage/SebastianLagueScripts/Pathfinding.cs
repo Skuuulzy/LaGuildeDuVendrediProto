@@ -8,11 +8,11 @@ namespace SebastianLague
 {
 	public class Pathfinding : MonoBehaviour 
 	{
-		Grid grid;
+		private Grid _grid;
 	
 		void Awake() 
 		{
-			grid = GetComponent<Grid>();
+			_grid = GetComponent<Grid>();
 		}
 
 		public void FindPath(PathRequest request, Action<PathResult> callback) 
@@ -22,13 +22,13 @@ namespace SebastianLague
 			sw.Start();
 			Vector3[] waypoints = new Vector3[0];
 			bool pathSuccess = false;
-			Node startNode = grid.NodeFromWorldPoint(request.pathStart);
-			Node targetNode = grid.NodeFromWorldPoint(request.pathEnd);
-			startNode.parent = startNode;		
+			Node startNode = _grid.NodeFromWorldPoint(request.pathStart);
+			Node targetNode = _grid.NodeFromWorldPoint(request.pathEnd);
+			startNode.SetParent(startNode);		
 		
-			if (startNode.walkable && targetNode.walkable) 
+			if (startNode.Walkable && targetNode.Walkable) 
 			{
-				Heap<Node> openSet = new Heap<Node>(grid.MaxSize);
+				Heap<Node> openSet = new Heap<Node>(_grid.MaxSize);
 				HashSet<Node> closedSet = new HashSet<Node>();
 				openSet.Add(startNode);
 			
@@ -45,20 +45,20 @@ namespace SebastianLague
 						break;
 					}
 				
-					foreach (Node neighbour in grid.GetNeighbours(currentNode)) 
+					foreach (Node neighbour in _grid.GetNeighbours(currentNode)) 
 					{
-						if (!neighbour.walkable || closedSet.Contains(neighbour)) 
+						if (!neighbour.Walkable || closedSet.Contains(neighbour)) 
 						{
 							continue;
 						}
 					
-						int newMovementCostToNeighbour = currentNode.gCost + GetDistance(currentNode, neighbour) + neighbour.movementPenalty;
+						int newMovementCostToNeighbour = currentNode.GCost + GetDistance(currentNode, neighbour) + neighbour.MovementPenalty;
 
-						if (newMovementCostToNeighbour < neighbour.gCost || !openSet.Contains(neighbour)) 
+						if (newMovementCostToNeighbour < neighbour.GCost || !openSet.Contains(neighbour)) 
 						{
-							neighbour.gCost = newMovementCostToNeighbour;
-							neighbour.hCost = GetDistance(neighbour, targetNode);
-							neighbour.parent = currentNode;
+							neighbour.SetGCost(newMovementCostToNeighbour);
+							neighbour.SetHCost(GetDistance(neighbour, targetNode));
+							neighbour.SetParent(currentNode);
 						
 							if (!openSet.Contains(neighbour))
 							{
@@ -92,7 +92,7 @@ namespace SebastianLague
 			while (currentNode != startNode) 
 			{
 				path.Add(currentNode);
-				currentNode = currentNode.parent;
+				currentNode = currentNode.Parent;
 			}
 
 			Vector3[] waypoints = SimplifyPath(path);
@@ -108,11 +108,11 @@ namespace SebastianLague
 		
 			for (int i = 1; i < path.Count; i ++) 
 			{
-				Vector2 directionNew = new Vector2(path[i-1].gridX - path[i].gridX,path[i-1].gridY - path[i].gridY);
+				Vector2 directionNew = new Vector2(path[i-1].GridX - path[i].GridX,path[i-1].GridY - path[i].GridY);
 
 				if (directionNew != directionOld) 
 				{
-					waypoints.Add(path[i].worldPosition);
+					waypoints.Add(path[i].WorldPosition);
 				}
 
 				directionOld = directionNew;
@@ -122,8 +122,8 @@ namespace SebastianLague
 
 		int GetDistance(Node nodeA, Node nodeB) 
 		{
-			int dstX = Mathf.Abs(nodeA.gridX - nodeB.gridX);
-			int dstY = Mathf.Abs(nodeA.gridY - nodeB.gridY);
+			int dstX = Mathf.Abs(nodeA.GridX - nodeB.GridX);
+			int dstY = Mathf.Abs(nodeA.GridY - nodeB.GridY);
 		
 			if (dstX > dstY)
 			{

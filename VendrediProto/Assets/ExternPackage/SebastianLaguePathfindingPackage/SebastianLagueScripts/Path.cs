@@ -7,36 +7,36 @@ namespace SebastianLague
 	public class Path 
 	{
 
-		public readonly Vector3[] lookPoints;
-		public readonly Line[] turnBoundaries;
-		public readonly int finishLineIndex;
-		public readonly int slowDownIndex;
+		public readonly Vector3[] LookPoints;
+		public readonly Line[] TurnBoundaries;
+		public readonly int FinishLineIndex;
+		public readonly int SlowDownIndex;
 
 		public Path(Vector3[] waypoints, Vector3 startPos, float turnDst, float stoppingDst) 
 		{
-			lookPoints = waypoints;
-			turnBoundaries = new Line[lookPoints.Length];
-			finishLineIndex = turnBoundaries.Length - 1;
+			LookPoints = waypoints;
+			TurnBoundaries = new Line[LookPoints.Length];
+			FinishLineIndex = TurnBoundaries.Length - 1;
 			Vector2 previousPoint = V3ToV2 (startPos);
 
-			for (int i = 0; i < lookPoints.Length; i++) 
+			for (int i = 0; i < LookPoints.Length; i++) 
 			{
-				Vector2 currentPoint = V3ToV2 (lookPoints [i]);
+				Vector2 currentPoint = V3ToV2 (LookPoints [i]);
 				Vector2 dirToCurrentPoint = (currentPoint - previousPoint).normalized;
-				Vector2 turnBoundaryPoint = (i == finishLineIndex)?currentPoint : currentPoint - dirToCurrentPoint * turnDst;
-				turnBoundaries [i] = new Line (turnBoundaryPoint, previousPoint - dirToCurrentPoint * turnDst);
+				Vector2 turnBoundaryPoint = (i == FinishLineIndex)?currentPoint : currentPoint - dirToCurrentPoint * turnDst;
+				TurnBoundaries [i] = new Line (turnBoundaryPoint, previousPoint - dirToCurrentPoint * turnDst);
 				previousPoint = turnBoundaryPoint;
 			}
 
 			float dstFromEndPoint = 0;
 
-			for (int i = lookPoints.Length - 1; i > 0; i--) 
+			for (int i = LookPoints.Length - 1; i > 0; i--) 
 			{
-				dstFromEndPoint += Vector3.Distance (lookPoints [i], lookPoints [i - 1]);
+				dstFromEndPoint += Vector3.Distance (LookPoints [i], LookPoints [i - 1]);
 
 				if (dstFromEndPoint > stoppingDst) 
 				{
-					slowDownIndex = i;
+					SlowDownIndex = i;
 					break;
 				}
 			}
@@ -51,14 +51,14 @@ namespace SebastianLague
 		{
 
 			Gizmos.color = Color.black;
-			foreach (Vector3 p in lookPoints) 
+			foreach (Vector3 p in LookPoints) 
 			{
 				Gizmos.DrawCube (p + Vector3.up, Vector3.one);
 			}
 
 			Gizmos.color = Color.white;
 
-			foreach (Line l in turnBoundaries) 
+			foreach (Line l in TurnBoundaries) 
 			{
 				l.DrawWithGizmos (10);
 			}

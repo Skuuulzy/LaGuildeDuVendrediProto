@@ -1650,22 +1650,22 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 855e868289c1843b09c78e143b2b1288, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  displayGridGizmos: 0
-  unwalkableMask:
+  _displayGridGizmos: 0
+  _unwalkableMask:
     serializedVersion: 2
     m_Bits: 0
-  gridWorldSize: {x: 100, y: 100}
-  nodeRadius: 0.5
-  walkableRegions:
-  - terrainMask:
+  _gridWorldSize: {x: 100, y: 100}
+  _nodeRadius: 0.5
+  _walkableRegions:
+  - TerrainMask:
       serializedVersion: 2
-      m_Bits: 512
-    terrainPenalty: 0
-  - terrainMask:
+      m_Bits: 0
+    TerrainPenalty: 0
+  - TerrainMask:
       serializedVersion: 2
-      m_Bits: 1024
-    terrainPenalty: 5
-  obstacleProximityPenalty: 10
+      m_Bits: 0
+    TerrainPenalty: 5
+  _obstacleProximityPenalty: 10
 --- !u!4 &1671852229
 Transform:
   m_ObjectHideFlags: 0

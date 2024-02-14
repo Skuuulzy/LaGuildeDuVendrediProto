@@ -7,16 +7,16 @@ namespace SebastianLague
 	public struct Line 
 	{
 
-		const float verticalLineGradient = 1e5f;
+		private const float verticalLineGradient = 1e5f;
 
-		float gradient;
-		float y_intercept;
-		Vector2 pointOnLine_1;
-		Vector2 pointOnLine_2;
+		private float _gradient;
+		private float _yIntercept;
+		private Vector2 _pointOnLine1;
+		private Vector2 _pointOnLine2;
 
-		float gradientPerpendicular;
+		private float _gradientPerpendicular;
 
-		bool approachSide;
+		private bool _approachSide;
 
 		public Line(Vector2 pointOnLine, Vector2 pointPerpendicularToLine) 
 		{
@@ -25,52 +25,52 @@ namespace SebastianLague
 
 			if (dx == 0) 
 			{
-				gradientPerpendicular = verticalLineGradient;
+				_gradientPerpendicular = verticalLineGradient;
 			} 
 			else 
 			{
-				gradientPerpendicular = dy / dx;
+				_gradientPerpendicular = dy / dx;
 			}
 
-			if (gradientPerpendicular == 0) 
+			if (_gradientPerpendicular == 0) 
 			{
-				gradient = verticalLineGradient;
+				_gradient = verticalLineGradient;
 			} 
 			else 
 			{
-				gradient = -1 / gradientPerpendicular;
+				_gradient = -1 / _gradientPerpendicular;
 			}
 
-			y_intercept = pointOnLine.y - gradient * pointOnLine.x;
-			pointOnLine_1 = pointOnLine;
-			pointOnLine_2 = pointOnLine + new Vector2 (1, gradient);
+			_yIntercept = pointOnLine.y - _gradient * pointOnLine.x;
+			_pointOnLine1 = pointOnLine;
+			_pointOnLine2 = pointOnLine + new Vector2 (1, _gradient);
 
-			approachSide = false;
-			approachSide = GetSide (pointPerpendicularToLine);
+			_approachSide = false;
+			_approachSide = GetSide (pointPerpendicularToLine);
 		}
 
 		bool GetSide(Vector2 p) 
 		{
-			return (p.x - pointOnLine_1.x) * (pointOnLine_2.y - pointOnLine_1.y) > (p.y - pointOnLine_1.y) * (pointOnLine_2.x - pointOnLine_1.x);
+			return (p.x - _pointOnLine1.x) * (_pointOnLine2.y - _pointOnLine1.y) > (p.y - _pointOnLine1.y) * (_pointOnLine2.x - _pointOnLine1.x);
 		}
 
 		public bool HasCrossedLine(Vector2 p) 
 		{
-			return GetSide (p) != approachSide;
+			return GetSide (p) != _approachSide;
 		}
 
 		public float DistanceFromPoint(Vector2 p) 
 		{
-			float yInterceptPerpendicular = p.y - gradientPerpendicular * p.x;
-			float intersectX = (yInterceptPerpendicular - y_intercept) / (gradient - gradientPerpendicular);
-			float intersectY = gradient * intersectX + y_intercept;
+			float yInterceptPerpendicular = p.y - _gradientPerpendicular * p.x;
+			float intersectX = (yInterceptPerpendicular - _yIntercept) / (_gradient - _gradientPerpendicular);
+			float intersectY = _gradient * intersectX + _yIntercept;
 			return Vector2.Distance (p, new Vector2 (intersectX, intersectY));
 		}
 
 		public void DrawWithGizmos(float length) 
 		{
-			Vector3 lineDir = new Vector3 (1, 0, gradient).normalized;
-			Vector3 lineCentre = new Vector3 (pointOnLine_1.x, 0, pointOnLine_1.y) + Vector3.up;
+			Vector3 lineDir = new Vector3 (1, 0, _gradient).normalized;
+			Vector3 lineCentre = new Vector3 (_pointOnLine1.x, 0, _pointOnLine1.y) + Vector3.up;
 			Gizmos.DrawLine (lineCentre - lineDir * length / 2f, lineCentre + lineDir * length / 2f);
 		}
 
