@@ -13,11 +13,12 @@ public class IslandView : MonoBehaviour
 	[SerializeField] private TextMeshProUGUI _merchandiseRequestedText;
 
 	[Header("MerchandiseToTake")]
-	[SerializeField] private GameObject _merchandiseToTakeGO;
-	[SerializeField] private Image _merchandiseToTakeImage;
-	[SerializeField] private TextMeshProUGUI _merchandiseToTakeText;
+	[SerializeField] private GameObject _merchandiseToSellGO;
+	[SerializeField] private Image _merchandiseToSellImage;
+	[SerializeField] private TextMeshProUGUI _merchandiseToSellText;
 
 	[Header("NeededAssets")]
+	//Change Later with a SO
 	[SerializeField] private SerializableDictionary<MerchandiseType, Sprite> _spriteByMerchandiseType;
 	public void DisplayMerchandiseAsked(MerchandiseType currentMerchandiseAsked, int currentMerchandiseAskedValue)
 	{
@@ -26,5 +27,10 @@ public class IslandView : MonoBehaviour
 		_merchandiseRequestedText.text = currentMerchandiseAskedValue.ToString();
 	}
 
-	
+	public void DisplayMerchandiseToSell(MerchandiseType currentMerchandiseToSell, int currentMerchandiseToSellValue)
+	{
+		_merchandiseToSellGO.SetActive(true);
+		_merchandiseToSellImage.sprite = _spriteByMerchandiseType[currentMerchandiseToSell];
+		_merchandiseToSellText.text = currentMerchandiseToSellValue.ToString();
+	}
 }
