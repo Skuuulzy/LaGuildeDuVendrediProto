@@ -1653,7 +1653,7 @@ MonoBehaviour:
   displayGridGizmos: 0
   unwalkableMask:
     serializedVersion: 2
-    m_Bits: 256
+    m_Bits: 0
   gridWorldSize: {x: 100, y: 100}
   nodeRadius: 0.5
   walkableRegions:
