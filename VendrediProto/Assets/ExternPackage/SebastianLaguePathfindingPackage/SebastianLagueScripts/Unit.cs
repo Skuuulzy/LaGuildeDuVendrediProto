@@ -24,7 +24,7 @@ namespace SebastianLague
 
 		void Start() 
 		{
-			StartCoroutine (UpdatePath ());
+			StartCoroutine(UpdatePath());
 		}
 
 		public void OnPathFound(Vector3[] waypoints, bool pathSuccessful) 
@@ -46,19 +46,19 @@ namespace SebastianLague
 				yield return new WaitForSeconds (.3f);
 			}
 
-			PathRequestManager.RequestPath (new PathRequest(transform.position, _target.position, OnPathFound));
+			PathRequestManager.RequestPath(new PathRequest(transform.position, _target.position, OnPathFound));
 
 			float sqrMoveThreshold = _pathUpdateMoveThreshold * _pathUpdateMoveThreshold;
 			Vector3 targetPosOld = _target.position;
 
-			while (true) 
+			while(true) 
 			{
-				yield return new WaitForSeconds (_minPathUpdateTime);
-				print (((_target.position - targetPosOld).sqrMagnitude) + "    " + sqrMoveThreshold);
+				yield return new WaitForSeconds(_minPathUpdateTime);
+				Debug.Log((_target.position - targetPosOld).sqrMagnitude + "    " + sqrMoveThreshold);
 
 				if ((_target.position - targetPosOld).sqrMagnitude > sqrMoveThreshold) 
 				{
-					PathRequestManager.RequestPath (new PathRequest(transform.position, _target.position, OnPathFound));
+					PathRequestManager.RequestPath(new PathRequest(transform.position, _target.position, OnPathFound));
 					targetPosOld = _target.position;
 				}
 			}
@@ -75,7 +75,7 @@ namespace SebastianLague
 			{
 				Vector2 pos2D = new Vector2 (transform.position.x, transform.position.z);
 
-				while (_path.TurnBoundaries [pathIndex].HasCrossedLine (pos2D)) 
+				while (_path.TurnBoundaries[pathIndex].HasCrossedLine(pos2D)) 
 				{
 					if (pathIndex == _path.FinishLineIndex) 
 					{
@@ -92,7 +92,7 @@ namespace SebastianLague
 				{
 					if (pathIndex >= _path.SlowDownIndex && _stoppingDst > 0) 
 					{
-						speedPercent = Mathf.Clamp01 (_path.TurnBoundaries [_path.FinishLineIndex].DistanceFromPoint (pos2D) / _stoppingDst);
+						speedPercent = Mathf.Clamp01(_path.TurnBoundaries [_path.FinishLineIndex].DistanceFromPoint(pos2D) / _stoppingDst);
 
 						if (speedPercent < 0.01f)
 						{
@@ -100,9 +100,9 @@ namespace SebastianLague
 						}
 					}
 
-					Quaternion targetRotation = Quaternion.LookRotation (_path.LookPoints [pathIndex] - transform.position);
-					transform.rotation = Quaternion.Lerp (transform.rotation, targetRotation, Time.deltaTime * _turnSpeed);
-					transform.Translate (Vector3.forward * Time.deltaTime * Speed * speedPercent, Space.Self);
+					Quaternion targetRotation = Quaternion.LookRotation(_path.LookPoints [pathIndex] - transform.position);
+					transform.rotation = Quaternion.Lerp(transform.rotation, targetRotation, Time.deltaTime * _turnSpeed);
+					transform.Translate(Vector3.forward * Time.deltaTime * Speed * speedPercent, Space.Self);
 				}
 
 				yield return null;
@@ -114,7 +114,7 @@ namespace SebastianLague
 		{
 			if (_path != null) 
 			{
-				_path.DrawWithGizmos ();
+				_path.DrawWithGizmos();
 			}
 		}
 	}
