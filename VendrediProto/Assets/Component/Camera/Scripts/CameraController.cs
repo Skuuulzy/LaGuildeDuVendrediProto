@@ -1,4 +1,3 @@
-using System;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -7,15 +6,22 @@ namespace Component.CameraSystem
     public class CameraController : MonoBehaviour
     {
         [Header("Parameters")]
+        [Tooltip("The standard speed of the camera")] [Range(0.1f,10)]
         [SerializeField] private float _normalMovementSpeed = 1;
+        [Tooltip("The fats speed of the camera, when the fast speed key is pressed")] [Range(0.1f,10)]
         [SerializeField] private float _fastMovementSpeed = 2;
-        [SerializeField] private float _movementTime = 5;
+        [Tooltip("The rotation amount when the rotation key are pressed")] [Range(0.1f,10)]
         [SerializeField] private float _rotationAmount = 1;
+        [Tooltip("How fast the camera will zoom")] [Range(1,20)]
         [SerializeField] private int _zoomAmount = 5;
-
+        [Tooltip("The higher this value the higher the camera movement will be responsive")] [Range(0.1f,10)]
+        [SerializeField] private float _movementResponsiveness = 5;
+        
         [Header("Components")] 
         [SerializeField] private CameraInputs _inputs;
         [SerializeField] private Transform _cameraTransform;
+        
+        private Camera _mainCam;
         
         private Vector3 _newPosition;
         private Quaternion _newRotation;
@@ -32,6 +38,8 @@ namespace Component.CameraSystem
 
         void Start()
         {
+            _mainCam = Camera.main;
+            
             _newPosition = transform.position;
             _newRotation = transform.rotation;
             _newZoom = _cameraTransform.localPosition;
@@ -53,7 +61,7 @@ namespace Component.CameraSystem
                 if (!_dragMovementInitialized)
                 {
                     Plane plane1 = new Plane(Vector3.up, Vector3.zero);
-                    Ray ray1 = Camera.main.ScreenPointToRay(Input.mousePosition);
+                    Ray ray1 = _mainCam.ScreenPointToRay(Input.mousePosition);
 
                     if (plane1.Raycast(ray1, out var entry1))
                     {
@@ -64,7 +72,7 @@ namespace Component.CameraSystem
                 }
                 
                 Plane plane = new Plane(Vector3.up, Vector3.zero);
-                Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+                Ray ray = _mainCam.ScreenPointToRay(Input.mousePosition);
                 if (plane.Raycast(ray, out var entry))
                 {
                     _dragMovementCurrentPosition = ray.GetPoint(entry);
@@ -106,7 +114,7 @@ namespace Component.CameraSystem
             var movementDirection = Quaternion.Euler(0, transform.rotation.eulerAngles.y, 0) * new Vector3(_inputs.Move.x, 0, _inputs.Move.y);
             _newPosition += movementDirection.normalized * movementSpeed;
 
-            transform.position = Vector3.Lerp(transform.position, _newPosition, _movementTime * Time.deltaTime);
+            transform.position = Vector3.Lerp(transform.position, _newPosition, _movementResponsiveness * Time.deltaTime);
 
             // Rotation
             if (_inputs.ClockwiseRotation)
@@ -119,12 +127,12 @@ namespace Component.CameraSystem
                 _newRotation *= Quaternion.Euler(Vector3.up * _rotationAmount);
             }
 
-            transform.rotation = Quaternion.Lerp(transform.rotation, _newRotation, _movementTime * Time.deltaTime);
+            transform.rotation = Quaternion.Lerp(transform.rotation, _newRotation, _movementResponsiveness * Time.deltaTime);
 
             // Zoom
             _newZoom += _inputs.Zoom * new Vector3(0, -_zoomAmount, _zoomAmount);
 
-            _cameraTransform.localPosition = Vector3.Lerp(_cameraTransform.localPosition, _newZoom, _movementTime * Time.deltaTime);
+            _cameraTransform.localPosition = Vector3.Lerp(_cameraTransform.localPosition, _newZoom, _movementResponsiveness * Time.deltaTime);
         }
     }
 }
