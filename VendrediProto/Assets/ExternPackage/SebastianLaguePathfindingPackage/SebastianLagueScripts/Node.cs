@@ -6,6 +6,7 @@ namespace SebastianLague
 	public class Node : IHeapItem<Node> 
 	{
 		private bool _walkable;
+		private bool _interactableIsland;
 		private Vector3 _worldPosition;
 		private int _gridX;
 		private int _gridY;
@@ -15,6 +16,7 @@ namespace SebastianLague
 		private Node _parent;
 		private int _heapIndex;
 		public bool Walkable => _walkable;
+		public bool InteractableIsland => _interactableIsland;
 		public Vector3 WorldPosition => _worldPosition;
 		public int GridX => _gridX;
 		public int GridY => _gridY;
@@ -24,9 +26,10 @@ namespace SebastianLague
 		public int HCost => _hCost;
 		public Node Parent => _parent;
 	
-		public Node(bool walkable, Vector3 worldPos, int gridX, int gridY, int penalty) 
+		public Node(bool walkable, bool interactableIsland, Vector3 worldPos, int gridX, int gridY, int penalty) 
 		{
 			_walkable = walkable;
+			_interactableIsland = interactableIsland;
 			_worldPosition = worldPos;
 			this._gridX = gridX;
 			this._gridY = gridY;
