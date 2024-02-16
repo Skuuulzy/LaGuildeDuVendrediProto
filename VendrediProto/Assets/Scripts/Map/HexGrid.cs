@@ -47,6 +47,8 @@ public class HexGrid : MonoBehaviour
 	
 }
 
+#if UNITY_EDITOR
+
 [CustomEditor(typeof(HexGrid))]
 public class CustomInspectorGUI : Editor
 {
@@ -61,6 +63,7 @@ public class CustomInspectorGUI : Editor
 		}
 	}
 }
+#endif
 
 [ExecuteInEditMode]
 public class HexTile : MonoBehaviour
