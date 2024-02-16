@@ -6,28 +6,26 @@ namespace Component.CameraSystem
 {
     public class CameraController : MonoBehaviour
     {
-        [Header("Parameters")] [SerializeField]
-        private float _normalMovementSpeed;
+        [Header("Parameters")]
+        [SerializeField] private float _normalMovementSpeed = 1;
+        [SerializeField] private float _fastMovementSpeed = 2;
+        [SerializeField] private float _movementTime = 5;
+        [SerializeField] private float _rotationAmount = 1;
+        [SerializeField] private int _zoomAmount = 5;
 
-        [SerializeField] private float _fastMovementSpeed;
-        [SerializeField] private float _movementTime;
-        [SerializeField] private float _rotationAmount;
-        [SerializeField] private Vector3 _zoomAmount;
-
-        [Header("Components")] [SerializeField]
-        private CameraInputs _inputs;
-
+        [Header("Components")] 
+        [SerializeField] private CameraInputs _inputs;
         [SerializeField] private Transform _cameraTransform;
-
+        
         private Vector3 _newPosition;
         private Quaternion _newRotation;
         private Vector3 _newZoom;
 
-        private Vector3 _dragStartPosition;
-        private Vector3 _dragCurrentPosition;
+        private Vector3 _dragMovementStartPosition;
+        private Vector3 _dragMovementCurrentPosition;
         
-        private Vector2 _rotateStartPosition;
-        private Vector2 _rotateCurrentPosition;
+        private Vector2 _dragRotateStartPosition;
+        private Vector2 _dragRotateCurrentPosition;
         
         private bool _dragMovementInitialized;
         private bool _dragRotationInitialized;
@@ -59,7 +57,7 @@ namespace Component.CameraSystem
 
                     if (plane1.Raycast(ray1, out var entry1))
                     {
-                        _dragStartPosition = ray1.GetPoint(entry1);
+                        _dragMovementStartPosition = ray1.GetPoint(entry1);
                     }
                     
                     _dragMovementInitialized = true;
@@ -69,8 +67,8 @@ namespace Component.CameraSystem
                 Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
                 if (plane.Raycast(ray, out var entry))
                 {
-                    _dragCurrentPosition = ray.GetPoint(entry);
-                    _newPosition = transform.position + _dragStartPosition - _dragCurrentPosition;
+                    _dragMovementCurrentPosition = ray.GetPoint(entry);
+                    _newPosition = transform.position + _dragMovementStartPosition - _dragMovementCurrentPosition;
                 }
             }
             else
@@ -83,15 +81,15 @@ namespace Component.CameraSystem
                 // First frame input
                 if (!_dragRotationInitialized)
                 {
-                    _rotateStartPosition = Mouse.current.position.ReadValue();
+                    _dragRotateStartPosition = Mouse.current.position.ReadValue();
                     
                     _dragRotationInitialized = true;
                 }
 
-                _rotateCurrentPosition = Mouse.current.position.ReadValue();
-                var difference = _rotateStartPosition - _rotateCurrentPosition;
+                _dragRotateCurrentPosition = Mouse.current.position.ReadValue();
+                var difference = _dragRotateStartPosition- _dragRotateCurrentPosition;
 
-                _newRotation *= Quaternion.Euler(Vector3.up * (-difference.x / 5));
+                _newRotation *= Quaternion.Euler(Vector3.up * (-difference.x / 300));
             }
             else
             {
@@ -124,7 +122,7 @@ namespace Component.CameraSystem
             transform.rotation = Quaternion.Lerp(transform.rotation, _newRotation, _movementTime * Time.deltaTime);
 
             // Zoom
-            _newZoom += _inputs.Zoom * _zoomAmount;
+            _newZoom += _inputs.Zoom * new Vector3(0, -_zoomAmount, _zoomAmount);
 
             _cameraTransform.localPosition = Vector3.Lerp(_cameraTransform.localPosition, _newZoom, _movementTime * Time.deltaTime);
         }
