@@ -51,9 +51,18 @@
                     "initialStateCheck": false
                 },
                 {
-                    "name": "DragCamera",
+                    "name": "DragMovement",
                     "type": "Button",
                     "id": "c001e9ee-34fc-4bd2-b19a-e9aac5c551ba",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "DragRotation",
+                    "type": "Button",
+                    "id": "f79a9b69-0124-4503-b537-766171e520b1",
                     "expectedControlType": "Button",
                     "processors": "",
                     "interactions": "",
@@ -189,7 +198,18 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "DragCamera",
+                    "action": "DragMovement",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "7b827a7f-b24e-443e-801a-e4d3e5f0d93a",
+                    "path": "<Mouse>/rightButton",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "DragRotation",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

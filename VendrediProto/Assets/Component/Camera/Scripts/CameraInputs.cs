@@ -11,8 +11,8 @@ namespace Component.CameraSystem
         [ShowInInspector] public bool ClockwiseRotation { get; private set; }
         [ShowInInspector] public bool AntiClockwiseRotation { get; private set; }
         [ShowInInspector] public int Zoom { get; private set; }
-        [ShowInInspector] public bool StartDrag { get; private set; }
-        [ShowInInspector] public bool Drag { get; private set; }
+        [ShowInInspector] public bool DragMovement { get; private set; }
+        [ShowInInspector] public bool DragRotation { get; private set; }
 
         public void MoveInput(InputAction.CallbackContext context)
         {
@@ -51,11 +51,16 @@ namespace Component.CameraSystem
             }
         }
         
-        public void DragInput(InputAction.CallbackContext context)
+        public void DragMovementInput(InputAction.CallbackContext context)
         {
-            //Debug.Log($"Start drag: {context.started}, Drag: {context.performed}");
-            StartDrag = context.started;
-            Drag = context.performed;
+            //Debug.Log($"Start drag: {context.started}, DragMovement: {context.performed}");
+            DragMovement = context.performed;
+        }
+        
+        public void DragRotationInput(InputAction.CallbackContext context)
+        {
+            //Debug.Log($"Start drag: {context.started}, DragMovement: {context.performed}");
+            DragRotation = context.performed;
         }
     }
 }

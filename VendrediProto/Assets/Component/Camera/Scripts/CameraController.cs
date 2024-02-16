@@ -25,7 +25,12 @@ namespace Component.CameraSystem
 
         private Vector3 _dragStartPosition;
         private Vector3 _dragCurrentPosition;
-        private bool _dragInitialized;
+        
+        private Vector2 _rotateStartPosition;
+        private Vector2 _rotateCurrentPosition;
+        
+        private bool _dragMovementInitialized;
+        private bool _dragRotationInitialized;
 
         void Start()
         {
@@ -44,9 +49,10 @@ namespace Component.CameraSystem
         // Checkout this video: https://www.youtube.com/watch?v=3Y7TFN_DsoI
         private void HandleDragInput()
         {
-            if (_inputs.Drag)
+            if (_inputs.DragMovement)
             {
-                if (!_dragInitialized)
+                // First frame input
+                if (!_dragMovementInitialized)
                 {
                     Plane plane1 = new Plane(Vector3.up, Vector3.zero);
                     Ray ray1 = Camera.main.ScreenPointToRay(Input.mousePosition);
@@ -56,8 +62,7 @@ namespace Component.CameraSystem
                         _dragStartPosition = ray1.GetPoint(entry1);
                     }
                     
-                    Debug.Log($"Start: {Mouse.current.position.ReadValue()}");
-                    _dragInitialized = true;
+                    _dragMovementInitialized = true;
                 }
                 
                 Plane plane = new Plane(Vector3.up, Vector3.zero);
@@ -65,14 +70,32 @@ namespace Component.CameraSystem
                 if (plane.Raycast(ray, out var entry))
                 {
                     _dragCurrentPosition = ray.GetPoint(entry);
-                    Debug.Log($"Start Position: {_dragStartPosition}, Current {_dragCurrentPosition}");
                     _newPosition = transform.position + _dragStartPosition - _dragCurrentPosition;
-                    Debug.Log($"{Mouse.current.position.ReadValue()}");
                 }
             }
             else
             {
-                _dragInitialized = false;
+                _dragMovementInitialized = false;
+            }
+            
+            if (_inputs.DragRotation)
+            {
+                // First frame input
+                if (!_dragRotationInitialized)
+                {
+                    _rotateStartPosition = Mouse.current.position.ReadValue();
+                    
+                    _dragRotationInitialized = true;
+                }
+
+                _rotateCurrentPosition = Mouse.current.position.ReadValue();
+                var difference = _rotateStartPosition - _rotateCurrentPosition;
+
+                _newRotation *= Quaternion.Euler(Vector3.up * (-difference.x / 5));
+            }
+            else
+            {
+                _dragRotationInitialized = false;
             }
         }
 
