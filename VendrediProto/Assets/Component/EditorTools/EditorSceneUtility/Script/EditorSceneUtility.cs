@@ -1,4 +1,3 @@
-#if UNITY_EDITOR
 using GDV.SceneLoader;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -26,4 +25,3 @@ public class EditorSceneUtility : MonoBehaviour
         }
     }
 }
-#endif
