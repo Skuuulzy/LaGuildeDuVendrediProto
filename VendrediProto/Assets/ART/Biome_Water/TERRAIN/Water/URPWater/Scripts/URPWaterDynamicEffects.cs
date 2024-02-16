@@ -7,6 +7,7 @@ using UnityEditor;
 
 namespace URPWater
 {
+    [Obsolete]
     [ExecuteAlways]
     public class URPWaterDynamicEffects : MonoBehaviour
     {
@@ -399,7 +400,7 @@ namespace URPWater
 
         private void Cleanup()
         {
-            RenderPipelineManager.beginCameraRendering -= ComputeEffects;
+            RenderPipelineManager.beginCameraRendering -= (context, camera1) => ComputeEffects(context, camera1);
 
             if (_DynamicEffectsCamera)
             {

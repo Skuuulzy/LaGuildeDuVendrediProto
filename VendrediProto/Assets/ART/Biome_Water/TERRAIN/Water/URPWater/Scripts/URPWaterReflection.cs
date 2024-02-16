@@ -6,6 +6,7 @@ using UnityEngine.Experimental.Rendering;
 
 namespace URPWater
 {
+    [Obsolete]
     [ExecuteAlways]
     public class URPWaterReflection : MonoBehaviour
     {
