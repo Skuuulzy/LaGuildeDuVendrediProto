@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Component.Tools.Timer;
@@ -11,6 +12,7 @@ using Unity.Services.Lobbies.Models;
 using Unity.Services.Relay;
 using Unity.Services.Relay.Models;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 namespace Component.Multiplayer
 {
@@ -22,14 +24,12 @@ namespace Component.Multiplayer
     }
     // Note: Also Udp and Ws are possible choices
 
-    public class Multiplayer : MonoBehaviour
+    public class MultiplayerManager : MonoBehaviour
     {
         [SerializeField] private string _lobbyName = "Lobby";
         [SerializeField] private int _maxPlayers = 4;
         [SerializeField] private EncryptionType _encryption = EncryptionType.DTLS;
-
-        public static Multiplayer Instance { get; private set; }
-
+        
         public string PlayerId { get; private set; }
         public string PlayerName { get; private set; }
 
@@ -45,17 +45,14 @@ namespace Component.Multiplayer
         
         private const string DTLS_ENCRYPTION = "dtls"; // Datagram Transport Layer Security
         private const string WSS_ENCRYPTION = "wss"; // Web Socket Secure, use for WebGL builds
+        
+        private const string MULTIPLAYER_ID_KEY = "MULTIPLAYER_ID";
 
         private readonly CountdownTimer _heartbeatTimer = new(LOBBY_HEART_BEAT_INTERVAL);
         private readonly CountdownTimer _pollForUpdatesTimer = new(LOBBY_POLL_INTERVAL);
 
-        private async void Start()
+        private void Awake()
         {
-            Instance = this;
-            DontDestroyOnLoad(this);
-
-            await Authenticate();
-
             // When the countdown stop re sent an heart beat and restart the timer.
             _heartbeatTimer.OnTimerStop += () =>
             {
@@ -71,13 +68,24 @@ namespace Component.Multiplayer
             };
         }
 
-        private async Task Authenticate()
+        public async void Authenticate()
         {
-            await Authenticate("Player" + Random.Range(0, 1000));
+            if (PlayerPrefs.HasKey(MULTIPLAYER_ID_KEY))
+            {
+                PlayerName = PlayerPrefs.GetString(MULTIPLAYER_ID_KEY);
+            }
+            else
+            {
+                UpdatePlayerName($"Player{Random.Range(0, 1000)}");
+            }
+            
+            await Authenticate(PlayerName);
         }
 
         private async Task Authenticate(string playerName)
         {
+            // Check the player name: The profile may only contain alphanumeric values, '-', '_', and must be no longer than 30 characters.
+            
             if (UnityServices.State == ServicesInitializationState.Uninitialized)
             {
                 InitializationOptions options = new InitializationOptions();
@@ -167,6 +175,14 @@ namespace Component.Multiplayer
             }
         }
 
+        public void UpdatePlayerName(string newName)
+        {
+            PlayerName = newName;
+            PlayerPrefs.SetString(MULTIPLAYER_ID_KEY, newName);
+        }
+
+        #region PRIVATE METHODS
+
         /// <summary>
         /// Try to create a relay allocation.
         /// </summary>
@@ -255,5 +271,7 @@ namespace Component.Multiplayer
                 Debug.LogError("Failed to poll for updates on lobby: " + e.Message);
             }
         }
+
+        #endregion PRIVATE METHODS
     }
 }
