@@ -26,13 +26,14 @@ namespace Component.Multiplayer
 
     public class MultiplayerManager : MonoBehaviour
     {
+        [SerializeField] private LobbyView _view;
         [SerializeField] private string _lobbyName = "Lobby";
         [SerializeField] private int _maxPlayers = 4;
         [SerializeField] private EncryptionType _encryption = EncryptionType.DTLS;
         
         public string PlayerId { get; private set; }
         public string PlayerName { get; private set; }
-
+        
         private Lobby _currentLobby;
         private string ConnectionType => _encryption == EncryptionType.DTLS ? DTLS_ENCRYPTION : WSS_ENCRYPTION;
 
@@ -50,9 +51,12 @@ namespace Component.Multiplayer
 
         private readonly CountdownTimer _heartbeatTimer = new(LOBBY_HEART_BEAT_INTERVAL);
         private readonly CountdownTimer _pollForUpdatesTimer = new(LOBBY_POLL_INTERVAL);
-
+        
         private void Awake()
         {
+            RetrievePlayerName();
+            _view.ShowAuthenticationWindow(PlayerName);
+            
             // When the countdown stop re sent an heart beat and restart the timer.
             _heartbeatTimer.OnTimerStop += () =>
             {
@@ -68,7 +72,7 @@ namespace Component.Multiplayer
             };
         }
 
-        public async void Authenticate()
+        private void RetrievePlayerName()
         {
             if (PlayerPrefs.HasKey(MULTIPLAYER_ID_KEY))
             {
@@ -76,15 +80,23 @@ namespace Component.Multiplayer
             }
             else
             {
-                UpdatePlayerName($"Player{Random.Range(0, 1000)}");
+                UpdatePlayerName($"Pirate{Random.Range(0, 1000)}");
             }
-            
+        }
+
+        public async void Authenticate()
+        {
+            // Authenticate
             await Authenticate(PlayerName);
+            // Fetch available lobbies
+            await RefreshLobbyList();
+            
+            _view.ShowLobbyList();
         }
 
         private async Task Authenticate(string playerName)
         {
-            // Check the player name: The profile may only contain alphanumeric values, '-', '_', and must be no longer than 30 characters.
+            _view.ShowLoading(true);
             
             if (UnityServices.State == ServicesInitializationState.Uninitialized)
             {
@@ -106,12 +118,14 @@ namespace Component.Multiplayer
                 PlayerId = AuthenticationService.Instance.PlayerId;
                 PlayerName = playerName;
             }
+            
+            _view.ShowLoading(false);
         }
 
         /// <summary>
         /// Create a lobby.
         /// </summary>
-        public async Task CreateLobby()
+        public async void CreateLobby()
         {
             try
             {
@@ -175,11 +189,59 @@ namespace Component.Multiplayer
             }
         }
 
+        private async Task RefreshLobbyList()
+        {
+            _view.ShowLoading(false);
+            
+            try
+            {
+                QueryLobbiesOptions options = new QueryLobbiesOptions
+                {
+                    Count = 25,
+                    // Filter for open lobbies only
+                    Filters = new List<QueryFilter>
+                    {
+                        // Fetching lobbies with at least one slot.
+                        new(
+                            field: QueryFilter.FieldOptions.AvailableSlots,
+                            op: QueryFilter.OpOptions.GT,
+                            value: "0")
+                    },
+                    // Order by newest lobbies first
+                    Order = new List<QueryOrder>
+                    {
+                        new (
+                            asc: false,
+                            field: QueryOrder.FieldOptions.Created)
+                    }
+                };
+
+                QueryResponse lobbyListQueryResponse = await Lobbies.Instance.QueryLobbiesAsync();
+                
+                _view.UpdateLobbyList(lobbyListQueryResponse.Results);
+            }
+            catch (LobbyServiceException e)
+            {
+                Debug.Log($"Unable to fetch any lobbies. {e}");
+            }
+            
+            _view.ShowLoading(false);
+        }
+        
         public void UpdatePlayerName(string newName)
         {
             PlayerName = newName;
             PlayerPrefs.SetString(MULTIPLAYER_ID_KEY, newName);
         }
+
+        #region PUBLIC BUTTONS METHODS
+
+        public void RefreshLobbyListBtn()
+        {
+            _ = RefreshLobbyList();
+        }
+
+        #endregion
 
         #region PRIVATE METHODS
 

@@ -8,14 +8,15 @@ public class AuthenticateView : MonoBehaviour
     [SerializeField] private TMP_Text _playerNameTxt;
     [SerializeField] private MultiplayerManager _multiplayerManager;
 
-    private void Start()
+    private void OnEnable()
     {
-        throw new NotImplementedException();
+        _playerNameTxt.text = _multiplayerManager.PlayerName;
     }
 
     public void OpenEditNamePopup()
     {
-        UI_InputWindow.Show_Static("Player Name", _multiplayerManager.PlayerName, "abcdefghijklmnopqrstuvxywzABCDEFGHIJKLMNOPQRSTUVXYWZ .,-", 20,
+        UI_InputWindow.Show_Static("Player Name", _multiplayerManager.PlayerName, 
+            "abcdefghijklmnopqrstuvxywzABCDEFGHIJKLMNOPQRSTUVXYWZ .,-", 20,
             () =>
             {
                 // Cancel
