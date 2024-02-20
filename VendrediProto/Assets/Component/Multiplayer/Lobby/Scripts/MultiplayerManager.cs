@@ -91,7 +91,7 @@ namespace Component.Multiplayer
             // Fetch available lobbies
             await RefreshLobbyList();
             
-            _view.ShowLobbyList();
+            _view.ShowLobbyList(true);
         }
 
         private async Task Authenticate(string playerName)
@@ -127,6 +127,8 @@ namespace Component.Multiplayer
         /// </summary>
         public async void CreateLobby()
         {
+            _view.ShowLoading(true);
+            
             try
             {
                 Allocation allocation = await AllocateRelay();
@@ -157,10 +159,16 @@ namespace Component.Multiplayer
                 NetworkManager.Singleton.GetComponent<UnityTransport>().SetRelayServerData(new RelayServerData(allocation, ConnectionType));
 
                 NetworkManager.Singleton.StartHost();
+                
+                _view.ShowLoading(false);
+                _view.ShowLobby(_currentLobby);
             }
             catch (LobbyServiceException e)
             {
                 Debug.LogError("Failed to create lobby: " + e.Message);
+                
+                // TODO: Add an error panel
+                _view.ShowLoading(false);
             }
         }
 
@@ -227,6 +235,13 @@ namespace Component.Multiplayer
             
             _view.ShowLoading(false);
         }
+
+        #region PUBLIC BUTTONS METHODS
+
+        public void RefreshLobbyListBtn()
+        {
+            _ = RefreshLobbyList();
+        }
         
         public void UpdatePlayerName(string newName)
         {
@@ -234,11 +249,15 @@ namespace Component.Multiplayer
             PlayerPrefs.SetString(MULTIPLAYER_ID_KEY, newName);
         }
 
-        #region PUBLIC BUTTONS METHODS
-
-        public void RefreshLobbyListBtn()
+        public void OpenLobbyCreation()
         {
-            _ = RefreshLobbyList();
+            _lobbyName = $"PirateParty{Random.Range(0, 1000)}";
+            _view.OpenLobbyCreationWindow(_lobbyName);
+        }
+
+        public void UpdateLobbyName(string newName)
+        {
+            _lobbyName = newName;
         }
 
         #endregion
