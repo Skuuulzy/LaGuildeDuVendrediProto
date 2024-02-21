@@ -7,7 +7,7 @@ using UnityEngine;
 public class LobbyListUI : MonoBehaviour
 {
     [SerializeField] private MultiplayerManager _multiplayerManager;
-    [SerializeField] private LobbyListSingleUI _lobbySingleTemplate;
+    [SerializeField] private LobbyListSingleView _lobbySingleTemplate;
     [SerializeField] private Transform _container;
     
     private void Awake()
@@ -58,7 +58,7 @@ public class LobbyListUI : MonoBehaviour
         {
             var lobbyListSingleUI = Instantiate(_lobbySingleTemplate, _container);
             lobbyListSingleUI.gameObject.SetActive(true);
-            lobbyListSingleUI.UpdateLobby(lobby);
+            //lobbyListSingleUI.UpdateLobby(lobby);
         }
     }
 

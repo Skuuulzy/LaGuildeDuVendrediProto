@@ -40,7 +40,7 @@ namespace Component.Multiplayer
         // The delay in seconds between each lobby heart beat.
         private const float LOBBY_HEART_BEAT_INTERVAL = 20f;
         // The delay in seconds between each lobby data updates.
-        private const float LOBBY_POLL_INTERVAL = 65f;
+        private const float LOBBY_POLL_INTERVAL = 3f;
         
         private const string KEY_JOIN_CODE = "RelayJoinCode";
         
@@ -48,7 +48,9 @@ namespace Component.Multiplayer
         private const string WSS_ENCRYPTION = "wss"; // Web Socket Secure, use for WebGL builds
         
         private const string MULTIPLAYER_ID_KEY = "MULTIPLAYER_ID";
-
+        
+        public const string KEY_PLAYER_NAME = "PlayerName";
+        
         private readonly CountdownTimer _heartbeatTimer = new(LOBBY_HEART_BEAT_INTERVAL);
         private readonly CountdownTimer _pollForUpdatesTimer = new(LOBBY_POLL_INTERVAL);
         
@@ -70,6 +72,12 @@ namespace Component.Multiplayer
                 _ = HandlePollForUpdatesAsync();
                 _pollForUpdatesTimer.Start();
             };
+        }
+
+        private void Update()
+        {
+            _heartbeatTimer.Tick(Time.deltaTime);
+            _pollForUpdatesTimer.Tick(Time.deltaTime);
         }
 
         private void RetrievePlayerName()
@@ -125,17 +133,18 @@ namespace Component.Multiplayer
         /// <summary>
         /// Create a lobby.
         /// </summary>
-        public async void CreateLobby()
+        private async void CreateLobby(bool useRelayCode)
         {
             _view.ShowLoading(true);
+            _view.CloseLobbyCreationWindow();
             
             try
             {
                 Allocation allocation = await AllocateRelay();
-                string relayJoinCode = await GetRelayJoinCode(allocation);
 
                 CreateLobbyOptions options = new CreateLobbyOptions
                 {
+                    Player = GetPlayer(),
                     // The lobby is public.
                     IsPrivate = false
                 };
@@ -148,13 +157,18 @@ namespace Component.Multiplayer
                 _pollForUpdatesTimer.Start();
 
                 // Setup the lobby with the relay join code.
-                await LobbyService.Instance.UpdateLobbyAsync(_currentLobby.Id, new UpdateLobbyOptions
+                if (useRelayCode)
                 {
-                    Data = new Dictionary<string, DataObject>
+                    string relayJoinCode = await GetRelayJoinCode(allocation);
+
+                    await LobbyService.Instance.UpdateLobbyAsync(_currentLobby.Id, new UpdateLobbyOptions
                     {
-                        { KEY_JOIN_CODE, new DataObject(DataObject.VisibilityOptions.Member, relayJoinCode) }
-                    }
-                });
+                        Data = new Dictionary<string, DataObject>
+                        {
+                            { KEY_JOIN_CODE, new DataObject(DataObject.VisibilityOptions.Member, relayJoinCode) }
+                        }
+                    });
+                }
 
                 NetworkManager.Singleton.GetComponent<UnityTransport>().SetRelayServerData(new RelayServerData(allocation, ConnectionType));
 
@@ -162,6 +176,7 @@ namespace Component.Multiplayer
                 
                 _view.ShowLoading(false);
                 _view.ShowLobby(_currentLobby);
+                _view.UpdateLobby(_currentLobby, IsLobbyHost());
             }
             catch (LobbyServiceException e)
             {
@@ -172,34 +187,64 @@ namespace Component.Multiplayer
             }
         }
 
+        public void CreatePublicLobby()
+        {
+            CreateLobby(false);
+        }
+
+        public async void JoinLobby(Lobby lobby)
+        {
+            _view.ShowLoading(true);
+            _view.ShowLobbyList(false);
+            
+            Player player = GetPlayer();
+
+            _currentLobby = await LobbyService.Instance.JoinLobbyByIdAsync(lobby.Id, new JoinLobbyByIdOptions
+            {
+                Player = player
+            });
+            
+            _view.ShowLoading(false);
+            _view.ShowLobby(_currentLobby);
+            _view.UpdateLobby(_currentLobby, IsLobbyHost());
+        }
+        
         /// <summary>
         /// Quick join the first accessible lobby.
         /// </summary>
-        public async Task QuickJoinLobby()
+        public async void QuickJoinLobby()
         {
+            _view.ShowLoading(true);
+            
             try
             {
                 // Quick join a lobby.
                 _currentLobby = await LobbyService.Instance.QuickJoinLobbyAsync();
                 _pollForUpdatesTimer.Start();
 
-                // Joining the relay.
-                string relayJoinCode = _currentLobby.Data[KEY_JOIN_CODE].Value;
-                JoinAllocation joinAllocation = await JoinRelay(relayJoinCode);
-
-                NetworkManager.Singleton.GetComponent<UnityTransport>().SetRelayServerData(new RelayServerData(joinAllocation, ConnectionType));
+                // Joining the relay if available.
+                if (_currentLobby.Data.TryGetValue(KEY_JOIN_CODE, out var joinCode))
+                {
+                    string relayJoinCode = joinCode.Value;
+                    JoinAllocation joinAllocation = await JoinRelay(relayJoinCode);
+                    
+                    NetworkManager.Singleton.GetComponent<UnityTransport>().SetRelayServerData(new RelayServerData(joinAllocation, ConnectionType));
+                }
 
                 NetworkManager.Singleton.StartClient();
             }
             catch (LobbyServiceException e)
             {
                 Debug.LogError("Failed to quick join lobby: " + e.Message);
+                _view.ShowLoading(false);
             }
+            
+            _view.ShowLoading(false);
         }
 
         private async Task RefreshLobbyList()
         {
-            _view.ShowLoading(false);
+            _view.ShowLoading(true);
             
             try
             {
@@ -224,9 +269,9 @@ namespace Component.Multiplayer
                     }
                 };
 
-                QueryResponse lobbyListQueryResponse = await Lobbies.Instance.QueryLobbiesAsync();
-                
-                _view.UpdateLobbyList(lobbyListQueryResponse.Results);
+                QueryResponse lobbyListQueryResponse = await Lobbies.Instance.QueryLobbiesAsync(options);
+
+                _view.UpdateLobbyList(lobbyListQueryResponse.Results, this);
             }
             catch (LobbyServiceException e)
             {
@@ -345,12 +390,26 @@ namespace Component.Multiplayer
             try
             {
                 Lobby lobby = await LobbyService.Instance.GetLobbyAsync(_currentLobby.Id);
+                _view.UpdateLobby(lobby, IsLobbyHost());
                 Debug.Log("Polled for updates on lobby: " + lobby.Name);
             }
             catch (LobbyServiceException e)
             {
                 Debug.LogError("Failed to poll for updates on lobby: " + e.Message);
             }
+        }
+
+        private Player GetPlayer()
+        {
+            return new Player(AuthenticationService.Instance.PlayerId, null, new Dictionary<string, PlayerDataObject>
+            {
+                { KEY_PLAYER_NAME, new PlayerDataObject(PlayerDataObject.VisibilityOptions.Public, PlayerName) }
+            });
+        }
+
+        private bool IsLobbyHost()
+        {
+            return _currentLobby != null && _currentLobby.HostId == AuthenticationService.Instance.PlayerId;
         }
 
         #endregion PRIVATE METHODS

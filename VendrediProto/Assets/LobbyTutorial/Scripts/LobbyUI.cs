@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Component.Multiplayer;
 using TMPro;
 using Unity.Services.Authentication;
 using Unity.Services.Lobbies.Models;
@@ -77,14 +78,14 @@ public class LobbyUI : MonoBehaviour {
         foreach (Player player in lobby.Players) {
             Transform playerSingleTransform = Instantiate(playerSingleTemplate, container);
             playerSingleTransform.gameObject.SetActive(true);
-            LobbyPlayerSingleUI lobbyPlayerSingleUI = playerSingleTransform.GetComponent<LobbyPlayerSingleUI>();
+            PlayerInLobbyView playerInLobbyView = playerSingleTransform.GetComponent<PlayerInLobbyView>();
 
-            lobbyPlayerSingleUI.SetKickPlayerButtonVisible(
+            playerInLobbyView.SetKickPlayerButtonVisible(
                 LobbyManager.Instance.IsLobbyHost() &&
                 player.Id != AuthenticationService.Instance.PlayerId // Don't allow kick self
             );
 
-            lobbyPlayerSingleUI.UpdatePlayer(player);
+            playerInLobbyView.UpdatePlayer(player);
         }
 
         changeGameModeButton.gameObject.SetActive(LobbyManager.Instance.IsLobbyHost());
