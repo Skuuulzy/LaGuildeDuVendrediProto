@@ -1,8 +1,10 @@
+using System;
 using System.Collections.Generic;
 using TMPro;
 using Unity.Services.Authentication;
 using Unity.Services.Lobbies.Models;
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace Component.Multiplayer
 {
@@ -30,7 +32,23 @@ namespace Component.Multiplayer
         [SerializeField] private TMP_Text _lobbyPlayerCountTxt;
         [SerializeField] private PlayerInLobbyView _playerInLobbyPlayerPrefab;
         [SerializeField] private Transform _lobbyPlayerContainer;
+        [SerializeField] private Button _launchGameBtn;
 
+        #region MONO
+
+        public void Init()
+        {
+            // Security
+            _authenticationWindow.SetActive(false);
+            _loadingWindow.SetActive(false);
+            _lobbyListWindow.SetActive(false);
+            _lobbyCreationWindow.SetActive(false);
+            _loadingWindow.SetActive(false);
+            
+            _launchGameBtn.interactable = false;
+        }
+
+        #endregion
 
         #region AUTHENTICATION
 
@@ -120,6 +138,11 @@ namespace Component.Multiplayer
             }
 
             _lobbyPlayerCountTxt.text = $"{lobby.Players.Count} / {lobby.MaxPlayers}";
+
+            if (isHost && lobby.Players.Count >= 2)
+            {
+                _launchGameBtn.interactable = true;
+            }
         }
 
         private void ClearPlayerInLobby()

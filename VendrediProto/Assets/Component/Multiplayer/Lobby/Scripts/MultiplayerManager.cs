@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Component.Tools.Timer;
+using Eflatun.SceneReference;
 using Unity.Netcode;
 using Unity.Netcode.Transports.UTP;
 using Unity.Networking.Transport.Relay;
@@ -21,6 +22,7 @@ namespace Component.Multiplayer
         [SerializeField] private string _lobbyName = "Lobby";
         [SerializeField] private int _maxPlayers = 4;
         [SerializeField] private EncryptionType _encryption = EncryptionType.DTLS;
+        [SerializeField] SceneReference _multiScene;
         
         #region CONST VAR
 
@@ -53,6 +55,10 @@ namespace Component.Multiplayer
 
         private void Awake()
         {
+            DontDestroyOnLoad(this);
+            
+            _view.Init();
+            
             RetrievePlayerName();
             _view.ShowAuthenticationWindow(_playerName);
             
@@ -199,6 +205,16 @@ namespace Component.Multiplayer
             {
                 Player = player
             });
+            
+            // Joining the relay if available.
+            if (_currentLobby.Data.TryGetValue(KEY_JOIN_CODE, out var joinCode))
+            {
+                Debug.Log("Logged with relay");
+                string relayJoinCode = joinCode.Value;
+                JoinAllocation joinAllocation = await JoinRelay(relayJoinCode);
+                    
+                NetworkManager.Singleton.GetComponent<UnityTransport>().SetRelayServerData(new RelayServerData(joinAllocation, ConnectionType));
+            }
             
             _pollForUpdatesTimer.Start();
             
@@ -360,7 +376,7 @@ namespace Component.Multiplayer
         
         public void CreatePublicLobby()
         {
-            CreateLobby(false);
+            CreateLobby(true);
         }
 
         public void RefreshLobbyListBtn()
@@ -383,6 +399,16 @@ namespace Component.Multiplayer
         public void UpdateLobbyName(string newName)
         {
             _lobbyName = newName;
+        }
+
+        public void LoadGameplayScene()
+        {
+            if (!IsLobbyHost())
+            {
+                Debug.LogError("You cannot launch the game if you are not the host !");
+            }
+            
+            MultiplayerSceneLoader.LoadNetwork(_multiScene);
         }
 
         #endregion PUBLIC UI METHODS
