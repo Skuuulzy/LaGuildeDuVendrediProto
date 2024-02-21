@@ -11,15 +11,18 @@ namespace Component.Multiplayer
         [SerializeField] private Button kickPlayerButton;
 
         private Player _player;
+        private MultiplayerManager _multiplayerManager;
 
         public void SetKickPlayerButtonVisible(bool visible)
         {
             kickPlayerButton.gameObject.SetActive(visible);
         }
 
-        public void UpdatePlayer(Player player)
+        public void UpdatePlayer(Player player, MultiplayerManager multiplayerManager)
         {
             _player = player;
+            _multiplayerManager = multiplayerManager;
+            
             playerNameText.text = player.Data[MultiplayerManager.KEY_PLAYER_NAME].Value;
         }
 
@@ -27,7 +30,7 @@ namespace Component.Multiplayer
         {
             if (_player != null)
             {
-                LobbyManager.Instance.KickPlayer(_player.Id);
+                _multiplayerManager.KickPlayerFromLobby(_player.Id);
             }
         }
     }

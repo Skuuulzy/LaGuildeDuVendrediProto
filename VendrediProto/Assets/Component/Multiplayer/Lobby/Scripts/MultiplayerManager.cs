@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Component.Tools.Timer;
@@ -16,14 +15,6 @@ using Random = UnityEngine.Random;
 
 namespace Component.Multiplayer
 {
-    [System.Serializable]
-    public enum EncryptionType
-    {
-        DTLS, // Datagram Transport Layer Security
-        WSS // Web Socket Secure
-    }
-    // Note: Also Udp and Ws are possible choices
-
     public class MultiplayerManager : MonoBehaviour
     {
         [SerializeField] private LobbyView _view;
@@ -31,11 +22,7 @@ namespace Component.Multiplayer
         [SerializeField] private int _maxPlayers = 4;
         [SerializeField] private EncryptionType _encryption = EncryptionType.DTLS;
         
-        public string PlayerId { get; private set; }
-        public string PlayerName { get; private set; }
-        
-        private Lobby _currentLobby;
-        private string ConnectionType => _encryption == EncryptionType.DTLS ? DTLS_ENCRYPTION : WSS_ENCRYPTION;
+        #region CONST VAR
 
         // The delay in seconds between each lobby heart beat.
         private const float LOBBY_HEART_BEAT_INTERVAL = 20f;
@@ -50,14 +37,24 @@ namespace Component.Multiplayer
         private const string MULTIPLAYER_ID_KEY = "MULTIPLAYER_ID";
         
         public const string KEY_PLAYER_NAME = "PlayerName";
+
+        #endregion CONST VAR
+        
+        private Lobby _currentLobby;
+        private string _playerId;
+        private string _playerName;
+        
+        private string ConnectionType => _encryption == EncryptionType.DTLS ? DTLS_ENCRYPTION : WSS_ENCRYPTION;
         
         private readonly CountdownTimer _heartbeatTimer = new(LOBBY_HEART_BEAT_INTERVAL);
         private readonly CountdownTimer _pollForUpdatesTimer = new(LOBBY_POLL_INTERVAL);
-        
+
+        #region MONO
+
         private void Awake()
         {
             RetrievePlayerName();
-            _view.ShowAuthenticationWindow(PlayerName);
+            _view.ShowAuthenticationWindow(_playerName);
             
             // When the countdown stop re sent an heart beat and restart the timer.
             _heartbeatTimer.OnTimerStop += () =>
@@ -80,27 +77,9 @@ namespace Component.Multiplayer
             _pollForUpdatesTimer.Tick(Time.deltaTime);
         }
 
-        private void RetrievePlayerName()
-        {
-            if (PlayerPrefs.HasKey(MULTIPLAYER_ID_KEY))
-            {
-                PlayerName = PlayerPrefs.GetString(MULTIPLAYER_ID_KEY);
-            }
-            else
-            {
-                UpdatePlayerName($"Pirate{Random.Range(0, 1000)}");
-            }
-        }
+        #endregion MONO
 
-        public async void Authenticate()
-        {
-            // Authenticate
-            await Authenticate(PlayerName);
-            // Fetch available lobbies
-            await RefreshLobbyList();
-            
-            _view.ShowLobbyList(true);
-        }
+        #region AUTHENTICATION
 
         private async Task Authenticate(string playerName)
         {
@@ -123,16 +102,34 @@ namespace Component.Multiplayer
             if (!AuthenticationService.Instance.IsSignedIn)
             {
                 await AuthenticationService.Instance.SignInAnonymouslyAsync();
-                PlayerId = AuthenticationService.Instance.PlayerId;
-                PlayerName = playerName;
+                _playerId = AuthenticationService.Instance.PlayerId;
+                _playerName = playerName;
             }
             
             _view.ShowLoading(false);
         }
+        
+        private void RetrievePlayerName()
+        {
+            if (PlayerPrefs.HasKey(MULTIPLAYER_ID_KEY))
+            {
+                _playerName = PlayerPrefs.GetString(MULTIPLAYER_ID_KEY);
+            }
+            else
+            {
+                UpdatePlayerName($"Pirate{Random.Range(0, 1000)}");
+            }
+        }
+
+        #endregion AUTHENTICATION
+
+        #region LOBBY CREATION
 
         /// <summary>
-        /// Create a lobby.
+        /// Create a public lobby.
         /// </summary>
+        /// <param name="useRelayCode">Do you want to use a join code to access to it ?</param>
+        /// <remarks>If you use a relay join code the lobby won't be visible from the lobby list.</remarks>
         private async void CreateLobby(bool useRelayCode)
         {
             _view.ShowLoading(true);
@@ -175,8 +172,8 @@ namespace Component.Multiplayer
                 NetworkManager.Singleton.StartHost();
                 
                 _view.ShowLoading(false);
-                _view.ShowLobby(_currentLobby);
-                _view.UpdateLobby(_currentLobby, IsLobbyHost());
+                _view.ShowCurrentLobby(_currentLobby);
+                _view.UpdateLobby(_currentLobby, IsLobbyHost(), this);
             }
             catch (LobbyServiceException e)
             {
@@ -187,10 +184,9 @@ namespace Component.Multiplayer
             }
         }
 
-        public void CreatePublicLobby()
-        {
-            CreateLobby(false);
-        }
+        #endregion LOBBY CREATION
+
+        #region JOIN LOBBY
 
         public async void JoinLobby(Lobby lobby)
         {
@@ -204,14 +200,17 @@ namespace Component.Multiplayer
                 Player = player
             });
             
+            _pollForUpdatesTimer.Start();
+            
             _view.ShowLoading(false);
-            _view.ShowLobby(_currentLobby);
-            _view.UpdateLobby(_currentLobby, IsLobbyHost());
+            _view.ShowCurrentLobby(_currentLobby);
+            _view.UpdateLobby(_currentLobby, IsLobbyHost(), this);
         }
         
         /// <summary>
         /// Quick join the first accessible lobby.
         /// </summary>
+        /// <remarks>This method do not seem to work very well future Yona.</remarks>
         public async void QuickJoinLobby()
         {
             _view.ShowLoading(true);
@@ -242,7 +241,71 @@ namespace Component.Multiplayer
             _view.ShowLoading(false);
         }
 
-        private async Task RefreshLobbyList()
+        #endregion JOIN LOBBY
+
+        #region QUIT LOBBY
+
+        public async void LeaveLobby()
+        {
+            if (_currentLobby == null)
+            {
+                Debug.LogError("Cannot leave a lobby when you are not in one !");
+                return;
+            }
+            
+            _view.ShowLoading(true);
+            _view.HideCurrentLobby();
+            
+            try
+            {
+                await LobbyService.Instance.RemovePlayerAsync(_currentLobby.Id, AuthenticationService.Instance.PlayerId);
+                Debug.Log("Looby succesfully leaved.");
+                _currentLobby = null;
+
+                await FetchLobbies();
+                _view.ShowLobbyList(true);
+                _view.ShowLoading(false);
+            }
+            catch (LobbyServiceException e)
+            {
+                Debug.Log($"Cannot leave the lobby. {e}");
+            }
+        }
+
+        public async void KickPlayerFromLobby(string playerId)
+        {
+            if (IsLobbyHost())
+            {
+                try
+                {
+                    await LobbyService.Instance.RemovePlayerAsync(_currentLobby.Id, playerId);
+                    Debug.Log($"Player{playerId} sucessfully kicked from the lobby.");
+                }
+                catch (LobbyServiceException e)
+                {
+                    Debug.Log($"Unable to kick player{playerId} from lobby.");
+                }
+            }
+        }
+        
+        private async void HandlePlayerKickedFromLobby()
+        {
+            Debug.Log("You have been kicked from the lobby !");
+            
+            _view.ShowLoading(true);
+            _view.HideCurrentLobby();
+            
+            await FetchLobbies();
+            _view.ShowLobbyList(true);
+            
+            _view.ShowLoading(false);
+        }
+
+        #endregion QUIT LOBBY
+
+        #region FETCH LOBBIES
+
+        private async Task FetchLobbies()
         {
             _view.ShowLoading(true);
             
@@ -281,16 +344,33 @@ namespace Component.Multiplayer
             _view.ShowLoading(false);
         }
 
-        #region PUBLIC BUTTONS METHODS
+        #endregion FETCH LOBBIES
+
+        #region PUBLIC UI METHODS
+        
+        public async void Authenticate()
+        {
+            // Authenticate
+            await Authenticate(_playerName);
+            // Fetch available lobbies
+            await FetchLobbies();
+            
+            _view.ShowLobbyList(true);
+        }
+        
+        public void CreatePublicLobby()
+        {
+            CreateLobby(false);
+        }
 
         public void RefreshLobbyListBtn()
         {
-            _ = RefreshLobbyList();
+            _ = FetchLobbies();
         }
         
         public void UpdatePlayerName(string newName)
         {
-            PlayerName = newName;
+            _playerName = newName;
             PlayerPrefs.SetString(MULTIPLAYER_ID_KEY, newName);
         }
 
@@ -305,9 +385,9 @@ namespace Component.Multiplayer
             _lobbyName = newName;
         }
 
-        #endregion
+        #endregion PUBLIC UI METHODS
 
-        #region PRIVATE METHODS
+        #region HELPERS METHODS
 
         /// <summary>
         /// Try to create a relay allocation.
@@ -389,9 +469,19 @@ namespace Component.Multiplayer
         {
             try
             {
-                Lobby lobby = await LobbyService.Instance.GetLobbyAsync(_currentLobby.Id);
-                _view.UpdateLobby(lobby, IsLobbyHost());
-                Debug.Log("Polled for updates on lobby: " + lobby.Name);
+                _currentLobby = await LobbyService.Instance.GetLobbyAsync(_currentLobby.Id);
+
+                // The player has been kicked from the lobby
+                if (!IsInLobby())
+                {
+                    _currentLobby = null;
+                    HandlePlayerKickedFromLobby();
+                    
+                    return;
+                }
+
+                _view.UpdateLobby(_currentLobby, IsLobbyHost(), this);
+                Debug.Log("Polled for updates on lobby: " + _currentLobby.Name);
             }
             catch (LobbyServiceException e)
             {
@@ -403,7 +493,7 @@ namespace Component.Multiplayer
         {
             return new Player(AuthenticationService.Instance.PlayerId, null, new Dictionary<string, PlayerDataObject>
             {
-                { KEY_PLAYER_NAME, new PlayerDataObject(PlayerDataObject.VisibilityOptions.Public, PlayerName) }
+                { KEY_PLAYER_NAME, new PlayerDataObject(PlayerDataObject.VisibilityOptions.Public, _playerName) }
             });
         }
 
@@ -412,6 +502,31 @@ namespace Component.Multiplayer
             return _currentLobby != null && _currentLobby.HostId == AuthenticationService.Instance.PlayerId;
         }
 
-        #endregion PRIVATE METHODS
+        private bool IsInLobby()
+        {
+            if (_currentLobby != null && _currentLobby.Players != null)
+            {
+                foreach (Player player in _currentLobby.Players)
+                {
+                    if (player.Id == AuthenticationService.Instance.PlayerId)
+                    {
+                        // This player is in this lobby
+                        return true;
+                    }
+                }
+            }
+
+            return false;
+        }
+
+        #endregion HELPERS METHODS
     }
+    
+    [System.Serializable]
+    public enum EncryptionType
+    {
+        DTLS, // Datagram Transport Layer Security
+        WSS // Web Socket Secure
+    }
+    // Note: Also Udp and Ws are possible choices
 }

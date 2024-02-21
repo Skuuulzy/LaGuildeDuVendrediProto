@@ -85,7 +85,7 @@ public class LobbyUI : MonoBehaviour {
                 player.Id != AuthenticationService.Instance.PlayerId // Don't allow kick self
             );
 
-            playerInLobbyView.UpdatePlayer(player);
+            //playerInLobbyView.UpdatePlayer(player);
         }
 
         changeGameModeButton.gameObject.SetActive(LobbyManager.Instance.IsLobbyHost());

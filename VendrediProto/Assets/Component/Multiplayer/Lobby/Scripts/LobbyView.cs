@@ -51,11 +51,21 @@ namespace Component.Multiplayer
         
         public void UpdateLobbyList(List<Lobby> lobbyList, MultiplayerManager multiplayerManager)
         {
+            ClearLobbyList();
+            
             foreach (Lobby lobby in lobbyList)
             {
                 var lobbyListSingleUI = Instantiate(_lobbySinglePrefab, _lobbyListContainer);
                 lobbyListSingleUI.gameObject.SetActive(true);
                 lobbyListSingleUI.UpdateLobby(lobby, multiplayerManager);
+            }
+        }
+        
+        private void ClearLobbyList()
+        {
+            foreach (Transform child in _lobbyListContainer)
+            {
+                Destroy(child.gameObject);
             }
         }
 
@@ -80,13 +90,19 @@ namespace Component.Multiplayer
 
         #region LOBBY
 
-        public void ShowLobby(Lobby lobby)
+        public void ShowCurrentLobby(Lobby lobby)
         {
             _lobbyWindow.SetActive(true);
             _lobbyNameTxt.text = lobby.Name;
         }
 
-        public void UpdateLobby(Lobby lobby, bool isHost)
+        public void HideCurrentLobby()
+        {
+            _lobbyWindow.SetActive(false);
+            ClearPlayerInLobby();
+        }
+
+        public void UpdateLobby(Lobby lobby, bool isHost, MultiplayerManager multiplayerManager)
         {
             ClearPlayerInLobby();
 
@@ -100,7 +116,7 @@ namespace Component.Multiplayer
                     player.Id != AuthenticationService.Instance.PlayerId // Don't allow kick self
                 );
                 
-                playerInLobbyPlayer.UpdatePlayer(player);
+                playerInLobbyPlayer.UpdatePlayer(player, multiplayerManager);
             }
 
             _lobbyPlayerCountTxt.text = $"{lobby.Players.Count} / {lobby.MaxPlayers}";
