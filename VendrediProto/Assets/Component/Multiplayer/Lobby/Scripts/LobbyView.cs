@@ -120,7 +120,7 @@ namespace Component.Multiplayer
             ClearPlayerInLobby();
         }
 
-        public void UpdateLobby(Lobby lobby, bool isHost, MultiplayerManager multiplayerManager)
+        public void UpdateLobby(Lobby lobby, bool isHost, MultiplayerManager multiplayerManager, int minPlayerCountToPlay)
         {
             ClearPlayerInLobby();
 
@@ -139,7 +139,7 @@ namespace Component.Multiplayer
 
             _lobbyPlayerCountTxt.text = $"{lobby.Players.Count} / {lobby.MaxPlayers}";
 
-            if (isHost && lobby.Players.Count >= 2)
+            if (isHost && lobby.Players.Count >= minPlayerCountToPlay)
             {
                 _launchGameBtn.interactable = true;
             }

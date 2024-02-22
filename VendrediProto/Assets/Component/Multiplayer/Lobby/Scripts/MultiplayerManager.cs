@@ -18,11 +18,15 @@ namespace Component.Multiplayer
 {
     public class MultiplayerManager : MonoBehaviour
     {
-        [SerializeField] private LobbyView _view;
+        [Header("Parameters")]
         [SerializeField] private string _lobbyName = "Lobby";
         [SerializeField] private int _maxPlayers = 4;
+        [SerializeField] private int _minPlayerCountToPlay = 2;
         [SerializeField] private EncryptionType _encryption = EncryptionType.DTLS;
-        [SerializeField] SceneReference _multiScene;
+        
+        [Header("References")]
+        [SerializeField] private LobbyView _view;
+        [SerializeField] private SceneReference _multiScene;
         
         #region CONST VAR
 
@@ -179,7 +183,7 @@ namespace Component.Multiplayer
                 
                 _view.ShowLoading(false);
                 _view.ShowCurrentLobby(_currentLobby);
-                _view.UpdateLobby(_currentLobby, IsLobbyHost(), this);
+                _view.UpdateLobby(_currentLobby, IsLobbyHost(), this, _minPlayerCountToPlay);
             }
             catch (LobbyServiceException e)
             {
@@ -220,7 +224,7 @@ namespace Component.Multiplayer
             
             _view.ShowLoading(false);
             _view.ShowCurrentLobby(_currentLobby);
-            _view.UpdateLobby(_currentLobby, IsLobbyHost(), this);
+            _view.UpdateLobby(_currentLobby, IsLobbyHost(), this, _minPlayerCountToPlay);
         }
         
         /// <summary>
@@ -406,6 +410,7 @@ namespace Component.Multiplayer
             if (!IsLobbyHost())
             {
                 Debug.LogError("You cannot launch the game if you are not the host !");
+                return;
             }
             
             MultiplayerSceneLoader.LoadNetwork(_multiScene);
@@ -506,7 +511,7 @@ namespace Component.Multiplayer
                     return;
                 }
 
-                _view.UpdateLobby(_currentLobby, IsLobbyHost(), this);
+                _view.UpdateLobby(_currentLobby, IsLobbyHost(), this, _minPlayerCountToPlay);
                 Debug.Log("Polled for updates on lobby: " + _currentLobby.Name);
             }
             catch (LobbyServiceException e)
