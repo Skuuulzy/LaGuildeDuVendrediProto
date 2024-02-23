@@ -303,7 +303,7 @@ namespace Component.Multiplayer
                 }
                 catch (LobbyServiceException e)
                 {
-                    Debug.Log($"Unable to kick player{playerId} from lobby.");
+                    Debug.Log($"Unable to kick player{playerId} from lobby. {e}");
                 }
             }
         }
