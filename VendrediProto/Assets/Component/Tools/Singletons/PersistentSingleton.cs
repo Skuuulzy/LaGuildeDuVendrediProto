@@ -1,11 +1,11 @@
 using UnityEngine;
 
-namespace Component.Tools.Singletons
+namespace VComponent.Tools.Singletons
 {
     /// <summary>
     /// A singleton that will be persistent across scene by being a DDOL.
     /// </summary>
-    public class PersistentSingleton<T> : MonoBehaviour where T : UnityEngine.Component
+    public class PersistentSingleton<T> : MonoBehaviour where T : Component
     {
         [Header("Singleton")]
         [SerializeField] private bool _autoUnParentOnAwake = true;

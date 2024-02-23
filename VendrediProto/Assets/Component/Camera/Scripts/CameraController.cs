@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-namespace Component.CameraSystem
+namespace VComponent.CameraSystem
 {
     public class CameraController : MonoBehaviour
     {

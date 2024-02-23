@@ -2,7 +2,7 @@ using Sirenix.OdinInspector;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-namespace Component.CameraSystem
+namespace VComponent.CameraSystem
 {
     public class CameraInputs : MonoBehaviour
     {

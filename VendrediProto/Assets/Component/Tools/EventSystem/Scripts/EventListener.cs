@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.Events;
 
-namespace Component.Tools.EventSystem
+namespace VComponent.Tools.EventSystem
 {
     public abstract class EventListener<T> : MonoBehaviour
     {

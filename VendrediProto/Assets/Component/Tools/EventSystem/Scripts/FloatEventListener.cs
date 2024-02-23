@@ -1,4 +1,4 @@
-﻿namespace Component.Tools.EventSystem
+﻿namespace VComponent.Tools.EventSystem
 {
     public class FloatEventListener : EventListener<float>
     {

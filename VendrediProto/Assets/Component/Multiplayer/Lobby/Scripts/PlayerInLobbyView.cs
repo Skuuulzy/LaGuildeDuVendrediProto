@@ -3,7 +3,7 @@ using TMPro;
 using Unity.Services.Lobbies.Models;
 using UnityEngine.UI;
 
-namespace Component.Multiplayer
+namespace VComponent.Multiplayer
 {
     public class PlayerInLobbyView : MonoBehaviour
     {

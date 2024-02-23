@@ -2,7 +2,7 @@
 using Unity.Netcode;
 using UnityEngine.SceneManagement;
 
-namespace Component.Multiplayer
+namespace VComponent.Multiplayer
 {
     public static class MultiplayerSceneLoader
     {

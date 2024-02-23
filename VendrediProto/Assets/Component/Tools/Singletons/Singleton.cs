@@ -1,12 +1,11 @@
 using UnityEngine;
 
-namespace Component.Tools.Singletons
+namespace VComponent.Tools.Singletons
 {
     /// <summary>
     /// A simple singleton implementation.
     /// </summary>
-    /// <typeparam name="T"></typeparam>
-    public class Singleton<T> : MonoBehaviour where T : UnityEngine.Component
+    public class Singleton<T> : MonoBehaviour where T : Component
     {
         private static T _instance;
 

@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace Component.Tools.EventSystem
+namespace VComponent.Tools.EventSystem
 {
     public abstract class EventChannel<T> : ScriptableObject
     {

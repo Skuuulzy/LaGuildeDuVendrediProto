@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Component.Tools.Timer
+namespace VComponent.Tools.Timer
 {
     public abstract class Timer
     {

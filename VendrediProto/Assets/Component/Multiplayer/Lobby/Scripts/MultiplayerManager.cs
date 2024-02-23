@@ -1,6 +1,5 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using Component.Tools.Timer;
 using Eflatun.SceneReference;
 using Unity.Netcode;
 using Unity.Netcode.Transports.UTP;
@@ -12,9 +11,10 @@ using Unity.Services.Lobbies.Models;
 using Unity.Services.Relay;
 using Unity.Services.Relay.Models;
 using UnityEngine;
+using VComponent.Tools.Timer;
 using Random = UnityEngine.Random;
 
-namespace Component.Multiplayer
+namespace VComponent.Multiplayer
 {
     public class MultiplayerManager : MonoBehaviour
     {

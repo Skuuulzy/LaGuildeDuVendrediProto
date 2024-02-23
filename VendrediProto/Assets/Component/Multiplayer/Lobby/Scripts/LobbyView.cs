@@ -6,7 +6,7 @@ using Unity.Services.Lobbies.Models;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace Component.Multiplayer
+namespace VComponent.Multiplayer
 {
     public class LobbyView : MonoBehaviour
     {

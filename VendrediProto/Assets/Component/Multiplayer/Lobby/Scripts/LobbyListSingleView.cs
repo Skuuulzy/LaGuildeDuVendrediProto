@@ -2,7 +2,7 @@ using UnityEngine;
 using TMPro;
 using Unity.Services.Lobbies.Models;
 
-namespace Component.Multiplayer
+namespace VComponent.Multiplayer
 {
     public class LobbyListSingleView : MonoBehaviour
     {
