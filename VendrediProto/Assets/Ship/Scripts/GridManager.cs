@@ -40,8 +40,6 @@ public class GridManager : MonoBehaviour
                 spawnedNode.name = $"Node {x}-{z}";
                 spawnedNode.GetComponent<Renderer>().material.color = isOffset ? _offsetColor : _baseColor;
                 spawnedNode.Init(x, z);
-
-                
             }
         }
         _camera.transform.position = new Vector3((float)_width / 2 - 0.5f, 100, (float)_height / 2 - 0.5f);

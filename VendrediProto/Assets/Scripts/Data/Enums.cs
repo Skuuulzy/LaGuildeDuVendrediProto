@@ -26,3 +26,11 @@ public enum MerchandiseType
 	URANIUM
 }
 
+public enum CompanyBaseTeam
+{
+	YELLOW,
+	PURPLE,
+	RED,
+	GREEN
+}
+
