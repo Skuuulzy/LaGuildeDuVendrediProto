@@ -4,8 +4,6 @@ using UnityEngine;
 
 public class Node : MonoBehaviour
 {
-
-
     [SerializeField] public Vector2 _nodeSize;
     [SerializeField] private Vector2 _nodePosition;
     [SerializeField] private GameObject _highlight;

@@ -6,24 +6,22 @@ namespace VComponent.Multiplayer
 {
     public class LobbyListSingleView : MonoBehaviour
     {
-        [SerializeField] private TextMeshProUGUI lobbyNameText;
-        [SerializeField] private TextMeshProUGUI playersText;
+        [SerializeField] private TextMeshProUGUI _lobbyNameText;
+        [SerializeField] private TextMeshProUGUI _playersText;
 
         private Lobby _lobby;
-        private MultiplayerManager _multiplayerManager;
 
-        public void UpdateLobby(Lobby lobby, MultiplayerManager multiplayerManager)
+        public void SetLobbyView(Lobby lobby)
         {
             _lobby = lobby;
-            _multiplayerManager = multiplayerManager;
             
-            lobbyNameText.text = lobby.Name;
-            playersText.text = lobby.Players.Count + "/" + lobby.MaxPlayers;
+            _lobbyNameText.text = lobby.Name;
+            _playersText.text = lobby.Players.Count + "/" + lobby.MaxPlayers;
         }
 
         public void JoinLobby()
         {
-            _multiplayerManager.JoinLobby(_lobby);
+            MultiplayerManager.Instance.JoinLobby(_lobby);
         }
     }
 }

@@ -52,8 +52,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e337cb0ba2507784da6f315a8a46d079, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  lobbyNameText: {fileID: 6443717038454167681}
-  playersText: {fileID: 3603586429029118021}
+  _lobbyNameText: {fileID: 6443717038454167681}
+  _playersText: {fileID: 3603586429029118021}
 --- !u!114 &7616090911304214730
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -7,30 +7,25 @@ namespace VComponent.Multiplayer
 {
     public class PlayerInLobbyView : MonoBehaviour
     {
-        [SerializeField] private TextMeshProUGUI playerNameText;
-        [SerializeField] private Button kickPlayerButton;
+        [SerializeField] private TextMeshProUGUI _playerNameText;
+        [SerializeField] private Button _kickPlayerButton;
 
         private Player _player;
-        private MultiplayerManager _multiplayerManager;
 
-        public void SetKickPlayerButtonVisible(bool visible)
-        {
-            kickPlayerButton.gameObject.SetActive(visible);
-        }
-
-        public void UpdatePlayer(Player player, MultiplayerManager multiplayerManager)
+        public void SetPlayer(Player player, bool allowKick)
         {
             _player = player;
-            _multiplayerManager = multiplayerManager;
             
-            playerNameText.text = player.Data[MultiplayerManager.KEY_PLAYER_NAME].Value;
+            _playerNameText.text = player.Data[MultiplayerManager.KEY_PLAYER_NAME].Value;
+            
+            _kickPlayerButton.gameObject.SetActive(allowKick);
         }
 
         public void KickPlayer()
         {
             if (_player != null)
             {
-                _multiplayerManager.KickPlayerFromLobby(_player.Id);
+                MultiplayerManager.Instance.KickPlayerFromLobby(_player.Id);
             }
         }
     }

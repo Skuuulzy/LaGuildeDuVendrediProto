@@ -1,6 +1,8 @@
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Eflatun.SceneReference;
+using GDV.SceneLoader;
 using Unity.Netcode;
 using Unity.Netcode.Transports.UTP;
 using Unity.Networking.Transport.Relay;
@@ -11,22 +13,21 @@ using Unity.Services.Lobbies.Models;
 using Unity.Services.Relay;
 using Unity.Services.Relay.Models;
 using UnityEngine;
+using VComponent.Tools.Singletons;
 using VComponent.Tools.Timer;
 using Random = UnityEngine.Random;
 
 namespace VComponent.Multiplayer
 {
-    public class MultiplayerManager : MonoBehaviour
+    public class MultiplayerManager : PersistentSingleton<MultiplayerManager>
     {
         [Header("Parameters")]
         [SerializeField] private string _lobbyName = "Lobby";
         [SerializeField] private int _maxPlayers = 4;
-        [SerializeField] private int _minPlayerCountToPlay = 2;
         [SerializeField] private EncryptionType _encryption = EncryptionType.DTLS;
         
         [Header("References")]
-        [SerializeField] private LobbyView _view;
-        [SerializeField] private SceneReference _multiScene;
+        [SerializeField] private SceneReference _currentLobbyScene;
         
         #region CONST VAR
 
@@ -55,16 +56,21 @@ namespace VComponent.Multiplayer
         private readonly CountdownTimer _heartbeatTimer = new(LOBBY_HEART_BEAT_INTERVAL);
         private readonly CountdownTimer _pollForUpdatesTimer = new(LOBBY_POLL_INTERVAL);
 
+        /// <summary>
+        /// Raised when a task has failed. First string is the error title, second is the error details.
+        /// </summary>
+        public static Action<string, string> OnTaskFailed;
+
+        /// <summary>
+        /// Raise at each lobby poll;
+        /// </summary>
+        public static Action<Lobby> OnLobbyPolled;
+
         #region MONO
 
-        private void Awake()
+        protected override void Awake()
         {
-            DontDestroyOnLoad(this);
-            
-            _view.Init();
-            
-            RetrievePlayerName();
-            _view.ShowAuthenticationWindow(_playerName);
+            base.Awake();
             
             // When the countdown stop re sent an heart beat and restart the timer.
             _heartbeatTimer.OnTimerStop += () =>
@@ -80,7 +86,7 @@ namespace VComponent.Multiplayer
                 _pollForUpdatesTimer.Start();
             };
         }
-
+        
         private void Update()
         {
             _heartbeatTimer.Tick(Time.deltaTime);
@@ -91,35 +97,7 @@ namespace VComponent.Multiplayer
 
         #region AUTHENTICATION
 
-        private async Task Authenticate(string playerName)
-        {
-            _view.ShowLoading(true);
-            
-            if (UnityServices.State == ServicesInitializationState.Uninitialized)
-            {
-                InitializationOptions options = new InitializationOptions();
-                // Each players must have a different identifier.
-                options.SetProfile(playerName);
-
-                await UnityServices.InitializeAsync(options);
-            }
-
-            AuthenticationService.Instance.SignedIn += () =>
-            {
-                Debug.Log("Signed in as " + AuthenticationService.Instance.PlayerId);
-            };
-
-            if (!AuthenticationService.Instance.IsSignedIn)
-            {
-                await AuthenticationService.Instance.SignInAnonymouslyAsync();
-                _playerId = AuthenticationService.Instance.PlayerId;
-                _playerName = playerName;
-            }
-            
-            _view.ShowLoading(false);
-        }
-        
-        private void RetrievePlayerName()
+        public string GetPlayerName()
         {
             if (PlayerPrefs.HasKey(MULTIPLAYER_ID_KEY))
             {
@@ -128,6 +106,45 @@ namespace VComponent.Multiplayer
             else
             {
                 UpdatePlayerName($"Pirate{Random.Range(0, 1000)}");
+            }
+
+            return _playerName;
+        }
+        
+        public void UpdatePlayerName(string newName)
+        {
+            _playerName = newName;
+            PlayerPrefs.SetString(MULTIPLAYER_ID_KEY, newName);
+        }
+
+        public async Task Authenticate()
+        {
+            try
+            {
+                if (UnityServices.State == ServicesInitializationState.Uninitialized)
+                {
+                    InitializationOptions options = new InitializationOptions();
+                    // Each players must have a different identifier.
+                    options.SetProfile(_playerName);
+
+                    await UnityServices.InitializeAsync(options);
+                }
+
+                AuthenticationService.Instance.SignedIn += () =>
+                {
+                    Debug.Log("Signed in as " + AuthenticationService.Instance.PlayerId);
+                };
+
+                if (!AuthenticationService.Instance.IsSignedIn)
+                {
+                    await AuthenticationService.Instance.SignInAnonymouslyAsync();
+                    _playerId = AuthenticationService.Instance.PlayerId;
+                }
+            }
+            catch (Exception e)
+            {
+                Debug.LogError($"Unable to authenticate. {e}");
+                OnTaskFailed?.Invoke("Authentication Failed",e.Message);
             }
         }
 
@@ -140,11 +157,8 @@ namespace VComponent.Multiplayer
         /// </summary>
         /// <param name="useRelayCode">Do you want to use a join code to access to it ?</param>
         /// <remarks>If you use a relay join code the lobby won't be visible from the lobby list.</remarks>
-        private async void CreateLobby(bool useRelayCode)
+        public async Task CreateLobby(bool useRelayCode)
         {
-            _view.ShowLoading(true);
-            _view.CloseLobbyCreationWindow();
-            
             try
             {
                 Allocation allocation = await AllocateRelay();
@@ -181,17 +195,23 @@ namespace VComponent.Multiplayer
 
                 NetworkManager.Singleton.StartHost();
                 
-                _view.ShowLoading(false);
-                _view.ShowCurrentLobby(_currentLobby);
-                _view.UpdateLobby(_currentLobby, IsLobbyHost(), this, _minPlayerCountToPlay);
+                LoadCurrentLobbyScene();
             }
             catch (LobbyServiceException e)
             {
                 Debug.LogError("Failed to create lobby: " + e.Message);
-                
-                // TODO: Add an error panel
-                _view.ShowLoading(false);
+                OnTaskFailed?.Invoke("Lobby Creation Failed",e.Message);
             }
+        }
+
+        public string GetLobbyName()
+        {
+            return _lobbyName = $"PirateParty{Random.Range(0, 1000)}";
+        }
+
+        public void UpdateLobbyName(string lobbyName)
+        {
+            _lobbyName = lobbyName;
         }
 
         #endregion LOBBY CREATION
@@ -200,41 +220,41 @@ namespace VComponent.Multiplayer
 
         public async void JoinLobby(Lobby lobby)
         {
-            _view.ShowLoading(true);
-            _view.ShowLobbyList(false);
-            
-            Player player = GetPlayer();
+            try
+            {
+                Player player = GetPlayer();
 
-            _currentLobby = await LobbyService.Instance.JoinLobbyByIdAsync(lobby.Id, new JoinLobbyByIdOptions
-            {
-                Player = player
-            });
+                _currentLobby = await LobbyService.Instance.JoinLobbyByIdAsync(lobby.Id, new JoinLobbyByIdOptions
+                {
+                    Player = player
+                });
             
-            // Joining the relay if available.
-            if (_currentLobby.Data.TryGetValue(KEY_JOIN_CODE, out var joinCode))
-            {
-                Debug.Log("Logged with relay");
-                string relayJoinCode = joinCode.Value;
-                JoinAllocation joinAllocation = await JoinRelay(relayJoinCode);
+                // Joining the relay if available.
+                if (_currentLobby.Data.TryGetValue(KEY_JOIN_CODE, out var joinCode))
+                {
+                    Debug.Log("Logged with relay");
+                    string relayJoinCode = joinCode.Value;
+                    JoinAllocation joinAllocation = await JoinRelay(relayJoinCode);
                     
-                NetworkManager.Singleton.GetComponent<UnityTransport>().SetRelayServerData(new RelayServerData(joinAllocation, ConnectionType));
+                    NetworkManager.Singleton.GetComponent<UnityTransport>().SetRelayServerData(new RelayServerData(joinAllocation, ConnectionType));
+                }
+            
+                _pollForUpdatesTimer.Start();
+
+                NetworkManager.Singleton.StartClient();
             }
-            
-            _pollForUpdatesTimer.Start();
-            
-            _view.ShowLoading(false);
-            _view.ShowCurrentLobby(_currentLobby);
-            _view.UpdateLobby(_currentLobby, IsLobbyHost(), this, _minPlayerCountToPlay);
+            catch (Exception e)
+            {
+                Debug.LogError($"Failed to join lobby.{e}");
+                OnTaskFailed?.Invoke("Lobby Join Failed",e.Message);
+            }
         }
         
         /// <summary>
         /// Quick join the first accessible lobby.
         /// </summary>
-        /// <remarks>This method do not seem to work very well future Yona.</remarks>
         public async void QuickJoinLobby()
         {
-            _view.ShowLoading(true);
-            
             try
             {
                 // Quick join a lobby.
@@ -255,10 +275,8 @@ namespace VComponent.Multiplayer
             catch (LobbyServiceException e)
             {
                 Debug.LogError("Failed to quick join lobby: " + e.Message);
-                _view.ShowLoading(false);
+                OnTaskFailed?.Invoke("Lobby Quick Join Failed",e.Message);
             }
-            
-            _view.ShowLoading(false);
         }
 
         #endregion JOIN LOBBY
@@ -273,22 +291,15 @@ namespace VComponent.Multiplayer
                 return;
             }
             
-            _view.ShowLoading(true);
-            _view.HideCurrentLobby();
-            
             try
             {
                 await LobbyService.Instance.RemovePlayerAsync(_currentLobby.Id, AuthenticationService.Instance.PlayerId);
-                Debug.Log("Looby succesfully leaved.");
                 _currentLobby = null;
-
-                await FetchLobbies();
-                _view.ShowLobbyList(true);
-                _view.ShowLoading(false);
             }
             catch (LobbyServiceException e)
             {
-                Debug.Log($"Cannot leave the lobby. {e}");
+                Debug.LogError("Failed to leave lobby: " + e.Message);
+                OnTaskFailed?.Invoke("Lobby Leave Failed",e.Message);
             }
         }
 
@@ -299,36 +310,28 @@ namespace VComponent.Multiplayer
                 try
                 {
                     await LobbyService.Instance.RemovePlayerAsync(_currentLobby.Id, playerId);
-                    Debug.Log($"Player{playerId} sucessfully kicked from the lobby.");
+                    Debug.Log($"Player{playerId} successfully kicked from the lobby.");
                 }
                 catch (LobbyServiceException e)
                 {
-                    Debug.Log($"Unable to kick player{playerId} from lobby. {e}");
+                    Debug.LogError($"Unable to kick player{playerId} from lobby. {e}");
+                    OnTaskFailed?.Invoke("Kick Player Failed",e.Message);
                 }
             }
         }
         
-        private async void HandlePlayerKickedFromLobby()
+        private void HandlePlayerKickedFromLobby()
         {
             Debug.Log("You have been kicked from the lobby !");
-            
-            _view.ShowLoading(true);
-            _view.HideCurrentLobby();
-            
-            await FetchLobbies();
-            _view.ShowLobbyList(true);
-            
-            _view.ShowLoading(false);
+            SceneLoader.OnLoadScene?.Invoke(SceneLoader.SceneIdentifier.MAIN_MENU);
         }
 
         #endregion QUIT LOBBY
 
         #region FETCH LOBBIES
 
-        private async Task FetchLobbies()
+        public async Task<List<Lobby>> FetchLobbies()
         {
-            _view.ShowLoading(true);
-            
             try
             {
                 QueryLobbiesOptions options = new QueryLobbiesOptions
@@ -352,71 +355,19 @@ namespace VComponent.Multiplayer
                     }
                 };
 
-                QueryResponse lobbyListQueryResponse = await Lobbies.Instance.QueryLobbiesAsync(options);
-
-                _view.UpdateLobbyList(lobbyListQueryResponse.Results, this);
+                var request = await Lobbies.Instance.QueryLobbiesAsync(options);
+                
+                return request.Results;
             }
             catch (LobbyServiceException e)
             {
-                Debug.Log($"Unable to fetch any lobbies. {e}");
+                Debug.LogError($"Unable to fetch any lobbies. {e}");
+                OnTaskFailed?.Invoke("Fetch Lobbies Failed", e.Message);
+                return null;
             }
-            
-            _view.ShowLoading(false);
         }
 
         #endregion FETCH LOBBIES
-
-        #region PUBLIC UI METHODS
-        
-        public async void Authenticate()
-        {
-            // Authenticate
-            await Authenticate(_playerName);
-            // Fetch available lobbies
-            await FetchLobbies();
-            
-            _view.ShowLobbyList(true);
-        }
-        
-        public void CreatePublicLobby()
-        {
-            CreateLobby(true);
-        }
-
-        public void RefreshLobbyListBtn()
-        {
-            _ = FetchLobbies();
-        }
-        
-        public void UpdatePlayerName(string newName)
-        {
-            _playerName = newName;
-            PlayerPrefs.SetString(MULTIPLAYER_ID_KEY, newName);
-        }
-
-        public void OpenLobbyCreation()
-        {
-            _lobbyName = $"PirateParty{Random.Range(0, 1000)}";
-            _view.OpenLobbyCreationWindow(_lobbyName);
-        }
-
-        public void UpdateLobbyName(string newName)
-        {
-            _lobbyName = newName;
-        }
-
-        public void LoadGameplayScene()
-        {
-            if (!IsLobbyHost())
-            {
-                Debug.LogError("You cannot launch the game if you are not the host !");
-                return;
-            }
-            
-            MultiplayerSceneLoader.LoadNetwork(_multiScene);
-        }
-
-        #endregion PUBLIC UI METHODS
 
         #region HELPERS METHODS
 
@@ -433,7 +384,8 @@ namespace VComponent.Multiplayer
             }
             catch (RelayServiceException e)
             {
-                Debug.LogError("Failed to allocate relay: " + e.Message);
+                Debug.LogError($"Failed to allocate relay. {e}");
+                OnTaskFailed?.Invoke("Allocate Relay Failed", e.Message);
                 return default;
             }
         }
@@ -452,7 +404,8 @@ namespace VComponent.Multiplayer
             }
             catch (RelayServiceException e)
             {
-                Debug.LogError("Failed to get relay join code: " + e.Message);
+                Debug.LogError($"Failed to get relay join code. {e}");
+                OnTaskFailed?.Invoke("Get Relay Code Failed", e.Message);
                 return default;
             }
         }
@@ -471,7 +424,8 @@ namespace VComponent.Multiplayer
             }
             catch (RelayServiceException e)
             {
-                Debug.LogError("Failed to join relay: " + e.Message);
+                Debug.LogError($"Failed to join relay. {e}");
+                OnTaskFailed?.Invoke("Join Relay Failed", e.Message);
                 return default;
             }
         }
@@ -484,11 +438,12 @@ namespace VComponent.Multiplayer
             try
             {
                 await LobbyService.Instance.SendHeartbeatPingAsync(_currentLobby.Id);
-                Debug.Log("Sent heartbeat ping to lobby: " + _currentLobby.Name);
+                Debug.Log($"Sent heartbeat ping to lobby: {_currentLobby.Name}.");
             }
             catch (LobbyServiceException e)
             {
-                Debug.LogError("Failed to heartbeat lobby: " + e.Message);
+                Debug.LogError($"Failed to heartbeat lobby. {e}");
+                OnTaskFailed?.Invoke("Heartbeat Lobby Failed", e.Message);
             }
         }
 
@@ -511,12 +466,13 @@ namespace VComponent.Multiplayer
                     return;
                 }
 
-                _view.UpdateLobby(_currentLobby, IsLobbyHost(), this, _minPlayerCountToPlay);
-                Debug.Log("Polled for updates on lobby: " + _currentLobby.Name);
+                //Debug.Log($"Polled for updates on lobby: {_currentLobby.Name}");
+                OnLobbyPolled?.Invoke(_currentLobby);
             }
             catch (LobbyServiceException e)
             {
-                Debug.LogError("Failed to poll for updates on lobby: " + e.Message);
+                Debug.LogError($"Failed to poll for updates on lobby.{e}");
+                OnTaskFailed?.Invoke("Poll Lobby Failed", e.Message);
             }
         }
 
@@ -528,7 +484,7 @@ namespace VComponent.Multiplayer
             });
         }
 
-        private bool IsLobbyHost()
+        public bool IsLobbyHost()
         {
             return _currentLobby != null && _currentLobby.HostId == AuthenticationService.Instance.PlayerId;
         }
@@ -549,11 +505,25 @@ namespace VComponent.Multiplayer
 
             return false;
         }
+        
+        /// <summary>
+        /// Load the current lobby parameter scene.
+        /// </summary>
+        private void LoadCurrentLobbyScene()
+        {
+            if (!IsLobbyHost())
+            {
+                Debug.LogError("You cannot launch the game if you are not the host !");
+                return;
+            }
+            
+            MultiplayerSceneLoader.LoadNetwork(_currentLobbyScene);
+        }
 
         #endregion HELPERS METHODS
     }
     
-    [System.Serializable]
+    [Serializable]
     public enum EncryptionType
     {
         DTLS, // Datagram Transport Layer Security

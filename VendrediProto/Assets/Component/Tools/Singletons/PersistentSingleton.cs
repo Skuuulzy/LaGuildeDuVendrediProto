@@ -5,6 +5,7 @@ namespace VComponent.Tools.Singletons
     /// <summary>
     /// A singleton that will be persistent across scene by being a DDOL.
     /// </summary>
+    [DefaultExecutionOrder(-95)]
     public class PersistentSingleton<T> : MonoBehaviour where T : Component
     {
         [Header("Singleton")]

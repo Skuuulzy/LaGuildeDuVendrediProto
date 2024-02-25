@@ -27,6 +27,6 @@ EditorBuildSettings:
     path: Assets/Scenes/Multiplayer/MultiplayerLobby.unity
     guid: 5608086c7bf37974ba050409944ddfcc
   - enabled: 1
-    path: Assets/Scenes/Multiplayer/MultiplayerGame.unity
+    path: Assets/Scenes/Multiplayer/CurrentLobby.unity
     guid: 49417717f5f020344ba863982e8e38e1
   m_configObjects: {}
