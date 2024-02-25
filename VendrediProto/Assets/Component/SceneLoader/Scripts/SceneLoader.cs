@@ -25,7 +25,8 @@ namespace GDV.SceneLoader
             LOADING_SCREEN,
             CHARACTER_CONTROL,
             INTERACTION_EXAMPLE,
-            MAP_TEST
+            MAP_TEST,
+            MULTIPLAYER_LOBBY
         }
 
         private static readonly Dictionary<SceneIdentifier, string> SCENE_NAME = new()
@@ -35,6 +36,7 @@ namespace GDV.SceneLoader
             { SceneIdentifier.CHARACTER_CONTROL, "CharacterControl" },
             { SceneIdentifier.INTERACTION_EXAMPLE, "InteractionExample" },
             { SceneIdentifier.MAP_TEST, "MapTest" },
+            { SceneIdentifier.MULTIPLAYER_LOBBY, "MultiplayerLobby" },
         };
 
         #endregion
