@@ -16,4 +16,9 @@ public class MainMenuController : MonoBehaviour
     {
         SceneLoader.OnLoadScene?.Invoke(SceneLoader.SceneIdentifier.MAP_TEST);
     }
+    
+    public void LoadMultiplayerLobby()
+    {
+        SceneLoader.OnLoadScene?.Invoke(SceneLoader.SceneIdentifier.MULTIPLAYER_LOBBY);
+    }
 }

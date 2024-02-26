@@ -10,9 +10,13 @@ public class EditorSceneUtility : MonoBehaviour
 {
     private void Awake()
     {
+#if UNITY_EDITOR
         CheckPersistentManager();
+#else
+        Destroy(gameObject);
+#endif
     }
-
+#if UNITY_EDITOR
     /// <summary>
     /// Check if the persistent manager scene is loaded, if not load it.
     /// </summary>
@@ -24,4 +28,5 @@ public class EditorSceneUtility : MonoBehaviour
             SceneLoader.SetOriginalScene();
         }
     }
+#endif
 }

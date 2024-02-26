@@ -9,6 +9,7 @@ namespace SebastianLague
 
 		[SerializeField] private bool _displayGridGizmos;
 		[SerializeField] private LayerMask _unwalkableMask;
+		[SerializeField] private LayerMask _interactableIsland;
 		[SerializeField] private Vector2 _gridWorldSize;
 		[SerializeField] private float _nodeRadius;
 		[SerializeField] private TerrainType[] _walkableRegions;
@@ -58,7 +59,7 @@ namespace SebastianLague
 				{
 					Vector3 worldPoint = worldBottomLeft + Vector3.right * (x * _nodeDiameter + _nodeRadius) + Vector3.forward * (y * _nodeDiameter + _nodeRadius);
 					bool walkable = !(Physics.CheckSphere(worldPoint,_nodeRadius,_unwalkableMask));
-
+					bool interactableIsland = (Physics.CheckSphere(worldPoint, _nodeRadius, _unwalkableMask));
 					int movementPenalty = 0;
 
 
@@ -75,7 +76,7 @@ namespace SebastianLague
 					}
 
 
-					_grid[x,y] = new Node(walkable,worldPoint, x,y, movementPenalty);
+					_grid[x,y] = new Node(walkable, interactableIsland, worldPoint, x,y, movementPenalty);
 				}
 			}
 
