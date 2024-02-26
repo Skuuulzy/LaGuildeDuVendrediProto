@@ -181,6 +181,7 @@ namespace DistantLands.Cozy.EditorScripts
             EditorGUILayout.EndHorizontal();
 
         }
+        
         private void CurrentInstanceGUI()
         {
             if (headUnit == null)
@@ -205,6 +206,7 @@ namespace DistantLands.Cozy.EditorScripts
                 editor = Editor.CreateEditor(headUnit);
 
         }
+        
         private void HomeGUI()
         {
 
@@ -255,6 +257,7 @@ namespace DistantLands.Cozy.EditorScripts
 
 
         }
+        
         private void SceneSetupGUI()
         {
 
