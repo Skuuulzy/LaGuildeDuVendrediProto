@@ -298,7 +298,7 @@ namespace DistantLands.Cozy
         void OnEnable()
         {
             transit = (CozyTransitModule)target;
-            if (transit.weatherSphere.timeModule)
+            if (transit.weatherSphere)
             prof = transit.weatherSphere.timeModule.perennialProfile;
         }
         
