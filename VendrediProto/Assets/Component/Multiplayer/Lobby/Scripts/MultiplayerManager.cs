@@ -369,6 +369,22 @@ namespace VComponent.Multiplayer
 
         #endregion FETCH LOBBIES
 
+        #region QUIT
+
+        public void QuitNetwork()
+        {
+            if (IsLobbyHost())
+            {
+                NetworkManager.Singleton.Shutdown();
+            }
+            
+            // Destroying instances
+            Destroy(NetworkManager.Singleton.gameObject);
+            Destroy(gameObject);
+        }
+
+        #endregion
+
         #region HELPERS METHODS
 
         /// <summary>

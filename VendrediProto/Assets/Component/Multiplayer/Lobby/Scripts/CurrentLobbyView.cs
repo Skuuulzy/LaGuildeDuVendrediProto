@@ -68,6 +68,7 @@ namespace VComponent.Multiplayer
         public void Quit()
         {
             // The scene loader does nor exist anymore ...
+            MultiplayerManager.Instance.QuitNetwork();
             SceneManager.LoadScene(0);
         }
     }
