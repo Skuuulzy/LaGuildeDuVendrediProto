@@ -1,9 +1,11 @@
+using System;
 using GDV.SceneLoader;
 using TMPro;
 using Unity.Services.Authentication;
 using Unity.Services.Lobbies.Models;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using VComponent.InputSystem;
 
 namespace VComponent.Multiplayer
 {
@@ -32,6 +34,18 @@ namespace VComponent.Multiplayer
         private void OnDestroy()
         {
             MultiplayerManager.OnLobbyPolled -= UpdateLobby;
+        }
+
+        private void Update()
+        {
+            if (InputsManager.Instance.ShowLobbyInformation)
+            {
+                _lobbyWindow.SetActive(true);
+            }
+            else
+            {
+                _lobbyWindow.SetActive(false);
+            }
         }
 
         private void ShowCurrentLobby(string lobbyName)

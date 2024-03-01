@@ -15,6 +15,7 @@ namespace VComponent.InputSystem
         [ShowInInspector] public int ZoomCamera { get; private set; }
         [ShowInInspector] public bool DragMovementCamera { get; private set; }
         [ShowInInspector] public bool DragRotationCamera { get; private set; }
+        [ShowInInspector] public bool ShowLobbyInformation { get; private set; }
     
         public void RequestShipMoveInput(InputAction.CallbackContext context)
         {
@@ -68,6 +69,11 @@ namespace VComponent.InputSystem
         {
             //Debug.Log($"Start drag: {context.started}, DragMovement: {context.performed}");
             DragRotationCamera = context.performed;
+        }
+
+        public void ShowLobbyInformationInput(InputAction.CallbackContext context)
+        {
+            ShowLobbyInformation = context.performed;
         }
     }
 }

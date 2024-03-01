@@ -5406,11 +5406,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: InputManager
       objectReference: {fileID: 0}
-    - target: {fileID: 2699928719050738305, guid: 5e92ea12a22770445b20cfd3b4d51e60,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 7627977631806514490, guid: 5e92ea12a22770445b20cfd3b4d51e60,
         type: 3}
       propertyPath: m_LocalPosition.x
