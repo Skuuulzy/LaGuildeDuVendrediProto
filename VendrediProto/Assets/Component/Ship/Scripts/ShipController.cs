@@ -7,9 +7,11 @@ public class ShipController : MonoBehaviour
 	[SerializeField] private PlayerUIIslandCommerceController _playerUIIslandCommerceController;
 	private MerchandiseType _currentMerchandiseCarriedType;
 	private int _currentMerchandiseCarriedNumber;
+	private PlayerUIIslandInfoController _playerUIIslandInfoController;
 
 	public MerchandiseType CurrentMerchandiseCarriedType => _currentMerchandiseCarriedType;
 	public int CurrentMerchandiseCarriedNumber => _currentMerchandiseCarriedNumber;
+	
 
 	#region INTERACTIONS
 	private void OnTriggerEnter(Collider other)
@@ -17,7 +19,7 @@ public class ShipController : MonoBehaviour
 		IslandController islandController = other.gameObject.GetComponent<IslandController>();
 		if (islandController != null)
 		{
-			_playerUIIslandCommerceController.SetPlayerUIIslandInfo(islandController, this);
+			 _playerUIIslandInfoController = _playerUIIslandCommerceController.SetPlayerUIIslandInfo(islandController, this);
 		}
 	}
 
@@ -26,7 +28,7 @@ public class ShipController : MonoBehaviour
 		IslandController islandController = other.gameObject.GetComponent<IslandController>();
 		if (islandController != null)
 		{
-			_playerUIIslandCommerceController.CloseIslandDetailUI(islandController);
+			_playerUIIslandCommerceController.CloseIslandDetailUI(_playerUIIslandInfoController);
 		}
 	}
 	#endregion INTERACTIONS

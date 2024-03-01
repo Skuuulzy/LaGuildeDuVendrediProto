@@ -1,3 +1,4 @@
+using Cysharp.Threading.Tasks.Triggers;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -8,26 +9,29 @@ public class PlayerUIIslandCommerceController : MonoBehaviour
 	[SerializeField] private PlayerUIIslandInfoController _playerUIIslandInfoControllerPrefab;
 	[SerializeField] private Transform _parentTransform;
 
-	private Dictionary<IslandController ,PlayerUIIslandInfoController> _playerUIIslandInfoControllersDictionary;
+	private List<PlayerUIIslandInfoController> _playerUIIslandInfoControllersList;
 
 	private void Start()
 	{
-		_playerUIIslandInfoControllersDictionary = new Dictionary<IslandController, PlayerUIIslandInfoController>();
+		_playerUIIslandInfoControllersList = new List<PlayerUIIslandInfoController>();
 	}
-	public void SetPlayerUIIslandInfo(IslandController islandController, ShipController shipController)
+	public PlayerUIIslandInfoController SetPlayerUIIslandInfo(IslandController islandController, ShipController shipController)
 	{
 		PlayerUIIslandInfoController playerUIIslandInfoController = Instantiate(_playerUIIslandInfoControllerPrefab, _parentTransform);
-		_playerUIIslandInfoControllerPrefab.Init(islandController, shipController);
+		playerUIIslandInfoController.Init(islandController, shipController);
+		_playerUIIslandInfoControllersList.Add(playerUIIslandInfoController);
+		return playerUIIslandInfoController;
 	}
 
-	public void CloseIslandDetailUI(IslandController islandController)
+	public void CloseIslandDetailUI(PlayerUIIslandInfoController playerUIIslandInfoController)
 	{
-		foreach(var controller in _playerUIIslandInfoControllersDictionary)
+		for(int i = 0; i <  _playerUIIslandInfoControllersList.Count; i++)
 		{
-			if(controller.Key == islandController)
+			if (_playerUIIslandInfoControllersList[i] == playerUIIslandInfoController)
 			{
-				Destroy(_playerUIIslandInfoControllersDictionary[controller.Key]);
-				return;
+				PlayerUIIslandInfoController playerUItemp = _playerUIIslandInfoControllersList[i];
+				_playerUIIslandInfoControllersList.Remove(playerUIIslandInfoController);
+				Destroy(playerUItemp.gameObject);
 			}
 		}
 	}
