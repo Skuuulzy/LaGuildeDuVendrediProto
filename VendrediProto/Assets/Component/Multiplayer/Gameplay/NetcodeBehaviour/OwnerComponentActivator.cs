@@ -1,4 +1,6 @@
+using System;
 using System.Collections.Generic;
+using SebastianLague;
 using Unity.Netcode;
 using UnityEngine;
 
@@ -6,15 +8,17 @@ namespace VComponent.Multiplayer
 {
     public class OwnerComponentActivator : NetworkBehaviour
     {
-        [SerializeField] private List<MonoBehaviour> _componentsToDeactivate;
+        [SerializeField] private List<MonoBehaviour> _ownerComponents;
         
-        private void Awake()
+        public override void OnNetworkSpawn()
         {
-            if (!IsOwner)
+            base.OnNetworkSpawn();
+            
+            if (IsOwner)
             {
-                foreach (var component in _componentsToDeactivate)
+                foreach (var component in _ownerComponents)
                 {
-                    component.enabled = false;
+                    component.enabled = true;
                 }
             }
         }

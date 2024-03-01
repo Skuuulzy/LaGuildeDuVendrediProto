@@ -21,9 +21,15 @@ namespace SebastianLague
 		public float TurnDst => _turnDst;
 		public float StoppingDst => _stoppingDst;
 
+		private bool _initialized;
 
-		void Start() 
+		public void Init()
 		{
+			if (_initialized)
+			{
+				return;
+			}
+			
 			if (_planeTransform == null)
 			{
 				_planeTransform = GameObject.FindGameObjectWithTag("PathFindingPlane").transform;
@@ -32,10 +38,17 @@ namespace SebastianLague
 			_position = transform.position;
 			_plane = new Plane(_planeTransform.up, _planeTransform.position);
 			StartCoroutine(UpdatePath());
+
+			_initialized = true;
 		}
 
 		private void Update()
 		{
+			if (!_initialized)
+			{
+				Init();
+			}
+			
 			if (Input.GetMouseButton(0))
 			{
 				Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
