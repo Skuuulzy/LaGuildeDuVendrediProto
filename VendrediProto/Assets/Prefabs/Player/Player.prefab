@@ -49,7 +49,7 @@ MonoBehaviour:
   _turnSpeed: 3
   _turnDst: 5
   _stoppingDst: 10
-  _planeTransform: {fileID: 0}
+  _inputs: {fileID: 0}
 --- !u!1001 &8000915117588624771
 PrefabInstance:
   m_ObjectHideFlags: 0

@@ -1,12 +1,13 @@
-using System;
 using System.Collections.Generic;
-using SebastianLague;
 using Unity.Netcode;
 using UnityEngine;
 
 namespace VComponent.Multiplayer
 {
-    public class OwnerComponentActivator : NetworkBehaviour
+    /// <summary>
+    /// This class destroy owner components when the network spawn on all instances where the client is not the owner.
+    /// </summary>
+    public class OwnerComponentManager : NetworkBehaviour
     {
         [SerializeField] private List<MonoBehaviour> _ownerComponents;
         
@@ -14,11 +15,11 @@ namespace VComponent.Multiplayer
         {
             base.OnNetworkSpawn();
             
-            if (IsOwner)
+            if (!IsOwner)
             {
                 foreach (var component in _ownerComponents)
                 {
-                    component.enabled = true;
+                    component.enabled = false;
                 }
             }
         }

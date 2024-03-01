@@ -61,14 +61,20 @@ PrefabInstance:
     - target: {fileID: 1618153209122777404, guid: 1c471ccbf44671b439fb794f72e10afb,
         type: 3}
       propertyPath: m_Enabled
-      value: 0
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1810462773743339317, guid: 1c471ccbf44671b439fb794f72e10afb,
+        type: 3}
+      propertyPath: m_DefaultControlScheme
+      value: KeyboardMouse
       objectReference: {fileID: 0}
     - target: {fileID: 7673686761778577729, guid: 1c471ccbf44671b439fb794f72e10afb,
         type: 3}
       propertyPath: m_Name
       value: OnlinePlayer
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 1810462773743339317, guid: 1c471ccbf44671b439fb794f72e10afb, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents:
@@ -105,7 +111,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _ownerComponents:
   - {fileID: 8688631479338534651}
-  _unit: {fileID: 8688631479338534651}
 --- !u!114 &443991979402461411
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -163,7 +168,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 7989646937318748103}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 332849644814331526}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: f405937fb69e244198911aebaac9bf00, type: 3}
   m_Name: 

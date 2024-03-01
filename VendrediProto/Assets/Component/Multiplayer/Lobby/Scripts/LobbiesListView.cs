@@ -75,7 +75,7 @@ namespace VComponent.Multiplayer
             {
                 var lobbyListSingleUI = Instantiate(_lobbySinglePrefab, _lobbyListContainer);
                 lobbyListSingleUI.gameObject.SetActive(true);
-                lobbyListSingleUI.SetLobbyView(lobby);
+                lobbyListSingleUI.SetLobbyView(lobby, this);
             }
         }
         
@@ -103,7 +103,7 @@ namespace VComponent.Multiplayer
         
         #region LOADING
 
-        private void ShowLoading(bool show)
+        public void ShowLoading(bool show)
         {
             _loadingWindow.SetActive(show);
         }

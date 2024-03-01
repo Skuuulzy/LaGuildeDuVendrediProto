@@ -99,6 +99,14 @@ namespace VComponent.Multiplayer
 
         public string GetPlayerName()
         {
+#if UNITY_EDITOR
+            if (ParrelSync.ClonesManager.IsClone())
+            {
+                _playerName = $"Clone{Random.Range(0, 1000)}";
+                return _playerName;
+            }
+#endif
+            
             if (PlayerPrefs.HasKey(MULTIPLAYER_ID_KEY))
             {
                 _playerName = PlayerPrefs.GetString(MULTIPLAYER_ID_KEY);
