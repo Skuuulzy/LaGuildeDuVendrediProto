@@ -65,6 +65,11 @@ namespace VComponent.Multiplayer
         private void UpdateLobbyList(List<Lobby> lobbyList)
         {
             ClearLobbyList();
+
+            if (lobbyList == null)
+            {
+                return;
+            }
             
             foreach (Lobby lobby in lobbyList)
             {
