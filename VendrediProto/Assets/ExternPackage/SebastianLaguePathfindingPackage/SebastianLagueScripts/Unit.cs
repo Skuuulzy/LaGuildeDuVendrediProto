@@ -24,6 +24,11 @@ namespace SebastianLague
 
 		void Start() 
 		{
+			if (_planeTransform == null)
+			{
+				_planeTransform = GameObject.FindGameObjectWithTag("PathFindingPlane").transform;
+			}
+            
 			_position = transform.position;
 			_plane = new Plane(_planeTransform.up, _planeTransform.position);
 			StartCoroutine(UpdatePath());

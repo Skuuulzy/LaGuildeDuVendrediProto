@@ -230,7 +230,6 @@ MonoBehaviour:
   _autoUnParentOnAwake: 1
   _lobbyName: Lobby
   _maxPlayers: 4
-  _minPlayerCountToPlay: 2
   _encryption: 0
   _currentLobbyScene:
     asset: {fileID: 102900000, guid: 49417717f5f020344ba863982e8e38e1, type: 3}
@@ -3518,7 +3517,8 @@ MonoBehaviour:
     PlayerPrefab: {fileID: 332849644814331526, guid: 8eff6b8991bc3f9479faa5168c6c2f2a,
       type: 3}
     Prefabs:
-      NetworkPrefabsLists: []
+      NetworkPrefabsLists:
+      - {fileID: 11400000, guid: a01412d7daae28e4db85db55170ab124, type: 2}
     TickRate: 30
     ClientConnectionBufferTimeout: 10
     ConnectionApproval: 0
