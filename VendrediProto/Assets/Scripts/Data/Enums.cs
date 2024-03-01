@@ -6,7 +6,7 @@ public enum ItemsType
 	WATER
 }
 
-public enum TribesType
+public enum FactionTypes
 {
 	MONKEYTRIBE,
 	CROCODILETRIBE,

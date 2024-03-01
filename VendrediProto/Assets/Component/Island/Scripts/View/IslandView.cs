@@ -33,4 +33,5 @@ public class IslandView : MonoBehaviour
 		_merchandiseToSellImage.sprite = _spriteByMerchandiseType[currentMerchandiseToSell];
 		_merchandiseToSellText.text = currentMerchandiseToSellValue.ToString();
 	}
+
 }

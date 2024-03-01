@@ -15,6 +15,9 @@ public class IslandController : MonoBehaviour
 	private int _currentMerchandiseToSellValue;
 	private bool _isGivingAMerchandise;
 
+	public IslandSO IslandSO => _islandSO;
+	public MerchandiseType CurrentMerchandiseAsked => _currentMerchandiseAsked;
+	public int CurrentMerchandiseAskedValue => _currentMerchandiseAskedValue;
 	private void Start()
 	{
 		InitIslandStat();
@@ -103,4 +106,16 @@ public class IslandController : MonoBehaviour
 		_islandView.DisplayMerchandiseToSell(_currentMerchandiseToSell, _currentMerchandiseToSellValue);
 	}
 	#endregion MERCHANDISES MANAGEMENT
+
+	#region INTERACTIONS
+	//public void OpenIslandDetailsUI(ShipController shipController)
+	//{
+
+	//}
+
+	//public void CloseIslandDetailUI()
+	//{
+
+	//}
+	#endregion INTERACTIONS
 }
