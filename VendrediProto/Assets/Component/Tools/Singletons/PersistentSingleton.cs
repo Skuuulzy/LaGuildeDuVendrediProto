@@ -60,7 +60,7 @@ namespace VComponent.Tools.Singletons
             {
                 if (_instance != this)
                 {
-                    Debug.LogWarning($"There was already an instance of {typeof(T).Name} new initialization abort and doublon destroyed.");
+                    //Debug.LogWarning($"There was already an instance of {typeof(T).Name} new initialization abort and doublon destroyed.");
                     Destroy(gameObject);
                 }
             }

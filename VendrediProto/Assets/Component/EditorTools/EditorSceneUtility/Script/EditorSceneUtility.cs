@@ -25,7 +25,7 @@ public class EditorSceneUtility : MonoBehaviour
         if (!ExtensionMethods.LoadedSceneNames().Contains("PersistentManager"))
         {
             SceneManager.LoadScene("PersistentManager", LoadSceneMode.Additive);
-            SceneLoader.SetOriginalScene();
+            //HybridSceneManager.SetOriginalScene();
         }
     }
 #endif

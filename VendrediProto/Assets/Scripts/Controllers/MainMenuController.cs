@@ -5,20 +5,20 @@ public class MainMenuController : MonoBehaviour
 {
     public void LoadCharacterControlScene()
     {
-        SceneLoader.OnLoadScene?.Invoke(SceneLoader.SceneIdentifier.CHARACTER_CONTROL);
+        HybridSceneManager.Instance.LoadScene(HybridSceneManager.SceneIdentifier.CHARACTER_CONTROL);
     }
     
     public void LoadInteractionExampleScene()
     {
-        SceneLoader.OnLoadScene?.Invoke(SceneLoader.SceneIdentifier.INTERACTION_EXAMPLE);
+        HybridSceneManager.Instance.LoadScene(HybridSceneManager.SceneIdentifier.INTERACTION_EXAMPLE);
     }
     public void LoadMapTestScene()
     {
-        SceneLoader.OnLoadScene?.Invoke(SceneLoader.SceneIdentifier.MAP_TEST);
+        HybridSceneManager.Instance.LoadScene(HybridSceneManager.SceneIdentifier.MAP_TEST);
     }
     
     public void LoadMultiplayerLobby()
     {
-        SceneLoader.OnLoadScene?.Invoke(SceneLoader.SceneIdentifier.MULTIPLAYER_LOBBY);
+        HybridSceneManager.Instance.LoadScene(HybridSceneManager.SceneIdentifier.MULTIPLAYER_LOBBY);
     }
 }

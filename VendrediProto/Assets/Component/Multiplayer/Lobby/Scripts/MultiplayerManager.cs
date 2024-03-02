@@ -331,7 +331,7 @@ namespace VComponent.Multiplayer
         private void HandlePlayerKickedFromLobby()
         {
             Debug.Log("You have been kicked from the lobby !");
-            SceneLoader.OnLoadScene?.Invoke(SceneLoader.SceneIdentifier.MAIN_MENU);
+            HybridSceneManager.Instance.LoadScene(HybridSceneManager.SceneIdentifier.MAIN_MENU);
         }
 
         #endregion QUIT LOBBY
