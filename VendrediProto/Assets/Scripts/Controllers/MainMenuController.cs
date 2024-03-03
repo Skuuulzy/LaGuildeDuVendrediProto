@@ -1,20 +1,15 @@
-using GDV.SceneLoader;
 using UnityEngine;
+using VComponent.SceneLoader;
 
 public class MainMenuController : MonoBehaviour
 {
-    public void LoadCharacterControlScene()
+    public void LoadMapArtScene()
     {
-        HybridSceneLoader.Instance.TransitionTo(HybridSceneLoader.SceneIdentifier.CHARACTER_CONTROL);
+        HybridSceneLoader.Instance.TransitionTo(HybridSceneLoader.SceneIdentifier.MAP_ART);
     }
-    
-    public void LoadInteractionExampleScene()
+    public void LoadMapDevScene()
     {
-        HybridSceneLoader.Instance.TransitionTo(HybridSceneLoader.SceneIdentifier.INTERACTION_EXAMPLE);
-    }
-    public void LoadMapTestScene()
-    {
-        HybridSceneLoader.Instance.TransitionTo(HybridSceneLoader.SceneIdentifier.MAP_TEST);
+        HybridSceneLoader.Instance.TransitionTo(HybridSceneLoader.SceneIdentifier.MAP_DEV);
     }
     
     public void LoadMultiplayerLobby()

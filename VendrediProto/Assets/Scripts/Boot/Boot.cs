@@ -1,8 +1,6 @@
 using Cysharp.Threading.Tasks;
-using GDV.SceneLoader;
-using MyGameDevTools.SceneLoading;
-using MyGameDevTools.SceneLoading.UniTaskSupport;
 using UnityEngine;
+using VComponent.SceneLoader;
 
 public class Boot : MonoBehaviour
 {

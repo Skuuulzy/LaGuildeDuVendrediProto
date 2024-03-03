@@ -1,5 +1,5 @@
-using GDV.SceneLoader;
 using UnityEngine;
+using VComponent.SceneLoader;
 
 public class ToMenuButton : MonoBehaviour
 {

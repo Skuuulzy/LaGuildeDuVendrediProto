@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using GDV.SceneLoader;
 using Unity.Netcode;
 using Unity.Services.Authentication;
 using Unity.Services.Core;
@@ -10,6 +9,7 @@ using Unity.Services.Lobbies.Models;
 using Unity.Services.Relay;
 using Unity.Services.Relay.Models;
 using UnityEngine;
+using VComponent.SceneLoader;
 using VComponent.Tools.Singletons;
 using VComponent.Tools.Timer;
 using Random = UnityEngine.Random;
@@ -180,7 +180,7 @@ namespace VComponent.Multiplayer
         
         public string GetLobbyName()
         {
-            if (_lobbyName == string.Empty)
+            if (_lobbyName == null)
             {
                 _lobbyName = $"PirateParty{Random.Range(0, 1000)}";
             }

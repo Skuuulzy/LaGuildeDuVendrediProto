@@ -1,5 +1,3 @@
-using System;
-using GDV.SceneLoader;
 using TMPro;
 using Unity.Services.Authentication;
 using Unity.Services.Lobbies.Models;

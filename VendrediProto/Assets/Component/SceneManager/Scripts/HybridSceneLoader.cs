@@ -1,4 +1,3 @@
-using System;
 using System.Collections;
 using Cysharp.Threading.Tasks;
 using Eflatun.SceneReference;
@@ -10,7 +9,7 @@ using UnityEngine.SceneManagement;
 using VComponent.Tools.Singletons;
 using SceneManager = MyGameDevTools.SceneLoading.SceneManager;
 
-namespace GDV.SceneLoader
+namespace VComponent.SceneLoader
 {
     public class HybridSceneLoader : PersistentSingleton<HybridSceneLoader>
     {
@@ -22,6 +21,7 @@ namespace GDV.SceneLoader
         private static Scene _originalScene;
 
         private bool _localLoadScreenIsLoaded;
+        private bool _localLoadScreenIsListening;
         private LoadingBehavior _localLoadingBehavior;
 
         private LoadSceneInfoName LoadingScreenReference => GetSceneReference(SceneIdentifier.LOADING_SCREEN);
@@ -32,9 +32,8 @@ namespace GDV.SceneLoader
         {
             MAIN_MENU,
             LOADING_SCREEN,
-            CHARACTER_CONTROL,
-            INTERACTION_EXAMPLE,
-            MAP_TEST,
+            MAP_ART,
+            MAP_DEV,
             MULTIPLAYER_LOBBY,
             MULTIPLAYER_GAMEPLAY
         }
@@ -59,27 +58,6 @@ namespace GDV.SceneLoader
         #endregion
 
         #region LOCAL SCENE LOAD METHODS
-
-        private async UniTask LoadLocalLoadingScreen()
-        {
-            if (_localLoadScreenIsLoaded)
-            {
-                return;
-            }
-
-            _localLoadScreenIsLoaded = true;
-            
-            await _sceneLoader.LoadSceneAsync(LoadingScreenReference);
-            await UniTask.WaitForEndOfFrame(this);
-            
-            _localLoadingBehavior = FindObjectOfType<LoadingBehavior>();
-        }
-        
-        private async void UnLoadLocalLoadingScreen()
-        {
-            await _sceneLoader.UnloadSceneAsync(LoadingScreenReference);
-            _localLoadScreenIsLoaded = false;
-        }
         
         public async void TransitionTo(SceneIdentifier identifier)
         {
@@ -122,51 +100,10 @@ namespace GDV.SceneLoader
             
             // We do not need to unload the local loading screen since the network scene manager unload all local scenes.
         }
-
-        private void HandleHostNetworkLoadEvents(SceneEvent sceneEvent)
-        {
-            Debug.Log($"Here with event {sceneEvent.SceneEventType} for scene {sceneEvent.SceneName}");
-            
-            switch (sceneEvent.SceneEventType)
-            {
-                case SceneEventType.Load:
-                    StartCoroutine(ReportNetworkLoadProgress(sceneEvent.AsyncOperation));
-                    Debug.Log("On load");
-                    break;
-            }
-        }
         
-        private async void HandleClientNetworkLoadEvents(SceneEvent sceneEvent)
-        {
-            Debug.Log($"Here with event {sceneEvent.SceneEventType} for scene {sceneEvent.SceneName}");
-            
-            switch (sceneEvent.SceneEventType)
-            {
-                case SceneEventType.Synchronize:
-                    await LoadLocalLoadingScreen();
-                    break;
-                case SceneEventType.SynchronizeComplete:
-                    //UnLoadLocalLoadingScreen();
-                    break;
-                case SceneEventType.Load:
-                    StartCoroutine(ReportNetworkLoadProgress(sceneEvent.AsyncOperation));
-                    Debug.Log("On load");
-                    break;
-            }
-        }
+        #endregion NETWORK SCENE LOAD METHODS
 
-        private IEnumerator ReportNetworkLoadProgress(AsyncOperation loadOperation)
-        {
-            while (!loadOperation.isDone)
-            {
-                Debug.Log($"Progress on load: {loadOperation.progress}");
-                if (_localLoadingBehavior != null)
-                {
-                    _localLoadingBehavior.Progress?.Report(loadOperation.progress);
-                }
-                yield return null;
-            }
-        }
+        #region NETWORK SCENE LOAD CALLBACKS
 
         /// <summary>
         /// Start to listen to Scene Event on the Network Scene Manager, to display loading information.
@@ -197,7 +134,77 @@ namespace GDV.SceneLoader
                 NetworkManager.Singleton.SceneManager.OnSceneEvent -= HandleHostNetworkLoadEvents;
             }
         }
+        
+        private void HandleHostNetworkLoadEvents(SceneEvent sceneEvent)
+        {
+            switch (sceneEvent.SceneEventType)
+            {
+                case SceneEventType.Load:
+                    StartCoroutine(ReportNetworkLoadProgress(sceneEvent.AsyncOperation));
+                    break;
+                case SceneEventType.LoadEventCompleted :
+                    _localLoadScreenIsLoaded = false;
+                    _localLoadScreenIsListening = false;
+                    break;
+            }
+        }
+        
+        private async void HandleClientNetworkLoadEvents(SceneEvent sceneEvent)
+        {
+            switch (sceneEvent.SceneEventType)
+            {
+                case SceneEventType.Synchronize:
+                    await LoadLocalLoadingScreen();
+                    break;
+                case SceneEventType.Load:
+                    StartCoroutine(ReportNetworkLoadProgress(sceneEvent.AsyncOperation));
+                    break;
+                case SceneEventType.LoadEventCompleted :
+                    _localLoadScreenIsLoaded = false;
+                    _localLoadScreenIsListening = false;
+                    break;
+            }
+        }
 
-        #endregion NETWORK SCENE LOAD METHODS
+        #endregion
+
+        #region LOCAL LOADING SCREEN
+
+        /// <summary>
+        /// Load a local loading screen. Only used for network load !
+        /// Local load automatically handle the loading screen behavior.
+        /// </summary>
+        private async UniTask LoadLocalLoadingScreen()
+        {
+            if (_localLoadScreenIsLoaded)
+            {
+                return;
+            }
+
+            _localLoadScreenIsLoaded = true;
+            
+            await _sceneLoader.LoadSceneAsync(LoadingScreenReference);
+            await UniTask.WaitForEndOfFrame(this);
+            
+            _localLoadingBehavior = FindObjectOfType<LoadingBehavior>();
+            if (_localLoadingBehavior != null)
+            {
+                _localLoadScreenIsListening = true;
+            }
+        }
+        
+        private IEnumerator ReportNetworkLoadProgress(AsyncOperation loadOperation)
+        {
+            while (!loadOperation.isDone)
+            {
+                if (_localLoadScreenIsListening)
+                {
+                    _localLoadingBehavior.Progress?.Report(loadOperation.progress);
+                }
+                yield return null;
+            }
+        }
+
+        #endregion LOCAL LOADING SCREEN
     }
 }
