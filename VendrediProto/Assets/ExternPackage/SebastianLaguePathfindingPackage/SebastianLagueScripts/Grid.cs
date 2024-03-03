@@ -80,7 +80,7 @@ namespace SebastianLague
 				}
 			}
 
-			BlurPenaltyMap (3);
+			BlurPenaltyMap(12);
 
 		}
 

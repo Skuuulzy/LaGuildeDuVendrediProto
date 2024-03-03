@@ -1561,8 +1561,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _speed: 50
-  _turnSpeed: 6
-  _turnDst: 32
+  _turnSpeed: 5
+  _turnDst: 25
   _stoppingDst: 25
   _planeTransform: {fileID: 1014692958}
 --- !u!4 &1014692958 stripped
