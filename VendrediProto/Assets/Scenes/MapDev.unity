@@ -2775,6 +2775,11 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 703181643467452455, guid: 8336ef2844f99ca47a788d64f7efa5fa,
+        type: 3}
+      propertyPath: _displayGridGizmos
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 3923550530325435626, guid: 8336ef2844f99ca47a788d64f7efa5fa,
         type: 3}
       propertyPath: m_Name

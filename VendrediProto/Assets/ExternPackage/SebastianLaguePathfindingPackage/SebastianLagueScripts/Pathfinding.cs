@@ -74,6 +74,13 @@ namespace SebastianLague
 				}
 			}
 
+			if (!targetNode.Walkable)
+			{
+                UnityEngine.Debug.Log("ISLAND");
+
+
+			}
+
 			if (pathSuccess) 
 			{
 				waypoints = RetracePath(startNode,targetNode);

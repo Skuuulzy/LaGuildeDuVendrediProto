@@ -57,7 +57,7 @@ namespace SebastianLague
 		{
 			if(_position != null)
 			{
-
+				
 				if (Time.timeSinceLevelLoad < .3f)
 				{
 					yield return new WaitForSeconds(.3f);
@@ -74,7 +74,8 @@ namespace SebastianLague
 
 					if ((_position - targetPosOld).sqrMagnitude > sqrMoveThreshold)
 					{
-						PathRequestManager.RequestPath(new PathRequest(transform.position, _position, OnPathFound));
+                        Debug.Log("Update path");
+                        PathRequestManager.RequestPath(new PathRequest(transform.position, _position, OnPathFound));
 						targetPosOld = _position;
 					}
 				}
