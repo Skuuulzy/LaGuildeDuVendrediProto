@@ -17,6 +17,6 @@ public class Boot : MonoBehaviour
         await UniTask.WaitForEndOfFrame(this);
         
         // Then we use the scene loader to load the main menu.
-        HybridSceneManager.Instance.LoadScene(HybridSceneManager.SceneIdentifier.MAIN_MENU);
+        HybridSceneLoader.Instance.TransitionTo(HybridSceneLoader.SceneIdentifier.MAIN_MENU);
     }
 }

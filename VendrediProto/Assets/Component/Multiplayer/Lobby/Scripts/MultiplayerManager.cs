@@ -200,8 +200,8 @@ namespace VComponent.Multiplayer
                 }
 
                 NetworkManager.Singleton.GetComponent<UnityTransport>().SetRelayServerData(new RelayServerData(allocation, ConnectionType));
-
-                NetworkManager.Singleton.StartHost();
+                
+                StartHost();
                 
                 LoadCurrentLobbyScene();
             }
@@ -249,7 +249,7 @@ namespace VComponent.Multiplayer
             
                 _pollForUpdatesTimer.Start();
 
-                NetworkManager.Singleton.StartClient();
+                StartClient();
             }
             catch (Exception e)
             {
@@ -331,7 +331,7 @@ namespace VComponent.Multiplayer
         private void HandlePlayerKickedFromLobby()
         {
             Debug.Log("You have been kicked from the lobby !");
-            HybridSceneManager.Instance.LoadScene(HybridSceneManager.SceneIdentifier.MAIN_MENU);
+            HybridSceneLoader.Instance.TransitionTo(HybridSceneLoader.SceneIdentifier.MAIN_MENU);
         }
 
         #endregion QUIT LOBBY
@@ -392,6 +392,36 @@ namespace VComponent.Multiplayer
         }
 
         #endregion
+
+        #region HOST
+
+        private void StartHost()
+        {
+            NetworkManager.Singleton.StartHost();
+            HybridSceneLoader.Instance.ListenNetworkLoading(false);
+        }
+
+        public void StopHost()
+        {
+            HybridSceneLoader.Instance.UnListenNetworkLoading(false);
+        }
+
+        #endregion HOST
+
+        #region CLIENT
+
+        private void StartClient()
+        {
+            NetworkManager.Singleton.StartClient();
+            HybridSceneLoader.Instance.ListenNetworkLoading(true);
+        }
+
+        public void StopClient()
+        {
+            HybridSceneLoader.Instance.UnListenNetworkLoading(true);
+        }
+
+        #endregion CLIENT
 
         #region HELPERS METHODS
 
@@ -541,7 +571,7 @@ namespace VComponent.Multiplayer
                 return;
             }
             
-            MultiplayerSceneLoader.LoadNetwork(_currentLobbyScene);
+            HybridSceneLoader.Instance.LoadNetworkScene(HybridSceneLoader.SceneIdentifier.MULTIPLAYER_GAMEPLAY);
         }
 
         #endregion HELPERS METHODS

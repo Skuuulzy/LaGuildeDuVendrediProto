@@ -66,3 +66,7 @@ MonoBehaviour:
       m_value:
         asset: {fileID: 102900000, guid: 5608086c7bf37974ba050409944ddfcc, type: 3}
         guid: 5608086c7bf37974ba050409944ddfcc
+    - m_key: 6
+      m_value:
+        asset: {fileID: 102900000, guid: 49417717f5f020344ba863982e8e38e1, type: 3}
+        guid: 49417717f5f020344ba863982e8e38e1
