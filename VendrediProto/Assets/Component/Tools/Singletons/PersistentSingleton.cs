@@ -8,8 +8,7 @@ namespace VComponent.Tools.Singletons
     [DefaultExecutionOrder(-95)]
     public class PersistentSingleton<T> : MonoBehaviour where T : Component
     {
-        [Header("Singleton")]
-        [SerializeField] private bool _autoUnParentOnAwake = true;
+        private readonly bool _autoUnParentOnAwake = true;
 
         private static T _instance;
 
@@ -25,6 +24,7 @@ namespace VComponent.Tools.Singletons
                     _instance = FindAnyObjectByType<T>();
                     if (_instance == null)
                     {
+                        Debug.LogWarning($"There was no instance of of {typeof(T).Name} and yet someone try to call it. An new instance has been set but singletons should always be present.");
                         var go = new GameObject(typeof(T).Name + " Auto-Generated");
                         _instance = go.AddComponent<T>();
                     }
@@ -60,6 +60,7 @@ namespace VComponent.Tools.Singletons
             {
                 if (_instance != this)
                 {
+                    //Debug.LogWarning($"There was already an instance of {typeof(T).Name} new initialization abort and doublon destroyed.");
                     Destroy(gameObject);
                 }
             }
