@@ -16,7 +16,7 @@ namespace VComponent.Multiplayer
         {
             _player = player;
             
-            _playerNameText.text = player.Data[MultiplayerManager.KEY_PLAYER_NAME].Value;
+            _playerNameText.text = player.Data[MultiplayerConnectionManager.KEY_PLAYER_NAME].Value;
             
             _kickPlayerButton.gameObject.SetActive(allowKick);
         }
@@ -25,7 +25,7 @@ namespace VComponent.Multiplayer
         {
             if (_player != null)
             {
-                MultiplayerManager.Instance.KickPlayerFromLobby(_player.Id);
+                MultiplayerConnectionManager.Instance.KickPlayerFromLobby(_player.Id);
             }
         }
     }

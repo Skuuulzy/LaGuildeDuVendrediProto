@@ -12,12 +12,12 @@ namespace VComponent.Multiplayer
 
         private void Awake()
         {
-            MultiplayerManager.OnTaskFailed += HandleTaskFailed;
+            MultiplayerConnectionManager.OnTaskFailed += HandleTaskFailed;
         }
 
         private void OnDestroy()
         {
-            MultiplayerManager.OnTaskFailed -= HandleTaskFailed;
+            MultiplayerConnectionManager.OnTaskFailed -= HandleTaskFailed;
         }
 
         private void HandleTaskFailed(string errorTitle ,string errorDetails)

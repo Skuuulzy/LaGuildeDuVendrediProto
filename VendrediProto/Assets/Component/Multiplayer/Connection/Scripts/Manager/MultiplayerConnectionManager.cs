@@ -1,11 +1,8 @@
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using Eflatun.SceneReference;
 using GDV.SceneLoader;
 using Unity.Netcode;
-using Unity.Netcode.Transports.UTP;
-using Unity.Networking.Transport.Relay;
 using Unity.Services.Authentication;
 using Unity.Services.Core;
 using Unity.Services.Lobbies;
@@ -19,15 +16,11 @@ using Random = UnityEngine.Random;
 
 namespace VComponent.Multiplayer
 {
-    public class MultiplayerManager : PersistentSingleton<MultiplayerManager>
+    public partial class MultiplayerConnectionManager : PersistentSingleton<MultiplayerConnectionManager>
     {
         [Header("Parameters")]
-        [SerializeField] private string _lobbyName = "Lobby";
         [SerializeField] private int _maxPlayers = 4;
         [SerializeField] private EncryptionType _encryption = EncryptionType.DTLS;
-        
-        [Header("References")]
-        [SerializeField] private SceneReference _currentLobbyScene;
         
         #region CONST VAR
 
@@ -47,6 +40,7 @@ namespace VComponent.Multiplayer
 
         #endregion CONST VAR
         
+        private string _lobbyName;
         private Lobby _currentLobby;
         private string _playerId;
         private string _playerName;
@@ -158,137 +152,6 @@ namespace VComponent.Multiplayer
 
         #endregion AUTHENTICATION
 
-        #region LOBBY CREATION
-
-        /// <summary>
-        /// Create a public lobby.
-        /// </summary>
-        /// <param name="useRelayCode">Do you want to use a join code to access to it ?</param>
-        /// <remarks>If you use a relay join code the lobby won't be visible from the lobby list.</remarks>
-        public async Task CreateLobby(bool useRelayCode)
-        {
-            try
-            {
-                Allocation allocation = await AllocateRelay();
-
-                CreateLobbyOptions options = new CreateLobbyOptions
-                {
-                    Player = GetPlayer(),
-                    // The lobby is public.
-                    IsPrivate = false
-                };
-
-                _currentLobby = await LobbyService.Instance.CreateLobbyAsync(_lobbyName, _maxPlayers, options);
-                Debug.Log("Created lobby: " + _currentLobby.Name + " with code " + _currentLobby.LobbyCode);
-
-                // Starting heartbeats for lobby heartbeat and pool updates for the lobby
-                _heartbeatTimer.Start();
-                _pollForUpdatesTimer.Start();
-
-                // Setup the lobby with the relay join code.
-                if (useRelayCode)
-                {
-                    string relayJoinCode = await GetRelayJoinCode(allocation);
-
-                    await LobbyService.Instance.UpdateLobbyAsync(_currentLobby.Id, new UpdateLobbyOptions
-                    {
-                        Data = new Dictionary<string, DataObject>
-                        {
-                            { KEY_JOIN_CODE, new DataObject(DataObject.VisibilityOptions.Member, relayJoinCode) }
-                        }
-                    });
-                }
-
-                NetworkManager.Singleton.GetComponent<UnityTransport>().SetRelayServerData(new RelayServerData(allocation, ConnectionType));
-                
-                StartHost();
-                
-                LoadCurrentLobbyScene();
-            }
-            catch (LobbyServiceException e)
-            {
-                Debug.LogError("Failed to create lobby: " + e.Message);
-                OnTaskFailed?.Invoke("Lobby Creation Failed",e.Message);
-            }
-        }
-
-        public string GetLobbyName()
-        {
-            return _lobbyName = $"PirateParty{Random.Range(0, 1000)}";
-        }
-
-        public void UpdateLobbyName(string lobbyName)
-        {
-            _lobbyName = lobbyName;
-        }
-
-        #endregion LOBBY CREATION
-
-        #region JOIN LOBBY
-
-        public async void JoinLobby(Lobby lobby)
-        {
-            try
-            {
-                Player player = GetPlayer();
-
-                _currentLobby = await LobbyService.Instance.JoinLobbyByIdAsync(lobby.Id, new JoinLobbyByIdOptions
-                {
-                    Player = player
-                });
-            
-                // Joining the relay if available.
-                if (_currentLobby.Data.TryGetValue(KEY_JOIN_CODE, out var joinCode))
-                {
-                    Debug.Log("Logged with relay");
-                    string relayJoinCode = joinCode.Value;
-                    JoinAllocation joinAllocation = await JoinRelay(relayJoinCode);
-                    
-                    NetworkManager.Singleton.GetComponent<UnityTransport>().SetRelayServerData(new RelayServerData(joinAllocation, ConnectionType));
-                }
-            
-                _pollForUpdatesTimer.Start();
-
-                StartClient();
-            }
-            catch (Exception e)
-            {
-                Debug.LogError($"Failed to join lobby.{e}");
-                OnTaskFailed?.Invoke("Lobby Join Failed",e.Message);
-            }
-        }
-        
-        /// <summary>
-        /// Quick join the first accessible lobby.
-        /// </summary>
-        public async void QuickJoinLobby()
-        {
-            try
-            {
-                // Quick join a lobby.
-                _currentLobby = await LobbyService.Instance.QuickJoinLobbyAsync();
-                _pollForUpdatesTimer.Start();
-
-                // Joining the relay if available.
-                if (_currentLobby.Data.TryGetValue(KEY_JOIN_CODE, out var joinCode))
-                {
-                    string relayJoinCode = joinCode.Value;
-                    JoinAllocation joinAllocation = await JoinRelay(relayJoinCode);
-                    
-                    NetworkManager.Singleton.GetComponent<UnityTransport>().SetRelayServerData(new RelayServerData(joinAllocation, ConnectionType));
-                }
-
-                NetworkManager.Singleton.StartClient();
-            }
-            catch (LobbyServiceException e)
-            {
-                Debug.LogError("Failed to quick join lobby: " + e.Message);
-                OnTaskFailed?.Invoke("Lobby Quick Join Failed",e.Message);
-            }
-        }
-
-        #endregion JOIN LOBBY
-
         #region QUIT LOBBY
 
         public async void LeaveLobby()
@@ -311,32 +174,19 @@ namespace VComponent.Multiplayer
             }
         }
 
-        public async void KickPlayerFromLobby(string playerId)
-        {
-            if (IsLobbyHost())
-            {
-                try
-                {
-                    await LobbyService.Instance.RemovePlayerAsync(_currentLobby.Id, playerId);
-                    Debug.Log($"Player{playerId} successfully kicked from the lobby.");
-                }
-                catch (LobbyServiceException e)
-                {
-                    Debug.LogError($"Unable to kick player{playerId} from lobby. {e}");
-                    OnTaskFailed?.Invoke("Kick Player Failed",e.Message);
-                }
-            }
-        }
-        
-        private void HandlePlayerKickedFromLobby()
-        {
-            Debug.Log("You have been kicked from the lobby !");
-            HybridSceneLoader.Instance.TransitionTo(HybridSceneLoader.SceneIdentifier.MAIN_MENU);
-        }
-
         #endregion QUIT LOBBY
 
         #region FETCH LOBBIES
+        
+        public string GetLobbyName()
+        {
+            if (_lobbyName == string.Empty)
+            {
+                _lobbyName = $"PirateParty{Random.Range(0, 1000)}";
+            }
+
+            return _lobbyName;
+        }
 
         public async Task<List<Lobby>> FetchLobbies()
         {
@@ -383,47 +233,21 @@ namespace VComponent.Multiplayer
         {
             if (IsLobbyHost())
             {
-                NetworkManager.Singleton.Shutdown();
+                StopHost();
+            }
+            else
+            {
+                StopClient();
             }
             
-            // Destroying instances
+            // Destroying multiplayer singletons instances
             Destroy(NetworkManager.Singleton.gameObject);
-            Destroy(gameObject);
+            Destroy(this.gameObject);
         }
 
         #endregion
 
-        #region HOST
-
-        private void StartHost()
-        {
-            NetworkManager.Singleton.StartHost();
-            HybridSceneLoader.Instance.ListenNetworkLoading(false);
-        }
-
-        public void StopHost()
-        {
-            HybridSceneLoader.Instance.UnListenNetworkLoading(false);
-        }
-
-        #endregion HOST
-
-        #region CLIENT
-
-        private void StartClient()
-        {
-            NetworkManager.Singleton.StartClient();
-            HybridSceneLoader.Instance.ListenNetworkLoading(true);
-        }
-
-        public void StopClient()
-        {
-            HybridSceneLoader.Instance.UnListenNetworkLoading(true);
-        }
-
-        #endregion CLIENT
-
-        #region HELPERS METHODS
+        #region RELAY METHODS
 
         /// <summary>
         /// Try to create a relay allocation.
@@ -484,6 +308,10 @@ namespace VComponent.Multiplayer
             }
         }
 
+        #endregion
+
+        #region HEARTBEAT AND POLL
+
         /// <summary>
         /// Manage the heartbeat of the lobby.
         /// </summary>
@@ -515,7 +343,7 @@ namespace VComponent.Multiplayer
                 if (!IsInLobby())
                 {
                     _currentLobby = null;
-                    HandlePlayerKickedFromLobby();
+                    HandleClientKickedFromLobby();
                     
                     return;
                 }
@@ -530,6 +358,10 @@ namespace VComponent.Multiplayer
             }
         }
 
+        #endregion
+
+        #region HELPERS METHODS
+        
         private Player GetPlayer()
         {
             return new Player(AuthenticationService.Instance.PlayerId, null, new Dictionary<string, PlayerDataObject>

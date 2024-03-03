@@ -40,7 +40,7 @@ namespace VComponent.Multiplayer
 
         private void Start()
         {
-            ShowAuthenticationWindow(MultiplayerManager.Instance.GetPlayerName());
+            ShowAuthenticationWindow(MultiplayerConnectionManager.Instance.GetPlayerName());
         }
 
         #endregion
@@ -114,7 +114,7 @@ namespace VComponent.Multiplayer
         
         public void UpdatePlayerName(string newName)
         {
-            MultiplayerManager.Instance.UpdatePlayerName(newName);
+            MultiplayerConnectionManager.Instance.UpdatePlayerName(newName);
         }
         
         public async void Authenticate()
@@ -124,11 +124,11 @@ namespace VComponent.Multiplayer
             _authenticationWindow.SetActive(false);
             
             // Authenticate
-            await MultiplayerManager.Instance.Authenticate();
+            await MultiplayerConnectionManager.Instance.Authenticate();
             
             // Fetch available lobbies
             ShowLobbyList(true);
-            UpdateLobbyList(await MultiplayerManager.Instance.FetchLobbies());
+            UpdateLobbyList(await MultiplayerConnectionManager.Instance.FetchLobbies());
             
             ShowLoading(false);
         }
@@ -137,7 +137,7 @@ namespace VComponent.Multiplayer
         {
             ShowLoading(true);
             
-            await MultiplayerManager.Instance.CreateLobby(true);
+            await MultiplayerConnectionManager.Instance.CreateLobby(true);
             
             ShowLoading(false);
         }
@@ -147,7 +147,7 @@ namespace VComponent.Multiplayer
             ShowLoading(true);
             
             // Fetch available lobbies
-            UpdateLobbyList(await MultiplayerManager.Instance.FetchLobbies());
+            UpdateLobbyList(await MultiplayerConnectionManager.Instance.FetchLobbies());
             
             ShowLoading(false);
         }
@@ -155,12 +155,12 @@ namespace VComponent.Multiplayer
         public void OpenLobbyCreation()
         {
             ShowLobbyList(false);
-            OpenLobbyCreationWindow(MultiplayerManager.Instance.GetLobbyName());
+            OpenLobbyCreationWindow(MultiplayerConnectionManager.Instance.GetLobbyName());
         }
 
         public void UpdateLobbyName(string newName)
         {
-            MultiplayerManager.Instance.UpdateLobbyName(newName);
+            MultiplayerConnectionManager.Instance.UpdateLobbyName(newName);
         }
 
         #endregion PUBLIC UI METHODS

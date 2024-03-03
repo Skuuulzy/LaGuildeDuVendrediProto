@@ -24,7 +24,7 @@ namespace VComponent.Multiplayer
         public void JoinLobby()
         {
             _lobbiesListView.ShowLoading(true);
-            MultiplayerManager.Instance.JoinLobby(_lobby);
+            MultiplayerConnectionManager.Instance.JoinLobby(_lobby);
         }
     }
 }

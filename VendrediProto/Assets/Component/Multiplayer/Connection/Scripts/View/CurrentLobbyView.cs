@@ -25,15 +25,15 @@ namespace VComponent.Multiplayer
         
         private void Start()
         {
-            ShowCurrentLobby(MultiplayerManager.Instance.GetLobbyName());
-            _isHost = MultiplayerManager.Instance.IsLobbyHost();
+            ShowCurrentLobby(MultiplayerConnectionManager.Instance.GetLobbyName());
+            _isHost = MultiplayerConnectionManager.Instance.IsLobbyHost();
 
-            MultiplayerManager.OnLobbyPolled += UpdateLobby;
+            MultiplayerConnectionManager.OnLobbyPolled += UpdateLobby;
         }
 
         private void OnDestroy()
         {
-            MultiplayerManager.OnLobbyPolled -= UpdateLobby;
+            MultiplayerConnectionManager.OnLobbyPolled -= UpdateLobby;
         }
 
         private void Update()
@@ -82,7 +82,7 @@ namespace VComponent.Multiplayer
         public void Quit()
         {
             // The scene loader does nor exist anymore ...
-            MultiplayerManager.Instance.QuitNetwork();
+            MultiplayerConnectionManager.Instance.QuitNetwork();
             SceneManager.LoadScene(0);
         }
     }
