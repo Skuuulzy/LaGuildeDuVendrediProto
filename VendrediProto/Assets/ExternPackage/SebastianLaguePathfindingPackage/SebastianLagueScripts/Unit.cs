@@ -1,19 +1,27 @@
 ﻿using UnityEngine;
 using System.Collections;
+using VComponent.InputSystem;
+using VComponent.Ship;
 
 namespace SebastianLague
 {
 	public class Unit : MonoBehaviour 
 	{
+		[Header("Parameters")]
 		[SerializeField] private float _speed = 20;
 		[SerializeField] private float _turnSpeed = 3;
 		[SerializeField] private float _turnDst = 5;
 		[SerializeField] private float _stoppingDst = 10;
-		[SerializeField] private const float _minPathUpdateTime = .2f;
-		[SerializeField] private const float _pathUpdateMoveThreshold = .5f;
-		[SerializeField] private Transform _planeTransform;
+
+		[Header("Components")] 
+		[SerializeField] private ShipInputs _inputs;
+		
+		private const float MIN_PATH_UPDATE_TIME = .2f;
+		private const float PATH_UPDATE_MOVE_THRESHOLD = .5f;
+		
 		private Plane _plane;
 		private Vector3 _position;
+		private Transform _planeTransform;
 		
 		private Path _path;
 		public float Speed => _speed;
@@ -21,18 +29,36 @@ namespace SebastianLague
 		public float TurnDst => _turnDst;
 		public float StoppingDst => _stoppingDst;
 
+		private bool _initialized;
 
-		void Start() 
+		private void Init()
 		{
+			if (_initialized)
+			{
+				return;
+			}
+			
+			if (_planeTransform == null)
+			{
+				_planeTransform = GameObject.FindGameObjectWithTag("PathFindingPlane").transform;
+			}
+            
 			_position = transform.position;
 			_plane = new Plane(_planeTransform.up, _planeTransform.position);
 			StartCoroutine(UpdatePath());
+
+			_initialized = true;
 		}
 
 		private void Update()
 		{
-			if (Input.GetMouseButton(0))
+			if (InputsManager.Instance.RequestShipMove)
 			{
+				if (!_initialized)
+				{
+					Init();
+				}
+				
 				Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
 				if (_plane.Raycast(ray, out var entry))
 				{
@@ -42,7 +68,7 @@ namespace SebastianLague
 			}
 		}
 
-		public void OnPathFound(Vector3[] waypoints, bool pathSuccessful) 
+		private void OnPathFound(Vector3[] waypoints, bool pathSuccessful) 
 		{
 			if (pathSuccessful) 
 			{
@@ -53,30 +79,26 @@ namespace SebastianLague
 			}
 		}
 
-		IEnumerator UpdatePath() 
+		private IEnumerator UpdatePath()
 		{
-			if(_position != null)
+			if (Time.timeSinceLevelLoad < .3f)
 			{
+				yield return new WaitForSeconds(.3f);
+			}
 
-				if (Time.timeSinceLevelLoad < .3f)
+			PathRequestManager.RequestPath(new PathRequest(transform.position, _position, OnPathFound));
+
+			float sqrMoveThreshold = PATH_UPDATE_MOVE_THRESHOLD * PATH_UPDATE_MOVE_THRESHOLD;
+			Vector3 targetPosOld = _position;
+
+			while (true)
+			{
+				yield return new WaitForSeconds(MIN_PATH_UPDATE_TIME);
+
+				if ((_position - targetPosOld).sqrMagnitude > sqrMoveThreshold)
 				{
-					yield return new WaitForSeconds(.3f);
-				}
-
-				PathRequestManager.RequestPath(new PathRequest(transform.position, _position, OnPathFound));
-
-				float sqrMoveThreshold = _pathUpdateMoveThreshold * _pathUpdateMoveThreshold;
-				Vector3 targetPosOld = _position;
-
-				while (true)
-				{
-					yield return new WaitForSeconds(_minPathUpdateTime);
-
-					if ((_position - targetPosOld).sqrMagnitude > sqrMoveThreshold)
-					{
-						PathRequestManager.RequestPath(new PathRequest(transform.position, _position, OnPathFound));
-						targetPosOld = _position;
-					}
+					PathRequestManager.RequestPath(new PathRequest(transform.position, _position, OnPathFound));
+					targetPosOld = _position;
 				}
 			}
 		}
@@ -119,7 +141,7 @@ namespace SebastianLague
 
 					Quaternion targetRotation = Quaternion.LookRotation(_path.LookPoints[pathIndex] - transform.position);
 					transform.rotation = Quaternion.Lerp(transform.rotation, targetRotation, Time.deltaTime * _turnSpeed);
-					transform.Translate(Vector3.forward * Time.deltaTime * Speed * speedPercent, Space.Self);
+					transform.Translate(Vector3.forward * (Time.deltaTime * Speed * speedPercent), Space.Self);
 				}
 
 				yield return null;

@@ -83,6 +83,9 @@ MonoBehaviour:
   _unwalkableMask:
     serializedVersion: 2
     m_Bits: 8
+  _interactableIsland:
+    serializedVersion: 2
+    m_Bits: 0
   _gridWorldSize: {x: 500, y: 500}
   _nodeRadius: 0.5
   _walkableRegions:
@@ -129,7 +132,7 @@ GameObject:
   - component: {fileID: 2679170889883257990}
   m_Layer: 0
   m_Name: Plane
-  m_TagString: Untagged
+  m_TagString: PathFindingPlane
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
