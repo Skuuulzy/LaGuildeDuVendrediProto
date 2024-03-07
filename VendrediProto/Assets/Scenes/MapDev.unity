@@ -2821,6 +2821,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2124319081363444166, guid: 1c471ccbf44671b439fb794f72e10afb,
         type: 3}
+      propertyPath: _currentMerchandiseCarriedNumber
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 2124319081363444166, guid: 1c471ccbf44671b439fb794f72e10afb,
+        type: 3}
       propertyPath: _playerUIIslandCommerceController
       value: 
       objectReference: {fileID: 643923813}

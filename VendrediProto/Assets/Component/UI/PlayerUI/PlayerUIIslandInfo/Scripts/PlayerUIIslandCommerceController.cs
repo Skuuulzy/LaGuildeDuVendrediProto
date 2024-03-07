@@ -29,6 +29,7 @@ public class PlayerUIIslandCommerceController : MonoBehaviour
 		{
 			if (_playerUIIslandInfoControllersList[i] == playerUIIslandInfoController)
 			{
+				playerUIIslandInfoController.RemoveUpdateIslandListener();
 				PlayerUIIslandInfoController playerUItemp = _playerUIIslandInfoControllersList[i];
 				_playerUIIslandInfoControllersList.Remove(playerUIIslandInfoController);
 				Destroy(playerUItemp.gameObject);

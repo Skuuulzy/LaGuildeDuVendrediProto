@@ -5,8 +5,8 @@ using UnityEngine;
 public class ShipController : MonoBehaviour
 {
 	[SerializeField] private PlayerUIIslandCommerceController _playerUIIslandCommerceController;
-	private MerchandiseType _currentMerchandiseCarriedType;
-	private int _currentMerchandiseCarriedNumber;
+	[SerializeField] private MerchandiseType _currentMerchandiseCarriedType;
+	[SerializeField] private int _currentMerchandiseCarriedNumber;
 	private PlayerUIIslandInfoController _playerUIIslandInfoController;
 
 	public MerchandiseType CurrentMerchandiseCarriedType => _currentMerchandiseCarriedType;
