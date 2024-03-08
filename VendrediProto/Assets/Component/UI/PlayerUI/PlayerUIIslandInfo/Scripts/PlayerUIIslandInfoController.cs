@@ -56,9 +56,16 @@ public class PlayerUIIslandInfoController : MonoBehaviour
 
 	public void SellMerchandise()
 	{
+		if(_islandController.CurrentMerchandiseAsked != _shipController.CurrentMerchandiseCarriedType)
+		{
+			return; 
+		}
+
 		MerchandiseData merchandiseData = GetMerchandiseInfos();
+		_islandController.ReceiveMerchandise(_shipController.CurrentMerchandiseCarriedNumber);
 		_shipController.SellMerchandise(merchandiseData.SellValue);
 
+		UpdateView();
 		//Update Island Asked Merchandise
 		//Update view
 		//Update Ship Merchandise (selled merchandise)
