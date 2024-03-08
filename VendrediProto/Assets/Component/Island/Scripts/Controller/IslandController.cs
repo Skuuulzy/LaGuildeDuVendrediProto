@@ -23,7 +23,6 @@ public class IslandController : MonoBehaviour
 	private void Start()
 	{
 		InitIslandStat();
-
 	}
 
 	private void InitIslandStat()
@@ -31,7 +30,7 @@ public class IslandController : MonoBehaviour
 		if (_islandSO.MerchandisesRequested != null && _islandSO.MerchandisesRequested.ToDictionary().Count != 0)
 		{
 			// Call the fonction AskForMerchandise every 3 minutes, en commençant après une seconde d'attente.
-			InvokeRepeating(nameof(ChangeMerchandiseToSell), 1f, _islandSO.MerchandiseToSellTimeInterval);
+			//InvokeRepeating(nameof(ChangeMerchandiseToSell), 1f, _islandSO.MerchandiseToSellTimeInterval);
 		}
 		if (_islandSO.MerchandisesToSell != null && _islandSO.MerchandisesToSell.ToDictionary().Count != 0)
 		{
@@ -57,7 +56,7 @@ public class IslandController : MonoBehaviour
 	/// <summary>
 	/// Receive a merchandise from a player (or another one ?)
 	/// </summary>
-	private void ReceiveMerchandise(int numberOfMerchandiseReceived)
+	public void ReceiveMerchandise(int numberOfMerchandiseReceived)
 	{
 		//Substrack the number of received merchandise from the current merchandise asked
 		_currentMerchandiseAskedValue -= numberOfMerchandiseReceived;
@@ -83,30 +82,30 @@ public class IslandController : MonoBehaviour
 		}
 	}
 
-	/// <summary>
-	/// Change the merchandise to sell to players
-	/// </summary>
-	public void ChangeMerchandiseToSell()
-	{
-		//Choose a random merchandise to sell from the availables
-		int randomNumber = UnityEngine.Random.Range(0, _islandSO.MerchandisesToSell.ToDictionary().Count);
-		_currentMerchandiseToSell = _islandSO.MerchandisesToSell.ToDictionary().ElementAt(randomNumber).Key;
-		_currentMerchandiseToSellValue = _islandSO.MerchandisesToSell.ToDictionary().ElementAt(randomNumber).Value;
+	///// <summary>
+	///// Change the merchandise to sell to players
+	///// </summary>
+	//public void ChangeMerchandiseToSell()
+	//{
+	//	//Choose a random merchandise to sell from the availables
+	//	int randomNumber = UnityEngine.Random.Range(0, _islandSO.MerchandisesToSell.ToDictionary().Count);
+	//	_currentMerchandiseToSell = _islandSO.MerchandisesToSell.ToDictionary().ElementAt(randomNumber).Key;
+	//	_currentMerchandiseToSellValue = _islandSO.MerchandisesToSell.ToDictionary().ElementAt(randomNumber).Value;
 
-		//UpdateTheView
-		_islandView.DisplayMerchandiseToSell(_currentMerchandiseToSell, _currentMerchandiseToSellValue);
-	}
-	/// <summary>
-	/// Sell a merchandise to a player (or another one ?)
-	/// </summary>
-	public void SellMerchandise(int numberOfMerchandiseToSell)
-	{
-		//Substrack the number of sold merchandise from the current merchandise to sell
-		_currentMerchandiseToSellValue -= numberOfMerchandiseToSell;
-		_currentMerchandiseToSellValue = Mathf.Max(0, _currentMerchandiseToSellValue);
+	//	//UpdateTheView
+	//	_islandView.DisplayMerchandiseToSell(_currentMerchandiseToSell, _currentMerchandiseToSellValue);
+	//}
+	///// <summary>
+	///// Sell a merchandise to a player (or another one ?)
+	///// </summary>
+	//public void SellMerchandise(int numberOfMerchandiseToSell)
+	//{
+	//	//Substrack the number of sold merchandise from the current merchandise to sell
+	//	_currentMerchandiseToSellValue -= numberOfMerchandiseToSell;
+	//	_currentMerchandiseToSellValue = Mathf.Max(0, _currentMerchandiseToSellValue);
 
-		//UpdateTheView
-		_islandView.DisplayMerchandiseToSell(_currentMerchandiseToSell, _currentMerchandiseToSellValue);
-	}
+	//	//UpdateTheView
+	//	_islandView.DisplayMerchandiseToSell(_currentMerchandiseToSell, _currentMerchandiseToSellValue);
+	//}
 	#endregion MERCHANDISES MANAGEMENT
 }

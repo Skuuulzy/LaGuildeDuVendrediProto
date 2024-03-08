@@ -14,12 +14,12 @@ public class PlayerInventorySO : ScriptableObject
     public void IncreasePlayerMoney(int money)
     {
         _playerMoney += money;
-		OnMoneyUpdated?.Invoke(money);
+		OnMoneyUpdated?.Invoke(_playerMoney);
 	}
 
     public void DecreasePlayerMoney(int money)
     {
         _playerMoney -= money;
-		OnMoneyUpdated?.Invoke(money);
+		OnMoneyUpdated?.Invoke(_playerMoney);
 	}
 }

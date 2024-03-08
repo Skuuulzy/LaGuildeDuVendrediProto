@@ -44,7 +44,7 @@ public class ShipController : MonoBehaviour
 
 	public void SellMerchandise(int sellPrice)
 	{
-		_playerDataSO.PlayerInventory.IncreasePlayerMoney(sellPrice);
+		_playerDataSO.PlayerInventory.IncreasePlayerMoney(sellPrice * _currentMerchandiseCarriedNumber);
 		_currentMerchandiseCarriedType = MerchandiseType.NONE;
 		_currentMerchandiseCarriedNumber = 0;
 	}
