@@ -65,7 +65,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5c62d8c78f93b5241b5b23f455f2fc49, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _playerUIIslandCommerceController: {fileID: 0}
+  _playerDataSO: {fileID: 11400000, guid: 661247baffdb739459e0dc8ec90f4a1d, type: 2}
+  _currentMerchandiseCarriedType: 0
+  _currentMerchandiseCarriedNumber: 0
 --- !u!54 &1885810353718722252
 Rigidbody:
   m_ObjectHideFlags: 0

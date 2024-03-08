@@ -29,8 +29,8 @@ public class IslandController : MonoBehaviour
 	{
 		if (_islandSO.MerchandisesRequested != null && _islandSO.MerchandisesRequested.ToDictionary().Count != 0)
 		{
-			// Call the fonction AskForMerchandise every 3 minutes, en commençant après une seconde d'attente.
-			//InvokeRepeating(nameof(ChangeMerchandiseToSell), 1f, _islandSO.MerchandiseToSellTimeInterval);
+			// Call the fonction AskForMerchandise every 3 minutes, en commenÃ§ant aprÃ¨s une seconde d'attente.
+			InvokeRepeating(nameof(ChangeMerchandiseToSell), 1f, _islandSO.MerchandiseToSellTimeInterval);
 		}
 		if (_islandSO.MerchandisesToSell != null && _islandSO.MerchandisesToSell.ToDictionary().Count != 0)
 		{

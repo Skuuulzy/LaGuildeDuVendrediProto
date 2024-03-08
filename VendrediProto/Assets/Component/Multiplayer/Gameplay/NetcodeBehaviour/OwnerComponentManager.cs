@@ -9,18 +9,22 @@ namespace VComponent.Multiplayer
     /// </summary>
     public class OwnerComponentManager : NetworkBehaviour
     {
-        [SerializeField] private List<MonoBehaviour> _ownerComponents;
+        [SerializeField] private List<Component> _ownerComponents;
         
         public override void OnNetworkSpawn()
         {
+            Debug.Log($"IsHost: {IsHost}, IsServer: {IsServer}, IsClient: {IsClient}");
+            
             base.OnNetworkSpawn();
             
             if (!IsOwner)
             {
                 foreach (var component in _ownerComponents)
                 {
-                    component.enabled = false;
+                    Destroy(component);
                 }
+
+                _ownerComponents = null;
             }
         }
     }
