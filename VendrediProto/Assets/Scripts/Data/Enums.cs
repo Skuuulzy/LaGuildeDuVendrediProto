@@ -6,7 +6,7 @@ public enum ItemsType
 	WATER
 }
 
-public enum TribesType
+public enum FactionTypes
 {
 	MONKEYTRIBE,
 	CROCODILETRIBE,
@@ -17,6 +17,7 @@ public enum TribesType
 
 public enum MerchandiseType
 {
+	NONE,
 	BANANA,
 	WOOD,
 	CORN,

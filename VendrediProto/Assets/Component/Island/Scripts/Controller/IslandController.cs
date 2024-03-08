@@ -1,29 +1,34 @@
+using System;
 using System.Linq;
 using UnityEngine;
 
 public class IslandController : MonoBehaviour
 {
-    [SerializeField] private IslandView _islandView;
+	[SerializeField] private IslandView _islandView;
 
-    [SerializeField] private IslandSO _islandSO;
+	[SerializeField] private IslandSO _islandSO;
 
-    private MerchandiseType _currentMerchandiseAsked;
-    private int _currentMerchandiseAskedValue;
+	private MerchandiseType _currentMerchandiseAsked;
+	private int _currentMerchandiseAskedValue;
 	private bool _isAskingForAMerchandise;
 
 	private MerchandiseType _currentMerchandiseToSell;
 	private int _currentMerchandiseToSellValue;
 	private bool _isGivingAMerchandise;
+	public Action OnUpdateMerchandise;
+	public IslandSO IslandSO => _islandSO;
+	public MerchandiseType CurrentMerchandiseAsked => _currentMerchandiseAsked;
+	public int CurrentMerchandiseAskedValue => _currentMerchandiseAskedValue;
 
 	private void Start()
 	{
 		InitIslandStat();
-		
+
 	}
 
 	private void InitIslandStat()
 	{
-		if(_islandSO.MerchandisesRequested != null && _islandSO.MerchandisesRequested.ToDictionary().Count != 0)
+		if (_islandSO.MerchandisesRequested != null && _islandSO.MerchandisesRequested.ToDictionary().Count != 0)
 		{
 			// Call the fonction AskForMerchandise every 3 minutes, en commençant après une seconde d'attente.
 			InvokeRepeating(nameof(ChangeMerchandiseToSell), 1f, _islandSO.MerchandiseToSellTimeInterval);
@@ -39,15 +44,16 @@ public class IslandController : MonoBehaviour
 	/// Ask for a new merchandise type and display this with the value to receive 
 	/// </summary>
 	public void GenerateMerchandiseToAsk()
-    {
+	{
 		//Choose a random merchandise to ask from the availables
-        int randomNumber = Random.Range(0, _islandSO.MerchandisesRequested.ToDictionary().Count);
-        _currentMerchandiseAsked = _islandSO.MerchandisesRequested.ToDictionary().ElementAt(randomNumber).Key;
+		int randomNumber = UnityEngine.Random.Range(0, _islandSO.MerchandisesRequested.ToDictionary().Count);
+		_currentMerchandiseAsked = _islandSO.MerchandisesRequested.ToDictionary().ElementAt(randomNumber).Key;
 		_currentMerchandiseAskedValue = _islandSO.MerchandisesRequested.ToDictionary().ElementAt(randomNumber).Value;
-
-        //UpdateTheView
-        _islandView.DisplayMerchandiseAsked(_currentMerchandiseAsked, _currentMerchandiseAskedValue);
+		OnUpdateMerchandise?.Invoke();
+		//UpdateTheView
+		_islandView.DisplayMerchandiseAsked(_currentMerchandiseAsked, _currentMerchandiseAskedValue);
 	}
+
 	/// <summary>
 	/// Receive a merchandise from a player (or another one ?)
 	/// </summary>
@@ -67,7 +73,7 @@ public class IslandController : MonoBehaviour
 	/// </summary>
 	public void CheckReceivedMerchandise(MerchandiseType merchandiseType, int numberOfMerchandiseReceived)
 	{
-		if(merchandiseType == _currentMerchandiseAsked)
+		if (merchandiseType == _currentMerchandiseAsked)
 		{
 			ReceiveMerchandise(numberOfMerchandiseReceived);
 		}
@@ -81,9 +87,9 @@ public class IslandController : MonoBehaviour
 	/// Change the merchandise to sell to players
 	/// </summary>
 	public void ChangeMerchandiseToSell()
-    {
+	{
 		//Choose a random merchandise to sell from the availables
-		int randomNumber = Random.Range(0, _islandSO.MerchandisesToSell.ToDictionary().Count);
+		int randomNumber = UnityEngine.Random.Range(0, _islandSO.MerchandisesToSell.ToDictionary().Count);
 		_currentMerchandiseToSell = _islandSO.MerchandisesToSell.ToDictionary().ElementAt(randomNumber).Key;
 		_currentMerchandiseToSellValue = _islandSO.MerchandisesToSell.ToDictionary().ElementAt(randomNumber).Value;
 
