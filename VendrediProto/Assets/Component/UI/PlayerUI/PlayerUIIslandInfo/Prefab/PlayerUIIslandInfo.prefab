@@ -785,6 +785,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _islandInfoView: {fileID: 1889245294677858168}
+  _allMerchandise: {fileID: 11400000, guid: 430db761b1e8f8c4097283ea40b08bb1, type: 2}
 --- !u!114 &1889245294677858168
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -801,7 +802,6 @@ MonoBehaviour:
   _merchandiseAskedImageFirst: {fileID: 8096040526096265097}
   _merchandiseAskedTextFirst: {fileID: 6447455484801769627}
   _sellButtonTextFirst: {fileID: 6955324141630744682}
-  _allMerchandise: {fileID: 11400000, guid: 430db761b1e8f8c4097283ea40b08bb1, type: 2}
 --- !u!1 &6902945302645760054
 GameObject:
   m_ObjectHideFlags: 0

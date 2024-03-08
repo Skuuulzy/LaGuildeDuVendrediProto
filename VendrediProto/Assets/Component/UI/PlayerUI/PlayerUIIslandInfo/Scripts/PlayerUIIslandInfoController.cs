@@ -19,8 +19,8 @@ public class PlayerUIIslandInfoController : MonoBehaviour
 		_islandController = islandController;
 		_shipController = shipController;
 
-		MerchandiseInfos merchandiseInfos = GetMerchandiseInfos();
-		_islandInfoView.Init(_islandController, _shipController, merchandiseInfos.MerchandiseData, merchandiseInfos.MerchandiseCarriedNumber, merchandiseInfos.SellPrice);
+		MerchandiseData merchandiseData = GetMerchandiseInfos();
+		_islandInfoView.Init(_islandController, _shipController, merchandiseData);
 	}
 	private void OnDestroy()
 	{
@@ -37,8 +37,8 @@ public class PlayerUIIslandInfoController : MonoBehaviour
 			return;
         }
 
-		MerchandiseInfos merchandiseInfos = GetMerchandiseInfos();
-		_islandInfoView.Init(_islandController, _shipController, merchandiseInfos.MerchandiseData, merchandiseInfos.MerchandiseCarriedNumber, merchandiseInfos.SellPrice);
+		MerchandiseData merchandiseData = GetMerchandiseInfos();
+		_islandInfoView.Init(_islandController, _shipController, merchandiseData);
 	}
 
 	public void RemoveUpdateIslandListener()
@@ -56,33 +56,20 @@ public class PlayerUIIslandInfoController : MonoBehaviour
 
 	public void SellMerchandise()
 	{
-		MerchandiseInfos merchandiseInfos = GetMerchandiseInfos();
-		_shipController.SellMerchandise(merchandiseInfos.SellPrice);
+		MerchandiseData merchandiseData = GetMerchandiseInfos();
+		_shipController.SellMerchandise(merchandiseData.SellValue);
 
 		//Update Island Asked Merchandise
 		//Update view
 		//Update Ship Merchandise (selled merchandise)
 	}
 	
-	private MerchandiseInfos GetMerchandiseInfos()
+	private MerchandiseData GetMerchandiseInfos()
 	{
-		MerchandiseInfos merchandiseInfos = new MerchandiseInfos();
-		merchandiseInfos.MerchandiseData = _allMerchandise.GetMerchandiseData(_islandController.CurrentMerchandiseAsked);
-		merchandiseInfos.MerchandiseCarriedNumber = _shipController.CurrentMerchandiseCarriedType == merchandiseInfos.MerchandiseData.MerchandiseType ? _shipController.CurrentMerchandiseCarriedNumber : 0;
-		merchandiseInfos.SellPrice = merchandiseInfos.MerchandiseCarriedNumber * merchandiseInfos.MerchandiseData.SellValue;
-		return merchandiseInfos;
+		MerchandiseData merchandiseData = _allMerchandise.GetMerchandiseData(_islandController.CurrentMerchandiseAsked);
+		return merchandiseData;
 	}
 
-	#region STRUCTS
-
-	private struct MerchandiseInfos
-	{
-		public MerchandiseData MerchandiseData;
-		public int MerchandiseCarriedNumber;
-		public int SellPrice;
-	}
-
-	#endregion STRUCTS
 }
 
 

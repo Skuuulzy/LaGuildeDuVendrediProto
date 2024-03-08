@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+[CreateAssetMenu(menuName ="ProjectV/PlayerData")]
 public class PlayerDataSO : ScriptableObject
 {
     [SerializeField] private PlayerInventorySO _playerInventory;

@@ -56,6 +56,7 @@ public class PlayerUIIslandCommerceController : MonoBehaviour
 				PlayerUIIslandInfoController playerUItemp = kvp.Value;
 				_playerUIIslandInfoControllersDictionary.Remove(kvp.Key);
 				Destroy(playerUItemp.gameObject);
+				return;
 			}
 		}
 	}

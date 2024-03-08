@@ -3,7 +3,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerInventorySO : MonoBehaviour
+[CreateAssetMenu(menuName = "ProjectV/PlayerInventory")]
+public class PlayerInventorySO : ScriptableObject
 {
     [SerializeField] private int _playerMoney;
 

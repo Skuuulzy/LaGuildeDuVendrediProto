@@ -14,13 +14,13 @@ public class PlayerUIIslandInfoView : MonoBehaviour
     [SerializeField] private TextMeshProUGUI _sellButtonTextFirst;
 
 
-	public void Init(IslandController islandController, ShipController shipController, MerchandiseData merchandiseType, int merchandiseCarriedNumber, int sellPrice)
+	public void Init(IslandController islandController, ShipController shipController, MerchandiseData merchandiseData)
 	{
 		_islandName.text = islandController.IslandSO.IslandName;
-		_merchandiseAskedImageFirst.sprite = merchandiseType.MerchandiseSprite;
-		merchandiseCarriedNumber = shipController.CurrentMerchandiseCarriedType == merchandiseType.MerchandiseType ? shipController.CurrentMerchandiseCarriedNumber : 0;
+		_merchandiseAskedImageFirst.sprite = merchandiseData.MerchandiseSprite;
+		int merchandiseCarriedNumber = shipController.CurrentMerchandiseCarriedType == merchandiseData.MerchandiseType ? shipController.CurrentMerchandiseCarriedNumber : 0;
 		_merchandiseAskedTextFirst.text = merchandiseCarriedNumber + " / " + islandController.CurrentMerchandiseAskedValue;
-		sellPrice = merchandiseCarriedNumber * merchandiseType.SellValue;
+		int sellPrice = merchandiseCarriedNumber * merchandiseData.SellValue;
 		_sellButtonTextFirst.text = sellPrice + "$";
 
 	}

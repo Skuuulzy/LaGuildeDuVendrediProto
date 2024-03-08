@@ -698,6 +698,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e939f9ab05dc7f941809e8ec25f09077, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _playerData: {fileID: 11400000, guid: 661247baffdb739459e0dc8ec90f4a1d, type: 2}
   _playerInfosView: {fileID: 294248796}
 --- !u!1001 &414535067
 PrefabInstance:
@@ -1392,7 +1393,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7b13d0051e181b14ebab322df5b1dbfd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _playerDataSO: {fileID: 0}
+  _playerDataSO: {fileID: 11400000, guid: 661247baffdb739459e0dc8ec90f4a1d, type: 2}
   _playerUIIslandInfoControllerPrefab: {fileID: 1137753943646999941, guid: 1043cd7e458c411469ada53ce8220abd,
     type: 3}
   _parentTransform: {fileID: 643923811}
@@ -3132,6 +3133,22 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1618153209122777404, guid: 1c471ccbf44671b439fb794f72e10afb,
+        type: 3}
+      propertyPath: _speed
+      value: 70
+      objectReference: {fileID: 0}
+    - target: {fileID: 2124319081363444166, guid: 1c471ccbf44671b439fb794f72e10afb,
+        type: 3}
+      propertyPath: _playerDataSO
+      value: 
+      objectReference: {fileID: 11400000, guid: 661247baffdb739459e0dc8ec90f4a1d,
+        type: 2}
+    - target: {fileID: 2124319081363444166, guid: 1c471ccbf44671b439fb794f72e10afb,
+        type: 3}
+      propertyPath: _currentMerchandiseCarriedType
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2124319081363444166, guid: 1c471ccbf44671b439fb794f72e10afb,
         type: 3}

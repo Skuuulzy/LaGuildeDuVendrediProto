@@ -7,17 +7,21 @@ using VComponent.Tools.EventSystem;
 public class ShipController : MonoBehaviour
 {
 	[SerializeField] private PlayerDataSO _playerDataSO;
-	[SerializeField] private PlayerUIIslandCommerceController _playerUIIslandCommerceController;
 	[SerializeField] private MerchandiseType _currentMerchandiseCarriedType;
 	[SerializeField] private int _currentMerchandiseCarriedNumber;
 
 
-	private PlayerUIIslandInfoController _playerUIIslandInfoController;
 	public Action<IslandController,ShipController> EnterIslandArea; 
 	public Action<ShipController> LeaveIslandArea; 
 	public Action<int> OnPlayerSaleMerchandise; 
 	public MerchandiseType CurrentMerchandiseCarriedType => _currentMerchandiseCarriedType;
 	public int CurrentMerchandiseCarriedNumber => _currentMerchandiseCarriedNumber;
+
+
+	private void Start()
+	{
+		_playerDataSO.AddShipToShipController(this);
+	}
 
 	#region INTERACTIONS
 	private void OnTriggerEnter(Collider other)
