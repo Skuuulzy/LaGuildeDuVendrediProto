@@ -8,6 +8,9 @@ public class PlayerUIIslandInfoController : MonoBehaviour
 
 	private IslandController _islandController;
 	private ShipController _shipController;
+
+	[Header("Data")]
+	[SerializeField] private MerchandiseSO _allMerchandise;
 	public void Init(IslandController islandController, ShipController shipController)
 	{
 		_islandController = islandController;
@@ -15,7 +18,9 @@ public class PlayerUIIslandInfoController : MonoBehaviour
 		islandController.OnUpdateMerchandise += UpdateView;
 		_islandController = islandController;
 		_shipController = shipController;
-		_islandInfoView.Init(islandController, shipController);
+
+		MerchandiseInfos merchandiseInfos = GetMerchandiseInfos();
+		_islandInfoView.Init(_islandController, _shipController, merchandiseInfos.MerchandiseData, merchandiseInfos.MerchandiseCarriedNumber, merchandiseInfos.SellPrice);
 	}
 	private void OnDestroy()
 	{
@@ -32,7 +37,8 @@ public class PlayerUIIslandInfoController : MonoBehaviour
 			return;
         }
 
-        _islandInfoView.Init(_islandController, _shipController);
+		MerchandiseInfos merchandiseInfos = GetMerchandiseInfos();
+		_islandInfoView.Init(_islandController, _shipController, merchandiseInfos.MerchandiseData, merchandiseInfos.MerchandiseCarriedNumber, merchandiseInfos.SellPrice);
 	}
 
 	public void RemoveUpdateIslandListener()
@@ -47,14 +53,36 @@ public class PlayerUIIslandInfoController : MonoBehaviour
 		_islandController = null;
 		_shipController = null;
 	}
+
 	public void SellMerchandise()
 	{
-		//_shipController.
+		MerchandiseInfos merchandiseInfos = GetMerchandiseInfos();
+		_shipController.SellMerchandise(merchandiseInfos.SellPrice);
+
 		//Update Island Asked Merchandise
-
 		//Update view
-
 		//Update Ship Merchandise (selled merchandise)
 	}
+	
+	private MerchandiseInfos GetMerchandiseInfos()
+	{
+		MerchandiseInfos merchandiseInfos = new MerchandiseInfos();
+		merchandiseInfos.MerchandiseData = _allMerchandise.GetMerchandiseData(_islandController.CurrentMerchandiseAsked);
+		merchandiseInfos.MerchandiseCarriedNumber = _shipController.CurrentMerchandiseCarriedType == merchandiseInfos.MerchandiseData.MerchandiseType ? _shipController.CurrentMerchandiseCarriedNumber : 0;
+		merchandiseInfos.SellPrice = merchandiseInfos.MerchandiseCarriedNumber * merchandiseInfos.MerchandiseData.SellValue;
+		return merchandiseInfos;
+	}
 
+	#region STRUCTS
+
+	private struct MerchandiseInfos
+	{
+		public MerchandiseData MerchandiseData;
+		public int MerchandiseCarriedNumber;
+		public int SellPrice;
+	}
+
+	#endregion STRUCTS
 }
+
+

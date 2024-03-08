@@ -17,6 +17,7 @@ public enum FactionTypes
 
 public enum MerchandiseType
 {
+	NONE,
 	BANANA,
 	WOOD,
 	CORN,

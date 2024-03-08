@@ -1,17 +1,23 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using VComponent.Tools.EventSystem;
 
 public class ShipController : MonoBehaviour
 {
+	[SerializeField] private PlayerDataSO _playerDataSO;
 	[SerializeField] private PlayerUIIslandCommerceController _playerUIIslandCommerceController;
 	[SerializeField] private MerchandiseType _currentMerchandiseCarriedType;
 	[SerializeField] private int _currentMerchandiseCarriedNumber;
-	private PlayerUIIslandInfoController _playerUIIslandInfoController;
 
+
+	private PlayerUIIslandInfoController _playerUIIslandInfoController;
+	public Action<IslandController,ShipController> EnterIslandArea; 
+	public Action<ShipController> LeaveIslandArea; 
+	public Action<int> OnPlayerSaleMerchandise; 
 	public MerchandiseType CurrentMerchandiseCarriedType => _currentMerchandiseCarriedType;
 	public int CurrentMerchandiseCarriedNumber => _currentMerchandiseCarriedNumber;
-	
 
 	#region INTERACTIONS
 	private void OnTriggerEnter(Collider other)
@@ -19,7 +25,7 @@ public class ShipController : MonoBehaviour
 		IslandController islandController = other.gameObject.GetComponent<IslandController>();
 		if (islandController != null)
 		{
-			 _playerUIIslandInfoController = _playerUIIslandCommerceController.SetPlayerUIIslandInfo(islandController, this);
+			EnterIslandArea?.Invoke(islandController, this);
 		}
 	}
 
@@ -28,8 +34,15 @@ public class ShipController : MonoBehaviour
 		IslandController islandController = other.gameObject.GetComponent<IslandController>();
 		if (islandController != null)
 		{
-			_playerUIIslandCommerceController.CloseIslandDetailUI(_playerUIIslandInfoController);
+			LeaveIslandArea?.Invoke(this);
 		}
+	}
+
+	public void SellMerchandise(int sellPrice)
+	{
+		_playerDataSO.PlayerInventory.IncreasePlayerMoney(sellPrice);
+		_currentMerchandiseCarriedType = MerchandiseType.NONE;
+		_currentMerchandiseCarriedNumber = 0;
 	}
 	#endregion INTERACTIONS
 }

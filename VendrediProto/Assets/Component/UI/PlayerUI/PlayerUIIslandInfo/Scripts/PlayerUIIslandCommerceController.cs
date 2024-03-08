@@ -6,32 +6,55 @@ using UnityEngine;
 
 public class PlayerUIIslandCommerceController : MonoBehaviour
 {
+	[SerializeField] private PlayerDataSO _playerDataSO;
 	[SerializeField] private PlayerUIIslandInfoController _playerUIIslandInfoControllerPrefab;
 	[SerializeField] private Transform _parentTransform;
 
-	private List<PlayerUIIslandInfoController> _playerUIIslandInfoControllersList;
+	private Dictionary<ShipController,PlayerUIIslandInfoController> _playerUIIslandInfoControllersDictionary;
 
 	private void Start()
 	{
-		_playerUIIslandInfoControllersList = new List<PlayerUIIslandInfoController>();
+		_playerUIIslandInfoControllersDictionary = new Dictionary<ShipController, PlayerUIIslandInfoController>();
+		LinkToShipEvent();
+		_playerDataSO.OnShipAdded += LinkToShipEvent;
 	}
-	public PlayerUIIslandInfoController SetPlayerUIIslandInfo(IslandController islandController, ShipController shipController)
+
+	private void OnDestroy()
+	{
+		foreach (ShipController shipController in _playerDataSO.ShipControllersList)
+		{
+			shipController.EnterIslandArea -= SetPlayerUIIslandInfo;
+			shipController.LeaveIslandArea -= CloseIslandDetailUI;
+		}
+	}
+
+	private void LinkToShipEvent()
+	{
+		foreach(ShipController shipController in _playerDataSO.ShipControllersList)
+		{
+			shipController.EnterIslandArea -= SetPlayerUIIslandInfo;
+			shipController.LeaveIslandArea -= CloseIslandDetailUI;
+
+			shipController.EnterIslandArea += SetPlayerUIIslandInfo;
+			shipController.LeaveIslandArea += CloseIslandDetailUI;
+		}
+	}
+
+	public void SetPlayerUIIslandInfo(IslandController islandController, ShipController shipController)
 	{
 		PlayerUIIslandInfoController playerUIIslandInfoController = Instantiate(_playerUIIslandInfoControllerPrefab, _parentTransform);
 		playerUIIslandInfoController.Init(islandController, shipController);
-		_playerUIIslandInfoControllersList.Add(playerUIIslandInfoController);
-		return playerUIIslandInfoController;
+		_playerUIIslandInfoControllersDictionary.Add(shipController, playerUIIslandInfoController);
 	}
 
-	public void CloseIslandDetailUI(PlayerUIIslandInfoController playerUIIslandInfoController)
+	public void CloseIslandDetailUI(ShipController shipController)
 	{
-		for(int i = 0; i <  _playerUIIslandInfoControllersList.Count; i++)
+		foreach(KeyValuePair<ShipController, PlayerUIIslandInfoController> kvp in  _playerUIIslandInfoControllersDictionary)
 		{
-			if (_playerUIIslandInfoControllersList[i] == playerUIIslandInfoController)
+			if(kvp.Key == shipController)
 			{
-				playerUIIslandInfoController.RemoveUpdateIslandListener();
-				PlayerUIIslandInfoController playerUItemp = _playerUIIslandInfoControllersList[i];
-				_playerUIIslandInfoControllersList.Remove(playerUIIslandInfoController);
+				PlayerUIIslandInfoController playerUItemp = kvp.Value;
+				_playerUIIslandInfoControllersDictionary.Remove(kvp.Key);
 				Destroy(playerUItemp.gameObject);
 			}
 		}
