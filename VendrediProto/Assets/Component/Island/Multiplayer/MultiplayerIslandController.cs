@@ -17,6 +17,9 @@ namespace VComponent.Island
 
         private CountdownTimer _deliveryRequestTimer;
 
+        public int Index => _index;
+        public IslandSO IslandData => _islandData;
+
         public static Action<Delivery> OnDeliveryRequested;
         public static Action<Delivery> OnDeliveryUpdated;
         public static Action<Delivery> OnDeliveryExpired;

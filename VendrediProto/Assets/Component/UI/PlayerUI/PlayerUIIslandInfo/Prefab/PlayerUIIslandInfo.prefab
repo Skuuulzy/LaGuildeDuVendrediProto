@@ -430,7 +430,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 67.45
+  m_fontSize: 33.7
   m_fontSizeBase: 36
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -770,7 +770,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 200}
+  m_SizeDelta: {x: 0, y: 100}
   m_Pivot: {x: 0.5, y: 1}
 --- !u!114 &1137753943646999941
 MonoBehaviour:
@@ -785,8 +785,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _islandInfoView: {fileID: 1889245294677858168}
-  _allMerchandiseList: {fileID: 11400000, guid: 430db761b1e8f8c4097283ea40b08bb1,
-    type: 2}
 --- !u!114 &1889245294677858168
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -800,9 +798,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _islandName: {fileID: 1460030516099799706}
-  _merchandiseAskedImageFirst: {fileID: 8096040526096265097}
-  _merchandiseAskedTextFirst: {fileID: 6447455484801769627}
-  _sellButtonTextFirst: {fileID: 6955324141630744682}
+  _merchandiseAskedImage: {fileID: 8096040526096265097}
+  _merchandiseAskedText: {fileID: 6447455484801769627}
+  _sellButton: {fileID: 6249312995342190678}
+  _sellButtonText: {fileID: 6955324141630744682}
+  _allMerchandise: {fileID: 11400000, guid: 430db761b1e8f8c4097283ea40b08bb1, type: 2}
 --- !u!1 &6902945302645760054
 GameObject:
   m_ObjectHideFlags: 0
@@ -973,7 +973,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 67.45
+  m_fontSize: 33.7
   m_fontSizeBase: 36
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -1184,6 +1184,18 @@ RectTransform:
     type: 3}
   m_PrefabInstance: {fileID: 6275289888358679972}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &6249312995342190678 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 120554753253101042, guid: c873b5e854d2bb249bce0657363dcbef,
+    type: 3}
+  m_PrefabInstance: {fileID: 6275289888358679972}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4e29b1a8efbd4b44bb3f3716e73f07ff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &6955324141630744682 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 4003709497890647502, guid: c873b5e854d2bb249bce0657363dcbef,

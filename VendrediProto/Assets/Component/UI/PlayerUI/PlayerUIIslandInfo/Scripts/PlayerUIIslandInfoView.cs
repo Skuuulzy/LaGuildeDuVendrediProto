@@ -10,20 +10,20 @@ using VComponent.Items.Merchandise;
 public class PlayerUIIslandInfoView : MonoBehaviour
 {
     [SerializeField] private TextMeshProUGUI _islandName;
-    [SerializeField] private Image _merchandiseAskedImageFirst;
-    [SerializeField] private TextMeshProUGUI _merchandiseAskedTextFirst;
-    [SerializeField] private TextMeshProUGUI _sellButtonTextFirst;
+    [SerializeField] private Image _merchandiseAskedImage;
+    [SerializeField] private TextMeshProUGUI _merchandiseAskedText;
+	[SerializeField] private Button _sellButton;
+    [SerializeField] private TextMeshProUGUI _sellButtonText;
 
-
-	public void Init(IslandController islandController, ShipController shipController, MerchandiseSO merchandiseData)
+	[Header("Data")]
+	[SerializeField] private MerchandiseListSO _allMerchandise;
+	public void Init(Delivery delivery, string islandName)
 	{
-		_islandName.text = islandController.IslandSO.IslandName;
-		_merchandiseAskedImageFirst.sprite = merchandiseData.Sprite;
-		int merchandiseCarriedNumber = shipController.CurrentMerchandiseCarriedType == merchandiseData.Type ? shipController.CurrentMerchandiseCarriedNumber : 0;
-		_merchandiseAskedTextFirst.text = merchandiseCarriedNumber + " / " + islandController.CurrentMerchandiseAskedValue;
-		int sellPrice = merchandiseCarriedNumber * merchandiseData.SellValue;
-		_sellButtonTextFirst.text = sellPrice + "$";
-
+		_islandName.text = islandName;
+		MerchandiseSO merchandiseSO = _allMerchandise.GetMerchandiseByType(delivery.Merchandise);
+		_merchandiseAskedImage.sprite = merchandiseSO.Sprite;
+		_merchandiseAskedText.text =  delivery.MerchandiseDesiredAmount.ToString();
+		_sellButton.gameObject.SetActive(false);
 	}
 	
 }
