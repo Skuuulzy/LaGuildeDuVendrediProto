@@ -19,11 +19,11 @@ public class IslandSO : ScriptableObject
     public float MerchandiseRequestedTimeInterval => _merchandiseRequestedTimeInterval;
     public float MerchandiseToSellTimeInterval => _merchandiseToTakeTimeInterval;
 
-    public (MerchandiseType, int, float) RequestRandomMerchandiseRequest()
+    public (MerchandiseType, int, int) RequestRandomMerchandiseRequest()
     {
         int randomIndex = Random.Range(0, _merchandisesRequested.ToDictionary().Count);
         var randomRequest = _merchandisesRequested.ToDictionary().ElementAt(randomIndex);
 
-        return (randomRequest.Key.Type, randomRequest.Value, _merchandiseRequestedTimeInterval);
+        return (randomRequest.Key.Type, randomRequest.Value, (int)_merchandiseRequestedTimeInterval);
     }
 }

@@ -8,9 +8,9 @@ namespace VComponent.Items.Merchandise
         public int MerchandiseDesiredAmount;
         public int MerchandiseCurrentAmount;
         public int IslandIndex;
-        public float TimeAvailable;
+        public int TimeAvailable;
 
-        public Delivery(MerchandiseType merchandise, int merchandiseDesiredAmount,int merchandiseCurrentAmount, int islandIndex, float timeAvailable)
+        public Delivery(MerchandiseType merchandise, int merchandiseDesiredAmount,int merchandiseCurrentAmount, int islandIndex, int timeAvailable)
         {
             Merchandise = merchandise;
             MerchandiseDesiredAmount = merchandiseDesiredAmount;
