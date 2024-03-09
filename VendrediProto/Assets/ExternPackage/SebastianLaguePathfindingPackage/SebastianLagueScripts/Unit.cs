@@ -12,6 +12,8 @@ namespace SebastianLague
 		[SerializeField] private const float _minPathUpdateTime = .2f;
 		[SerializeField] private const float _pathUpdateMoveThreshold = .5f;
 		[SerializeField] private Transform _planeTransform;
+		[SerializeField] private float rotationResponsiveness = 0.3f;
+		[SerializeField] private PathfindingView _pathfindingView;
 		private Plane _plane;
 		private Vector3 _position;
 		
@@ -26,6 +28,7 @@ namespace SebastianLague
 		{
 			_position = transform.position;
 			_plane = new Plane(_planeTransform.up, _planeTransform.position);
+			
 			StartCoroutine(UpdatePath());
 		}
 
@@ -38,6 +41,7 @@ namespace SebastianLague
 				{
 					var position = ray.GetPoint(entry);
 					_position = position;
+                    _pathfindingView.CreatePin(position);
 				}
 			}
 		}
@@ -47,8 +51,8 @@ namespace SebastianLague
 			if (pathSuccessful) 
 			{
 				_path = new Path(waypoints, transform.position, _turnDst, _stoppingDst);
-
-				StopCoroutine("FollowPath");
+                _pathfindingView.DrawLines(_path.LookPoints);
+                StopCoroutine("FollowPath");
 				StartCoroutine("FollowPath");
 			}
 		}
@@ -74,9 +78,9 @@ namespace SebastianLague
 
 					if ((_position - targetPosOld).sqrMagnitude > sqrMoveThreshold)
 					{
-                        Debug.Log("Update path");
                         PathRequestManager.RequestPath(new PathRequest(transform.position, _position, OnPathFound));
-						targetPosOld = _position;
+                        
+                        targetPosOld = _position;
 					}
 				}
 			}
@@ -86,14 +90,14 @@ namespace SebastianLague
 		{
 			bool followingPath = true;
 			int pathIndex = 0;
-			transform.LookAt(_path.LookPoints[0]);
+			Quaternion initialTargetRotation = Quaternion.LookRotation(_path.LookPoints[0] - transform.position);
+			transform.rotation = Quaternion.Lerp(transform.rotation, initialTargetRotation, rotationResponsiveness * Time.deltaTime);
 			float speedPercent = 1;
-
-			while (followingPath) 
+            while (followingPath) 
 			{
 				Vector2 pos2D = new Vector2 (transform.position.x, transform.position.z);
-
-				while (_path.TurnBoundaries[pathIndex].HasCrossedLine(pos2D)) 
+               
+                while (_path.TurnBoundaries[pathIndex].HasCrossedLine(pos2D)) 
 				{
 					if (pathIndex == _path.FinishLineIndex) 
 					{
@@ -117,9 +121,8 @@ namespace SebastianLague
 							followingPath = false;
 						}
 					}
-
-					Quaternion targetRotation = Quaternion.LookRotation(_path.LookPoints[pathIndex] - transform.position);
-					transform.rotation = Quaternion.Lerp(transform.rotation, targetRotation, Time.deltaTime * _turnSpeed);
+                    Quaternion targetRotationPath = Quaternion.LookRotation(_path.LookPoints[pathIndex] - transform.position);
+                    transform.rotation = Quaternion.Lerp(transform.rotation, targetRotationPath, Time.deltaTime * _turnSpeed);
 					transform.Translate(Vector3.forward * Time.deltaTime * Speed * speedPercent, Space.Self);
 				}
 

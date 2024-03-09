@@ -14,7 +14,8 @@ namespace SebastianLague
 		[SerializeField] private float _nodeRadius;
 		[SerializeField] private TerrainType[] _walkableRegions;
 		[SerializeField] private int _obstacleProximityPenalty = 10;
-		private Dictionary<int,int> _walkableRegionsDictionary = new Dictionary<int, int>();
+        [SerializeField] private PathfindingView _pathfindingView;
+        private Dictionary<int,int> _walkableRegionsDictionary = new Dictionary<int, int>();
 		private LayerMask _walkableMask;
 
 		private Node[,] _grid;
@@ -38,7 +39,9 @@ namespace SebastianLague
 			}
 
 			CreateGrid();
-		}
+			_pathfindingView.UpdateCanvasSize(_gridSizeX, _gridSizeY);
+
+        }
 
 		public int MaxSize 
 		{
