@@ -1,4 +1,4 @@
-using Sirenix.OdinInspector;
+using Unity.Netcode;
 using UnityEngine;
 
 namespace VComponent.Tools.Singletons
@@ -6,7 +6,7 @@ namespace VComponent.Tools.Singletons
     /// <summary>
     /// A simple singleton implementation.
     /// </summary>
-    public class Singleton<T> : MonoBehaviour where T : Component
+    public class NetworkSingleton<T> : NetworkBehaviour where T : Component
     {
         private static T _instance;
 
@@ -25,6 +25,7 @@ namespace VComponent.Tools.Singletons
                         Debug.LogError($"There was no instance of of {typeof(T).Name} and yet someone try to call it. An new instance has been set but singletons should always be present.");
                         var go = new GameObject(typeof(T).Name + " Auto-Generated");
                         _instance = go.AddComponent<T>();
+                        go.AddComponent<NetworkObject>();
                     }
                 }
 

@@ -23,6 +23,11 @@ public class ShipController : MonoBehaviour
 		_playerDataSO.AddShipToShipController(this);
 	}
 
+	private void OnDestroy()
+	{
+		_playerDataSO.ClearShipList();
+	}
+
 	#region INTERACTIONS
 	private void OnTriggerEnter(Collider other)
 	{

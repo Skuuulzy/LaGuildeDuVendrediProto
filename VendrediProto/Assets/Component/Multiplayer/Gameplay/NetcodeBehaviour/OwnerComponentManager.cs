@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using Unity.Netcode;
 using UnityEngine;
+using VComponent.Island;
 
 namespace VComponent.Multiplayer
 {
@@ -9,7 +10,7 @@ namespace VComponent.Multiplayer
     /// </summary>
     public class OwnerComponentManager : NetworkBehaviour
     {
-        [SerializeField] private List<MonoBehaviour> _ownerComponents;
+        [SerializeField] private List<Component> _ownerComponents;
         
         public override void OnNetworkSpawn()
         {
@@ -19,8 +20,23 @@ namespace VComponent.Multiplayer
             {
                 foreach (var component in _ownerComponents)
                 {
-                    component.enabled = false;
+                    Destroy(component);
                 }
+
+                _ownerComponents = null;
+            }
+
+            if (IsOwner)
+            {
+                MultiplayerIslandController.OnDeliveryRequested += (delivery) =>
+                {
+                    Debug.Log($"Delivery Requested type: {delivery.Merchandise}");
+                };
+                
+                MultiplayerIslandController.OnDeliveryUpdated += (delivery) =>
+                {
+                    Debug.Log($"Delivery Updated type: {delivery.Merchandise}, current amount: {delivery.MerchandiseCurrentAmount}");
+                };
             }
         }
     }

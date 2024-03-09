@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+using VComponent.Items.Merchandise;
 
 public class IslandView : MonoBehaviour
 {
@@ -14,11 +15,11 @@ public class IslandView : MonoBehaviour
 
 	[Header("NeededAssets")]
 	//Change Later with a SO
-	[SerializeField] private MerchandiseSO _allMerchandise;
+	[SerializeField] private MerchandiseListSO _allMerchandiseList;
 	public void DisplayMerchandiseAsked(MerchandiseType currentMerchandiseAsked, int currentMerchandiseAskedValue)
 	{
 		_merchandiseRequestedGO.SetActive(true);
-		_merchandiseRequestedImage.sprite = _allMerchandise.GetMerchandiseData(currentMerchandiseAsked).MerchandiseSprite;
+		_merchandiseRequestedImage.sprite = _allMerchandiseList.GetMerchandiseByType(currentMerchandiseAsked).Sprite;
 		_merchandiseRequestedText.text = currentMerchandiseAskedValue.ToString();
 	}
 }

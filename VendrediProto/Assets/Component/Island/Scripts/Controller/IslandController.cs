@@ -29,7 +29,7 @@ public class IslandController : MonoBehaviour
 	{
 		if (_islandSO.MerchandisesRequested != null && _islandSO.MerchandisesRequested.ToDictionary().Count != 0)
 		{
-			// Call the fonction AskForMerchandise every 3 minutes, en commençant après une seconde d'attente.
+			// Call the fonction AskForMerchandise every 3 minutes, en commenÃ§ant aprÃ¨s une seconde d'attente.
 			//InvokeRepeating(nameof(ChangeMerchandiseToSell), 1f, _islandSO.MerchandiseToSellTimeInterval);
 		}
 		if (_islandSO.MerchandisesToSell != null && _islandSO.MerchandisesToSell.ToDictionary().Count != 0)
@@ -46,7 +46,7 @@ public class IslandController : MonoBehaviour
 	{
 		//Choose a random merchandise to ask from the availables
 		int randomNumber = UnityEngine.Random.Range(0, _islandSO.MerchandisesRequested.ToDictionary().Count);
-		_currentMerchandiseAsked = _islandSO.MerchandisesRequested.ToDictionary().ElementAt(randomNumber).Key;
+		_currentMerchandiseAsked = _islandSO.MerchandisesRequested.ToDictionary().ElementAt(randomNumber).Key.Type;
 		_currentMerchandiseAskedValue = _islandSO.MerchandisesRequested.ToDictionary().ElementAt(randomNumber).Value;
 		OnUpdateMerchandise?.Invoke();
 		//UpdateTheView

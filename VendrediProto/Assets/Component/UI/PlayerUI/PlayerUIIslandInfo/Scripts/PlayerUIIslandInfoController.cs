@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using VComponent.Items.Merchandise;
 
 public class PlayerUIIslandInfoController : MonoBehaviour
 {
@@ -10,7 +11,7 @@ public class PlayerUIIslandInfoController : MonoBehaviour
 	private ShipController _shipController;
 
 	[Header("Data")]
-	[SerializeField] private MerchandiseSO _allMerchandise;
+	[SerializeField] private MerchandiseListSO _allMerchandiseList;
 	public void Init(IslandController islandController, ShipController shipController)
 	{
 		_islandController = islandController;
@@ -19,7 +20,7 @@ public class PlayerUIIslandInfoController : MonoBehaviour
 		_islandController = islandController;
 		_shipController = shipController;
 
-		MerchandiseData merchandiseData = GetMerchandiseInfos();
+		MerchandiseSO merchandiseData = GetMerchandiseInfos();
 		_islandInfoView.Init(_islandController, _shipController, merchandiseData);
 	}
 	private void OnDestroy()
@@ -37,7 +38,7 @@ public class PlayerUIIslandInfoController : MonoBehaviour
 			return;
         }
 
-		MerchandiseData merchandiseData = GetMerchandiseInfos();
+        MerchandiseSO merchandiseData = GetMerchandiseInfos();
 		_islandInfoView.Init(_islandController, _shipController, merchandiseData);
 	}
 
@@ -61,7 +62,7 @@ public class PlayerUIIslandInfoController : MonoBehaviour
 			return; 
 		}
 
-		MerchandiseData merchandiseData = GetMerchandiseInfos();
+		MerchandiseSO merchandiseData = GetMerchandiseInfos();
 		_islandController.ReceiveMerchandise(_shipController.CurrentMerchandiseCarriedNumber);
 		_shipController.SellMerchandise(merchandiseData.SellValue);
 
@@ -71,9 +72,9 @@ public class PlayerUIIslandInfoController : MonoBehaviour
 		//Update Ship Merchandise (selled merchandise)
 	}
 	
-	private MerchandiseData GetMerchandiseInfos()
+	private MerchandiseSO GetMerchandiseInfos()
 	{
-		MerchandiseData merchandiseData = _allMerchandise.GetMerchandiseData(_islandController.CurrentMerchandiseAsked);
+		MerchandiseSO merchandiseData = _allMerchandiseList.GetMerchandiseByType(_islandController.CurrentMerchandiseAsked);
 		return merchandiseData;
 	}
 

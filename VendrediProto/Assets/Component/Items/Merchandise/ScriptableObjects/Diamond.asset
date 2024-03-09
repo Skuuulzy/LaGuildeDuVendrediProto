@@ -9,8 +9,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e6f95f6eb67d6054b8c6563d96e120f4, type: 3}
-  m_Name: PlayerData
+  m_Script: {fileID: 11500000, guid: 6bb2f4f9d048d5a4193c30df93e865cf, type: 3}
+  m_Name: Diamond
   m_EditorClassIdentifier: 
-  _playerInventory: {fileID: 11400000, guid: 8534d39687afe4b47b661dd6f75b3b2a, type: 2}
-  _shipControllersList: []
+  _type: 4
+  _sprite: {fileID: 21300000, guid: 754745b2838910a42adb31b59a95f168, type: 3}
+  _sellValue: 20
