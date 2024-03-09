@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using Unity.Netcode;
 using UnityEngine;
+using VComponent.Island;
 
 namespace VComponent.Multiplayer
 {
@@ -13,8 +14,6 @@ namespace VComponent.Multiplayer
         
         public override void OnNetworkSpawn()
         {
-            Debug.Log($"IsHost: {IsHost}, IsServer: {IsServer}, IsClient: {IsClient}");
-            
             base.OnNetworkSpawn();
             
             if (!IsOwner)
@@ -25,6 +24,19 @@ namespace VComponent.Multiplayer
                 }
 
                 _ownerComponents = null;
+            }
+
+            if (IsOwner)
+            {
+                MultiplayerIslandController.OnDeliveryRequested += (delivery) =>
+                {
+                    Debug.Log($"Delivery Requested type: {delivery.Merchandise}");
+                };
+                
+                MultiplayerIslandController.OnDeliveryUpdated += (delivery) =>
+                {
+                    Debug.Log($"Delivery Updated type: {delivery.Merchandise}, current amount: {delivery.MerchandiseCurrentAmount}");
+                };
             }
         }
     }
