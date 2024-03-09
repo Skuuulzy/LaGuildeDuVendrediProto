@@ -2278,6 +2278,12 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3347152258464158677, guid: 970cd4c4e47f35744abdb9aa40228d2e,
         type: 3}
+      propertyPath: _allMerchandiseList
+      value: 
+      objectReference: {fileID: 11400000, guid: 430db761b1e8f8c4097283ea40b08bb1,
+        type: 2}
+    - target: {fileID: 3347152258464158677, guid: 970cd4c4e47f35744abdb9aa40228d2e,
+        type: 3}
       propertyPath: _spriteByMerchandiseType.m_Dictionnary.Array.data[0].m_key
       value: 1
       objectReference: {fileID: 0}

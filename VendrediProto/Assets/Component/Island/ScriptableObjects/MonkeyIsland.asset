@@ -15,7 +15,11 @@ MonoBehaviour:
   _islandName: MonkeyIsland
   _factionType: 0
   _merchandisesToSell:
-    m_Dictionnary: []
+    m_Dictionnary:
+    - m_key: {fileID: 11400000, guid: 7fbaefa2e59b8914bb16163ab41a4949, type: 2}
+      m_value: 30
+    - m_key: {fileID: 11400000, guid: e1000396ace43e541b684ef7b3c50a5f, type: 2}
+      m_value: 20
   _merchandisesRequested:
     m_Dictionnary:
     - m_key: {fileID: 11400000, guid: 8ba9d8f37b540674fa79f74b6d57821e, type: 2}

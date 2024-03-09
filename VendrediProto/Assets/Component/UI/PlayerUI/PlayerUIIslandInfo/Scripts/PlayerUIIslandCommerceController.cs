@@ -19,15 +19,6 @@ public class PlayerUIIslandCommerceController : MonoBehaviour
 		_playerDataSO.OnShipAdded += LinkToShipEvent;
 	}
 
-	private void OnDestroy()
-	{
-		foreach (ShipController shipController in _playerDataSO.ShipControllersList)
-		{
-			shipController.EnterIslandArea -= SetPlayerUIIslandInfo;
-			shipController.LeaveIslandArea -= CloseIslandDetailUI;
-		}
-	}
-
 	private void LinkToShipEvent()
 	{
 		foreach(ShipController shipController in _playerDataSO.ShipControllersList)

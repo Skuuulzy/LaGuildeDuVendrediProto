@@ -11,6 +11,7 @@ public class PlayerDataSO : ScriptableObject
     public PlayerInventorySO PlayerInventory => _playerInventory;
     public List<ShipController> ShipControllersList => _shipControllersList;
     public Action OnShipAdded;
+    
     public void AddShipToShipController(ShipController shipController)
     {
         if(_shipControllersList == null)
@@ -20,5 +21,10 @@ public class PlayerDataSO : ScriptableObject
 
         _shipControllersList.Add(shipController);
         OnShipAdded?.Invoke();
+    }
+
+    public void ClearShipList()
+    {
+        _shipControllersList = null;
     }
 }

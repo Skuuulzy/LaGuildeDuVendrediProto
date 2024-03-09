@@ -13,5 +13,4 @@ MonoBehaviour:
   m_Name: PlayerData
   m_EditorClassIdentifier: 
   _playerInventory: {fileID: 11400000, guid: 8534d39687afe4b47b661dd6f75b3b2a, type: 2}
-  _shipControllersList:
-  - {fileID: 0}
+  _shipControllersList: []
