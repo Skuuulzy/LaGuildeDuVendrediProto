@@ -6,7 +6,7 @@ using UnityEngine;
 
 public class Interactor : MonoBehaviour
 {
-    [SerializeField] private InputManager _inputManager;
+    //[SerializeField] private InputManager _inputManager;
     private bool _triggered;
     private bool _isInAction;
 
@@ -49,20 +49,20 @@ public class Interactor : MonoBehaviour
 
     private void OnTriggerStay(Collider other)
     {
-        if (_triggered && _inputManager.Interact && _isInAction == false)
-        {
-            _isInAction = true;
-            //TODO : question si même bouton  et si bouton different!=
-
-            foreach (IInteractable interactable in _interactables)
-            {
-                interactable.Interact();
-            }
-        }
-
-        if(_inputManager.EndInteract == true)
-		{
-            _isInAction = false;
-		}
+  //       if (_triggered && _inputManager.Interact && _isInAction == false)
+  //       {
+  //           _isInAction = true;
+  //           //TODO : question si mï¿½me bouton  et si bouton different!=
+  //
+  //           foreach (IInteractable interactable in _interactables)
+  //           {
+  //               interactable.Interact();
+  //           }
+  //       }
+  //
+  //       if(_inputManager.EndInteract == true)
+		// {
+  //           _isInAction = false;
+		// }
     }
 }

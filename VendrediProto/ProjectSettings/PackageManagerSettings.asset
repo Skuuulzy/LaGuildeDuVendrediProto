@@ -32,6 +32,8 @@ MonoBehaviour:
     m_Scopes:
     - com.mygamedevtools.scene-loader
     - com.cysharp.unitask
+    - com.eflatun.scenereference
+    - com.veriorpies.parrelsync
     m_IsDefault: 0
     m_Capabilities: 0
     m_ConfigSource: 4
