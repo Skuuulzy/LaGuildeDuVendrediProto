@@ -54,7 +54,10 @@ namespace VComponent.Multiplayer.Deliveries
                 return;
             }
 
-            _activeDeliveries.Add(new Delivery(deliveryNetworkPackage, FindIslandById(deliveryNetworkPackage.IslandIndex)));
+            Delivery delivery = new Delivery(deliveryNetworkPackage, FindIslandById(deliveryNetworkPackage.IslandIndex));
+            _activeDeliveries.Add(delivery);
+            
+            OnDeliveryCreated?.Invoke(delivery);
         }
 
         private void HandleDeliveryUpdated(DeliveryNetworkPackage deliveryNetworkPackage)
@@ -70,6 +73,8 @@ namespace VComponent.Multiplayer.Deliveries
             }
 
             _activeDeliveries[deliveryIndexToUpdate].Data = deliveryNetworkPackage;
+            
+            OnDeliveryUpdated?.Invoke(_activeDeliveries[deliveryIndexToUpdate]);
         }
         
         private void HandleDeliveryExpired(DeliveryNetworkPackage deliveryNetworkPackage)
@@ -88,6 +93,8 @@ namespace VComponent.Multiplayer.Deliveries
             
             // Adding it to expired deliveries.
             _expiredDeliveries.Add(deliveryToRemove);
+            
+            OnDeliveryExpired?.Invoke(deliveryToRemove);
         }
 
         #endregion HANDLERS
