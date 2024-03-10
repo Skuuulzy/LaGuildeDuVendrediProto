@@ -1,0 +1,134 @@
+<WorldCreator Version="2.0">
+  <Generate IsGenerateTerrain="True" IsGenerateTexturing="True" IsGenerateTrees="True" IsGenerateDetails="True" IsGeneratePost="True" IsGenerateMeshes="True" />
+  <General IsUseGPU="True" IsRealtimeTerrainGenerationEnabled="False" IsRandomSeed="False" IsTileable="False" TilePosX="0" TilePosZ="0" BorderBlending="0.2" AutoAlign="True" Seed="100" ShowInformation="True" IsVisualizeHeatmaps="False" HeatMaterialBasicColor="FFFFFFFF" HeatMaterialHeatColor="FF0000FF" HeightmapResolution="1024" ControlmapResolution="512" DetailmapResolution="512" DetailResolutionPerPatch="16" BasemapResolution="512" FixedSizeRatio="False" TerrainRealWidth="256" TerrainRealHeight="130" PixelError="1" BasemapDistance="8000" CastShadows="True" DetailDistance="100" DetailDensity="0.5" GrassTint="FFFFFFFF" GrassWindSpeed="0.5" GrassWindBending="0.15" GrassWindSize="1" Sun="" SunID="" SeaPlane="KWS Water System" SeaPlaneID="52262" MeanSeaLevel="0.466469" MaterialType="URP" MaterialDepthFactor="0.03" MaterialTessellationDisplacementStrength="1" MaterialTessellationMaxDistance="100" MaterialTessellationMinDistance="10" MaterialTessellationStrength="4" CustomMaterial="" MaterialGradient="" InputTerrainID="">
+    <InputTerrain InputTerrainType="UnityTerrain" InputTerrain="" InputTerrainTexture="" InputTerrainOperationType="Default" InputTerrainStrength="1" InputTerrainResolution="32" InputTerrainOffsetNegX="0" InputTerrainOffsetNegZ="0" InputTerrainOffsetPosX="1" InputTerrainOffsetPosZ="1" InputTerrainBorderBlending="0.1" InputTerrainHeightOffset="0" InputTerrainHeightScale="1" />
+    <Masks>
+      <Mask IsEnabled="True" Name="Mask" Texture="" InvertMask="False" Weight="1" HeightMultiplicator="1">
+        <Filter IsEnabled="True" Name="Basic" Library="WorldCreatorEngine.dll" TerrainHeight="0:0:1:1" MeanSeaLevelType="Unused" CoastOffset="0" SmoothHeightStart="0" SmoothHeightEnd="0" TerrainSlope="0:0:90:90" SmoothSlopeStart="0" SmoothSlopeEnd="0">
+          <FilterValue Name="General Strength" Value="100" />
+          <FilterLevel Name="Level Strength 2" Value="0" />
+          <FilterLevel Name="Level Strength 4" Value="0" />
+          <FilterLevel Name="Level Strength 8" Value="100" />
+          <FilterLevel Name="Level Strength 16" Value="100" />
+          <FilterLevel Name="Level Strength 32" Value="100" />
+          <FilterLevel Name="Level Strength 64" Value="100" />
+          <FilterLevel Name="Level Strength 128" Value="100" />
+          <FilterLevel Name="Level Strength 256" Value="100" />
+          <FilterLevel Name="Level Strength 512" Value="100" />
+          <FilterLevel Name="Level Strength 1024" Value="100" />
+          <FilterLevel Name="Level Strength 2048" Value="40" />
+          <FilterLevel Name="Level Strength 4096" Value="100" />
+          <FilterLevel Name="Level Strength 8192" Value="100" />
+        </Filter>
+        <Filter IsEnabled="True" Name="Zero Edge" Library="WorldCreatorFilterset01.dll" TerrainHeight="0:0:1:1" MeanSeaLevelType="Unused" CoastOffset="0" SmoothHeightStart="0" SmoothHeightEnd="0" TerrainSlope="0:0:90:90" SmoothSlopeStart="0.001" SmoothSlopeEnd="0.001">
+          <FilterValue Name="General Strength" Value="150" />
+          <FilterValue Name="Smoothness" Value="1" />
+          <FilterLevel Name="Level Strength 2" Value="100" />
+          <FilterLevel Name="Level Strength 4" Value="100" />
+          <FilterLevel Name="Level Strength 8" Value="100" />
+          <FilterLevel Name="Level Strength 16" Value="100" />
+          <FilterLevel Name="Level Strength 32" Value="100" />
+          <FilterLevel Name="Level Strength 64" Value="100" />
+          <FilterLevel Name="Level Strength 128" Value="100" />
+          <FilterLevel Name="Level Strength 256" Value="100" />
+          <FilterLevel Name="Level Strength 512" Value="100" />
+          <FilterLevel Name="Level Strength 1024" Value="100" />
+          <FilterLevel Name="Level Strength 2048" Value="100" />
+          <FilterLevel Name="Level Strength 4096" Value="100" />
+          <FilterLevel Name="Level Strength 8192" Value="100" />
+        </Filter>
+        <Filter IsEnabled="True" Name="Erosion with Sedimentation" Library="WorldCreatorFilterset02.dll" TerrainHeight="0:0:1:1" MeanSeaLevelType="Unused" CoastOffset="0" SmoothHeightStart="0" SmoothHeightEnd="0" TerrainSlope="0:0:90:90" SmoothSlopeStart="0.001" SmoothSlopeEnd="0.001">
+          <FilterValue Name="General Strength" Value="155" />
+          <FilterValue Name="Strength Modifier" Value="30" />
+          <FilterValue Name="Length" Value="75" />
+          <FilterValue Name="Slope Strength" Value="250" />
+          <FilterValue Name="Slope" Value="40" />
+          <FilterLevel Name="Level Strength 2" Value="100" />
+          <FilterLevel Name="Level Strength 4" Value="100" />
+          <FilterLevel Name="Level Strength 8" Value="100" />
+          <FilterLevel Name="Level Strength 16" Value="100" />
+          <FilterLevel Name="Level Strength 32" Value="100" />
+          <FilterLevel Name="Level Strength 64" Value="100" />
+          <FilterLevel Name="Level Strength 128" Value="100" />
+          <FilterLevel Name="Level Strength 256" Value="100" />
+          <FilterLevel Name="Level Strength 512" Value="100" />
+          <FilterLevel Name="Level Strength 1024" Value="100" />
+          <FilterLevel Name="Level Strength 2048" Value="100" />
+          <FilterLevel Name="Level Strength 4096" Value="100" />
+          <FilterLevel Name="Level Strength 8192" Value="100" />
+        </Filter>
+        <Filter IsEnabled="True" Name="Canyon" Library="WorldCreatorFilterset01.dll" TerrainHeight="0:0:1:1" MeanSeaLevelType="Unused" CoastOffset="0" SmoothHeightStart="0" SmoothHeightEnd="0" TerrainSlope="0:0:90:90" SmoothSlopeStart="0.001" SmoothSlopeEnd="0.001">
+          <FilterValue Name="General Strength" Value="52" />
+          <FilterValue Name="Sharpness" Value="5" />
+          <FilterValue Name="Sharpness Strength" Value="153" />
+          <FilterValue Name="Modulator" Value="6" />
+          <FilterLevel Name="Level Strength 2" Value="100" />
+          <FilterLevel Name="Level Strength 4" Value="100" />
+          <FilterLevel Name="Level Strength 8" Value="100" />
+          <FilterLevel Name="Level Strength 16" Value="100" />
+          <FilterLevel Name="Level Strength 32" Value="100" />
+          <FilterLevel Name="Level Strength 64" Value="100" />
+          <FilterLevel Name="Level Strength 128" Value="100" />
+          <FilterLevel Name="Level Strength 256" Value="100" />
+          <FilterLevel Name="Level Strength 512" Value="100" />
+          <FilterLevel Name="Level Strength 1024" Value="100" />
+          <FilterLevel Name="Level Strength 2048" Value="100" />
+          <FilterLevel Name="Level Strength 4096" Value="100" />
+          <FilterLevel Name="Level Strength 8192" Value="100" />
+        </Filter>
+        <Filter IsEnabled="True" Name="Flatten" Library="WorldCreatorFilterset01.dll" TerrainHeight="0:0:1:1" MeanSeaLevelType="Unused" CoastOffset="0" SmoothHeightStart="0.021" SmoothHeightEnd="0.15" TerrainSlope="0:0:90:90" SmoothSlopeStart="0.001" SmoothSlopeEnd="0.001">
+          <FilterValue Name="General Strength" Value="85" />
+          <FilterValue Name="Flatten Anchor" Value="0.5" />
+          <FilterValue Name="Flatten Strength" Value="0.5" />
+          <FilterLevel Name="Level Strength 2" Value="0" />
+          <FilterLevel Name="Level Strength 4" Value="0" />
+          <FilterLevel Name="Level Strength 8" Value="0" />
+          <FilterLevel Name="Level Strength 16" Value="100" />
+          <FilterLevel Name="Level Strength 32" Value="100" />
+          <FilterLevel Name="Level Strength 64" Value="100" />
+          <FilterLevel Name="Level Strength 128" Value="100" />
+          <FilterLevel Name="Level Strength 256" Value="100" />
+          <FilterLevel Name="Level Strength 512" Value="100" />
+          <FilterLevel Name="Level Strength 1024" Value="100" />
+          <FilterLevel Name="Level Strength 2048" Value="100" />
+          <FilterLevel Name="Level Strength 4096" Value="100" />
+          <FilterLevel Name="Level Strength 8192" Value="100" />
+        </Filter>
+        <Filter IsEnabled="True" Name="Smooth Slope" Library="WorldCreatorFilterset01.dll" TerrainHeight="0:0:1:1" MeanSeaLevelType="Unused" CoastOffset="0" SmoothHeightStart="0" SmoothHeightEnd="0" TerrainSlope="0:0:90:90" SmoothSlopeStart="0.001" SmoothSlopeEnd="0.001">
+          <FilterValue Name="General Strength" Value="100" />
+          <FilterValue Name="Smooth Strength" Value="65" />
+          <FilterValue Name="Min Angle" Value="0" />
+          <FilterValue Name="Max Angle" Value="60" />
+          <FilterValue Name="Min Count" Value="0" />
+          <FilterValue Name="Max Count" Value="8" />
+          <FilterLevel Name="Level Strength 2" Value="100" />
+          <FilterLevel Name="Level Strength 4" Value="100" />
+          <FilterLevel Name="Level Strength 8" Value="100" />
+          <FilterLevel Name="Level Strength 16" Value="100" />
+          <FilterLevel Name="Level Strength 32" Value="100" />
+          <FilterLevel Name="Level Strength 64" Value="100" />
+          <FilterLevel Name="Level Strength 128" Value="100" />
+          <FilterLevel Name="Level Strength 256" Value="100" />
+          <FilterLevel Name="Level Strength 512" Value="100" />
+          <FilterLevel Name="Level Strength 1024" Value="100" />
+          <FilterLevel Name="Level Strength 2048" Value="100" />
+          <FilterLevel Name="Level Strength 4096" Value="100" />
+          <FilterLevel Name="Level Strength 8192" Value="100" />
+        </Filter>
+      </Mask>
+    </Masks>
+  </General>
+  <Texturing>
+    <TextureDescription MapDiffuse="" MapNormal="" IsEnabled="True" MapHeight="" MaskType="Unused" SelectedRoadRiverIndex="0" MaskNoisemapResolution="512" Mask="" MaskNoiseScale="100" MaskNoiseSeed="245123" MaskNoiseOctaves="10" MaskNoiseDepth="0" MaskThreshold="0.5" MaskContrast="1" InvertMask="False" LockToResolution="False" TileSize="15" TileOffsetX="0" TileOffsetY="0" Metallic="0" HeightOffset="0" HeightScale="1" MeanSeaLevelType="Unused" CoastOffset="0" TerrainHeight="0:0:1:1" HeightNoiseType="Unused" HeightNoisemapResolution="512" HeightNoise="" HeightNoiseScale="8" HeightNoiseSeed="245123" HeightNoiseOctaves="10" HeightNoiseDepth="0" HeightNoiseFactor="0.1" SmoothHeightStart="0.001" SmoothHeightEnd="0.001" TerrainSlope="0:0:90:90" SmoothSlopeStart="0.1" SmoothSlopeEnd="0.1" FollowSun="False" InvertSunDirection="False" FollowSunSmoothness="1" CavityType="None" CavitySteps="5" CavityStepSize="10" CavityStrength="1" WeightMultiplicator="1" ColorPickMap="" ColorPickColor="(0.00, 0.00, 0.00)" ColorPickThreshold="0" ColorPickSmoothness="0" />
+    <TextureDescription MapDiffuse="" MapNormal="" IsEnabled="True" MapHeight="" MaskType="Unused" SelectedRoadRiverIndex="0" MaskNoisemapResolution="512" Mask="" MaskNoiseScale="100" MaskNoiseSeed="245123" MaskNoiseOctaves="10" MaskNoiseDepth="0" MaskThreshold="0.5" MaskContrast="1" InvertMask="False" LockToResolution="False" TileSize="15" TileOffsetX="0" TileOffsetY="0" Metallic="0" HeightOffset="0" HeightScale="1" MeanSeaLevelType="Above" CoastOffset="0" TerrainHeight="0:0:1:1" HeightNoiseType="Unused" HeightNoisemapResolution="512" HeightNoise="" HeightNoiseScale="8" HeightNoiseSeed="245123" HeightNoiseOctaves="10" HeightNoiseDepth="0" HeightNoiseFactor="0.1" SmoothHeightStart="0.06950285" SmoothHeightEnd="0.1151714" TerrainSlope="0:0:90:25" SmoothSlopeStart="0.1" SmoothSlopeEnd="0.1" FollowSun="False" InvertSunDirection="False" FollowSunSmoothness="1" CavityType="None" CavitySteps="5" CavityStepSize="10" CavityStrength="1" WeightMultiplicator="1" ColorPickMap="" ColorPickColor="(0.00, 0.00, 0.00)" ColorPickThreshold="0" ColorPickSmoothness="0" />
+    <TextureDescription MapDiffuse="" MapNormal="" IsEnabled="True" MapHeight="" MaskType="Unused" SelectedRoadRiverIndex="0" MaskNoisemapResolution="512" Mask="" MaskNoiseScale="100" MaskNoiseSeed="245123" MaskNoiseOctaves="10" MaskNoiseDepth="0" MaskThreshold="0.5" MaskContrast="1" InvertMask="False" LockToResolution="False" TileSize="10" TileOffsetX="0" TileOffsetY="0" Metallic="0" HeightOffset="0" HeightScale="1" MeanSeaLevelType="Below_Locked" CoastOffset="0" TerrainHeight="0:0:1:1" HeightNoiseType="Unused" HeightNoisemapResolution="512" HeightNoise="" HeightNoiseScale="8" HeightNoiseSeed="245123" HeightNoiseOctaves="10" HeightNoiseDepth="0" HeightNoiseFactor="0.1" SmoothHeightStart="0.001" SmoothHeightEnd="0.02383429" TerrainSlope="0:0:90:90" SmoothSlopeStart="0.1" SmoothSlopeEnd="0.1" FollowSun="False" InvertSunDirection="False" FollowSunSmoothness="1" CavityType="None" CavitySteps="5" CavityStepSize="10" CavityStrength="1" WeightMultiplicator="1" ColorPickMap="" ColorPickColor="(0.00, 0.00, 0.00)" ColorPickThreshold="0" ColorPickSmoothness="0" />
+    <TextureDescription MapDiffuse="" MapNormal="" IsEnabled="True" MapHeight="" MaskType="Unused" SelectedRoadRiverIndex="0" MaskNoisemapResolution="512" Mask="" MaskNoiseScale="100" MaskNoiseSeed="245123" MaskNoiseOctaves="10" MaskNoiseDepth="0" MaskThreshold="0.5" MaskContrast="1" InvertMask="False" LockToResolution="False" TileSize="15" TileOffsetX="0" TileOffsetY="0" Metallic="0" HeightOffset="0" HeightScale="1" MeanSeaLevelType="Above" CoastOffset="0.1257143" TerrainHeight="0:0:1:1" HeightNoiseType="Unused" HeightNoisemapResolution="512" HeightNoise="" HeightNoiseScale="8" HeightNoiseSeed="245123" HeightNoiseOctaves="10" HeightNoiseDepth="0" HeightNoiseFactor="0.1" SmoothHeightStart="0.1151714" SmoothHeightEnd="0.2521771" TerrainSlope="0:40:90:90" SmoothSlopeStart="0.1" SmoothSlopeEnd="0.1" FollowSun="False" InvertSunDirection="False" FollowSunSmoothness="1" CavityType="None" CavitySteps="5" CavityStepSize="10" CavityStrength="1" WeightMultiplicator="1" ColorPickMap="" ColorPickColor="(0.00, 0.00, 0.00)" ColorPickThreshold="0" ColorPickSmoothness="0" />
+  </Texturing>
+  <Objects>
+    <Trees RandomSeed="False" Seed="10" />
+    <Details RandomSeed="False" Seed="0" />
+    <DetailMeshes RandomSeed="False" Seed="0" />
+    <Meshes RandomSeed="False" Static="False" Seed="0" />
+  </Objects>
+  <Post />
+</WorldCreator>

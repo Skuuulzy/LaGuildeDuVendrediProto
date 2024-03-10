@@ -91,10 +91,10 @@ Material:
     - _CausticDisolve: 10
     - _CausticIntensity: 100
     - _CausticSpeed: 2
-    - _Caustic_Depth: 3.86
-    - _Caustic_Disolve: 2.8
-    - _Caustic_Intensity: 0.224
-    - _Caustic_Scale: 120
+    - _Caustic_Depth: 5.99
+    - _Caustic_Disolve: 4.6
+    - _Caustic_Intensity: 0.03
+    - _Caustic_Scale: 1000
     - _Caustic_Speed: 2
     - _ClearCoatMask: 0
     - _ClearCoatSmoothness: 0
@@ -105,10 +105,10 @@ Material:
     - _DstBlend: 0
     - _DstBlendAlpha: 0
     - _EnvironmentReflections: 1
-    - _Foam_Amount: 2
+    - _Foam_Amount: 0.77
     - _Foam_Color: 0
-    - _Foam_CutOff: 1
-    - _Foam_Scale: 400
+    - _Foam_CutOff: 1.07
+    - _Foam_Scale: 5000
     - _Foam_Speed: 1
     - _Frequency: 1
     - _GlossMapScale: 0
@@ -138,13 +138,13 @@ Material:
     m_Colors:
     - _BaseColor: {r: 1, g: 1, b: 1, a: 1}
     - _CausticColor: {r: 0, g: 0.9528302, b: 0.8366883, a: 0}
-    - _Caustic_Color: {r: 0, g: 1.2536323, b: 1.3977201, a: 0}
+    - _Caustic_Color: {r: 0.5978852, g: 1.4830353, b: 1.6900221, a: 0}
     - _Color: {r: 1, g: 1, b: 1, a: 1}
-    - _Deep_Water: {r: 0, g: 0.39034525, b: 0.509434, a: 0.69411767}
+    - _Deep_Water: {r: 0.09229257, g: 0.19604433, b: 0.32075468, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
     - _Foam_Color: {r: 1, g: 1, b: 1, a: 1}
     - _SpecColor: {r: 0.19999996, g: 0.19999996, b: 0.19999996, a: 1}
-    - _Surface_Water: {r: 0, g: 0.003966498, b: 0.2830189, a: 1}
+    - _Surface_Water: {r: 0.28502136, g: 0.4818751, b: 0.5754717, a: 0.8}
   m_BuildTextureStacks: []
 --- !u!114 &2001460810117787940
 MonoBehaviour:
