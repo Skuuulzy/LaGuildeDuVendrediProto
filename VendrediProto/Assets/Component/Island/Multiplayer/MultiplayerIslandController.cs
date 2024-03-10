@@ -133,7 +133,7 @@ namespace VComponent.Island
         }
 
         [Command]
-        private void UpdateDelivery()
+        public void UpdateDelivery(ushort merchandiseAmount)
         {
             if (_currentNetworkDeliveryNetworkPackagePackage.IsDone())
             {
@@ -141,7 +141,7 @@ namespace VComponent.Island
                 return;
             }
             
-            _currentNetworkDeliveryNetworkPackagePackage.MerchandiseCurrentAmount++;
+            _currentNetworkDeliveryNetworkPackagePackage.MerchandiseCurrentAmount += merchandiseAmount;
             UpdateCurrentDeliveryServerRPC(_currentNetworkDeliveryNetworkPackagePackage);
         }
     }

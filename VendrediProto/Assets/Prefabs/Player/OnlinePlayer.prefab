@@ -75,9 +75,14 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 1810462773743339317, guid: 1c471ccbf44671b439fb794f72e10afb, type: 3}
+    - {fileID: 2124319081363444166, guid: 1c471ccbf44671b439fb794f72e10afb, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 7673686761778577729, guid: 1c471ccbf44671b439fb794f72e10afb,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 7602440660852365168}
     - targetCorrespondingSourceObject: {fileID: 7673686761778577729, guid: 1c471ccbf44671b439fb794f72e10afb,
         type: 3}
       insertIndex: -1
@@ -97,6 +102,18 @@ GameObject:
     type: 3}
   m_PrefabInstance: {fileID: 7989646937318748103}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &7602440660852365168
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 332849644814331526}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: acbc5c4bdc8e195458a7ddae64b841d3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &5325958543237942890
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -111,7 +128,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _ownerComponents:
   - {fileID: 8688631479338534651}
-  - {fileID: 8330521857030323713}
+  - {fileID: 7602440660852365168}
   - {fileID: 8415911624854180107}
   - {fileID: 6643268860604238496}
 --- !u!114 &443991979402461411
@@ -170,18 +187,6 @@ SphereCollider:
     type: 3}
   m_PrefabInstance: {fileID: 7989646937318748103}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &8330521857030323713 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 2124319081363444166, guid: 1c471ccbf44671b439fb794f72e10afb,
-    type: 3}
-  m_PrefabInstance: {fileID: 7989646937318748103}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 332849644814331526}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5c62d8c78f93b5241b5b23f455f2fc49, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!54 &8415911624854180107 stripped
 Rigidbody:
   m_CorrespondingSourceObject: {fileID: 1885810353718722252, guid: 1c471ccbf44671b439fb794f72e10afb,
