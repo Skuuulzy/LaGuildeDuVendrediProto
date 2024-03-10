@@ -1,36 +1,16 @@
-using Unity.Netcode;
+using VComponent.Island;
 
 namespace VComponent.Items.Merchandise
 {
-    public struct Delivery : INetworkSerializable
+    public class Delivery
     {
-        public MerchandiseType Merchandise;
-        public int MerchandiseDesiredAmount;
-        public int MerchandiseCurrentAmount;
-        public int IslandIndex;
-        public int TimeAvailable;
+        public DeliveryNetworkPackage Data;
+        public MultiplayerIslandController Buyer;
 
-        public Delivery(MerchandiseType merchandise, int merchandiseDesiredAmount,int merchandiseCurrentAmount, int islandIndex, int timeAvailable)
+        public Delivery(DeliveryNetworkPackage data, MultiplayerIslandController buyer)
         {
-            Merchandise = merchandise;
-            MerchandiseDesiredAmount = merchandiseDesiredAmount;
-            MerchandiseCurrentAmount = merchandiseCurrentAmount;
-            IslandIndex = islandIndex;
-            TimeAvailable = timeAvailable;
-        }
-
-        public bool IsDone()
-        {
-            return MerchandiseDesiredAmount == MerchandiseCurrentAmount;
-        }
-
-        public void NetworkSerialize<T>(BufferSerializer<T> serializer) where T : IReaderWriter
-        {
-            serializer.SerializeValue(ref Merchandise);
-            serializer.SerializeValue(ref MerchandiseDesiredAmount);
-            serializer.SerializeValue(ref MerchandiseCurrentAmount);
-            serializer.SerializeValue(ref IslandIndex);
-            serializer.SerializeValue(ref TimeAvailable);
+            Data = data;
+            Buyer = buyer;
         }
     }
 }
