@@ -1,74 +1,132 @@
+using QFSW.QC;
 using UnityEngine;
+using UnityEngine.Tilemaps;
 using VComponent.Island;
 using VComponent.Items.Merchandise;
 using VComponent.Multiplayer.Deliveries;
 
-public class MultiplayerShipController : MonoBehaviour
+namespace VComponent.Ship
 {
-    [SerializeField] private MerchandiseType _currentMerchandiseCarriedType;
-    [SerializeField] private ushort _currentMerchandiseCarriedNumber;
-
-    private MultiplayerIslandController _dockedIsland;
-    private bool _merchandiseSellable;
-    
-    private void OnTriggerEnter(Collider other)
+    public class MultiplayerShipController : MonoBehaviour
     {
-        MultiplayerIslandController islandController = other.gameObject.GetComponent<MultiplayerIslandController>();
-        if (islandController != null)
-        {
-            Debug.Log($"Entering island {islandController.IslandData.IslandName}");
-            _dockedIsland = islandController;
+        [SerializeField] private MerchandiseType _currentMerchandiseCarriedType;
+        [SerializeField] private ushort _currentMerchandiseCarriedNumber;
 
-            Delivery requestedDelivery = DeliveryManager.Instance.GetRequestedDeliveryBy(islandController);
-            
-            if (requestedDelivery != null)
+        private MultiplayerIslandController _dockedIsland;
+        private Delivery _currentDelivery;
+        private ushort _merchandiseAmountSellable;
+
+        private void OnTriggerEnter(Collider other)
+        {
+            MultiplayerIslandController islandController = other.gameObject.GetComponent<MultiplayerIslandController>();
+            if (islandController != null)
             {
-                // The request il already done or we do not have the correct merchandise type.
-                if (requestedDelivery.Data.IsDone() || _currentMerchandiseCarriedType != requestedDelivery.Data.Merchandise)
-                {
-                    return;
-                }
+                Debug.Log($"Entering island {islandController.IslandData.IslandName}");
+                _dockedIsland = islandController;
                 
-                // Inform the UI that we can sell this merchandise. Maybe pass this instance to then sell bind the button listener to the sell goods method.
-                _merchandiseSellable = true;
+                _currentDelivery = DeliveryManager.Instance.GetRequestedDeliveryBy(islandController);
+                
+                if (_currentDelivery != null)
+                {
+                    UpdateSellableState(_currentDelivery);
+                    DeliveryManager.OnDeliveryUpdated += UpdateSellableState;
+                }
+                else
+                {
+                    Debug.Log("The current island don't request any delivery.");
+                    DeliveryManager.OnDeliveryCreated += HandleDeliveryCreation;
+                }
             }
-            else
+        }
+
+        private void OnTriggerExit(Collider other)
+        {
+            MultiplayerIslandController islandController = other.gameObject.GetComponent<MultiplayerIslandController>();
+            if (islandController != null)
             {
-                Debug.Log("The current island don't request any delivery.");
-                // Do something here to check if the island generate a delivery while we are in the zone.
+                Debug.Log($"Exiting island {islandController.IslandData.IslandName}");
+                
+                _dockedIsland = null;
+                _currentDelivery = null;
+                _merchandiseAmountSellable = 0;
+                DeliveryManager.OnDeliveryUpdated -= UpdateSellableState;
+                DeliveryManager.OnDeliveryCreated -= HandleDeliveryCreation;
             }
         }
-    }
 
-    private void OnTriggerExit(Collider other)
-    {
-        MultiplayerIslandController islandController = other.gameObject.GetComponent<MultiplayerIslandController>();
-        if (islandController != null)
+        #region SELL
+        
+        private void HandleDeliveryCreation(Delivery delivery)
         {
-            Debug.Log($"Exiting island {islandController.IslandData.IslandName}");
-            _dockedIsland = null;
-            _merchandiseSellable = false;
-        }
-    }
-
-    public void SellMerchandiseToDockedIsland()
-    {
-        if (_dockedIsland == null)
-        {
-            Debug.LogError("No docked island to sell merchandise to !");
-            return;
+            // This delivery is not on the docked island
+            if (delivery.Buyer != _dockedIsland)
+            {
+                return;
+            }
+            
+            // The island has created a delivery, we can update the data to try to sell our merchandise.
+            _currentDelivery = delivery;
+            UpdateSellableState(_currentDelivery);
+            DeliveryManager.OnDeliveryUpdated += UpdateSellableState;
         }
 
-        if (!_merchandiseSellable)
+        private void UpdateSellableState(Delivery delivery)
         {
-            Debug.LogError($"The current merchandise: {_currentMerchandiseCarriedType} cannot be sell to the island: {_dockedIsland.IslandData.IslandName} !");
-            return;
+            // We do not want to update delivery that we are not tracking for this island.
+            if (_currentDelivery != delivery)
+            {
+                return;
+            }
+            
+            // The request il already done or we do not have the correct merchandise type.
+            if (delivery.IsDone() || _currentMerchandiseCarriedType != delivery.Data.Merchandise)
+            {
+                _merchandiseAmountSellable = 0;
+                return;
+            }
+
+            // Inform the UI that we can sell this merchandise. Maybe pass this instance to then sell bind the button listener to the sell goods method.
+            _merchandiseAmountSellable = delivery.NeededAmount();
         }
         
-        // Do something to check how many units of merchandise can be sell here.
-        _dockedIsland.UpdateDelivery(_currentMerchandiseCarriedNumber);
-        _currentMerchandiseCarriedNumber = 0;
-        _currentMerchandiseCarriedType = MerchandiseType.NONE;
-        _merchandiseSellable = false;
+        [Command]
+        public void SellMerchandiseToDockedIsland()
+        {
+            if (_dockedIsland == null)
+            {
+                Debug.LogError("No docked island to sell merchandise to !");
+                return;
+            }
+
+            if (_merchandiseAmountSellable > 0)
+            {
+                Debug.LogError($"The current merchandise: {_currentMerchandiseCarriedType} cannot be sell to the island: {_dockedIsland.IslandData.IslandName} !");
+                return;
+            }
+
+            // Determine how many merchandise we can sell
+            ushort merchandiseSellAmount = GetSellableAmount();
+
+            _dockedIsland.UpdateDelivery(merchandiseSellAmount);
+
+            _currentMerchandiseCarriedNumber -= merchandiseSellAmount;
+            _currentMerchandiseCarriedType = MerchandiseType.NONE;
+
+            _merchandiseAmountSellable -= merchandiseSellAmount;
+        }
+
+        private ushort GetSellableAmount()
+        {
+            // The ship do not have enough or just enough merchandise in stock to complete the order just sell everything.
+            if (_merchandiseAmountSellable >= _currentMerchandiseCarriedNumber)
+            {
+                return _currentMerchandiseCarriedNumber;
+            }
+
+            // The ship have too many resources in stock just sell the maximum asked by the delivery.
+            return _merchandiseAmountSellable;
+        }
+
+        #endregion
     }
 }

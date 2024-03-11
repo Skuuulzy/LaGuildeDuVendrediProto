@@ -21,11 +21,6 @@ namespace VComponent.Items.Merchandise
             TimeAvailable = timeAvailable;
         }
 
-        public bool IsDone()
-        {
-            return MerchandiseDesiredAmount == MerchandiseCurrentAmount;
-        }
-
         public void NetworkSerialize<T>(BufferSerializer<T> serializer) where T : IReaderWriter
         {
             serializer.SerializeValue(ref ID);

@@ -18,7 +18,7 @@ namespace VComponent.Island
 
         private CountdownTimer _deliveryRequestTimer;
         
-        private DeliveryNetworkPackage _currentNetworkDeliveryNetworkPackagePackage;
+        private DeliveryNetworkPackage _currentNetworkDelivery;
         private bool _deliveryRequested;
 
         public static Action<DeliveryNetworkPackage> OnDeliveryRequested;
@@ -59,7 +59,7 @@ namespace VComponent.Island
             if (_deliveryRequested)
             {
                 // Updating the time available on the request
-                _currentNetworkDeliveryNetworkPackagePackage.TimeAvailable = (uint)_deliveryRequestTimer.GetTime();
+                _currentNetworkDelivery.TimeAvailable = (uint)_deliveryRequestTimer.GetTime();
                 //UpdateCurrentDeliveryClientRPC(_currentNetworkDeliveryPackage);
             }
         }
@@ -102,7 +102,7 @@ namespace VComponent.Island
         [ClientRpc]
         private void RequestNewDeliveryClientRPC(DeliveryNetworkPackage networkDeliveryNetworkPackagePackage)
         {
-            _currentNetworkDeliveryNetworkPackagePackage = networkDeliveryNetworkPackagePackage;
+            _currentNetworkDelivery = networkDeliveryNetworkPackagePackage;
             OnDeliveryRequested?.Invoke(networkDeliveryNetworkPackagePackage);
         }
         
@@ -113,7 +113,7 @@ namespace VComponent.Island
         [ClientRpc]
         private void UpdateCurrentDeliveryClientRPC(DeliveryNetworkPackage networkDeliveryNetworkPackagePackage)
         {
-            _currentNetworkDeliveryNetworkPackagePackage = networkDeliveryNetworkPackagePackage;
+            _currentNetworkDelivery = networkDeliveryNetworkPackagePackage;
             OnDeliveryUpdated?.Invoke(networkDeliveryNetworkPackagePackage);
         }
         
@@ -127,7 +127,7 @@ namespace VComponent.Island
             // I think i need to do something safer here.
             // We need to handle here the race conditions when deliver things.
             
-            _currentNetworkDeliveryNetworkPackagePackage = networkDeliveryNetworkPackagePackage;
+            _currentNetworkDelivery = networkDeliveryNetworkPackagePackage;
             
             UpdateCurrentDeliveryClientRPC(networkDeliveryNetworkPackagePackage);
         }
@@ -135,14 +135,8 @@ namespace VComponent.Island
         [Command]
         public void UpdateDelivery(ushort merchandiseAmount)
         {
-            if (_currentNetworkDeliveryNetworkPackagePackage.IsDone())
-            {
-                Debug.LogWarning("Delivery already completed.");
-                return;
-            }
-            
-            _currentNetworkDeliveryNetworkPackagePackage.MerchandiseCurrentAmount += merchandiseAmount;
-            UpdateCurrentDeliveryServerRPC(_currentNetworkDeliveryNetworkPackagePackage);
+            _currentNetworkDelivery.MerchandiseCurrentAmount += merchandiseAmount;
+            UpdateCurrentDeliveryServerRPC(_currentNetworkDelivery);
         }
     }
 }
