@@ -10,16 +10,12 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 094c7b15abe768e4faa0abcde184d59f, type: 3}
-  m_Name: MonkeyIsland
+  m_Name: PerrotIslandSO
   m_EditorClassIdentifier: 
-  _islandName: MonkeyIsland
-  _factionType: 0
+  _islandName: PerrotIsland
+  _factionType: 3
   _merchandisesToSell:
-    m_Dictionnary:
-    - m_key: {fileID: 11400000, guid: 7fbaefa2e59b8914bb16163ab41a4949, type: 2}
-      m_value: 30
-    - m_key: {fileID: 11400000, guid: e1000396ace43e541b684ef7b3c50a5f, type: 2}
-      m_value: 20
+    m_Dictionnary: []
   _merchandisesRequested:
     m_Dictionnary:
     - m_key: {fileID: 11400000, guid: 8ba9d8f37b540674fa79f74b6d57821e, type: 2}

@@ -8,6 +8,17 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: -1366898011673098907, guid: 970cd4c4e47f35744abdb9aa40228d2e,
+        type: 3}
+      propertyPath: _index
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: -1366898011673098907, guid: 970cd4c4e47f35744abdb9aa40228d2e,
+        type: 3}
+      propertyPath: _islandData
+      value: 
+      objectReference: {fileID: 11400000, guid: 4bac713f644711d488252b62000a1c01,
+        type: 2}
     - target: {fileID: 320441512106573874, guid: 970cd4c4e47f35744abdb9aa40228d2e,
         type: 3}
       propertyPath: GlobalObjectIdHash

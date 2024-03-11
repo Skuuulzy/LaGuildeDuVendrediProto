@@ -6,7 +6,7 @@ public class IslandController : MonoBehaviour
 {
 	[SerializeField] private IslandView _islandView;
 
-	[SerializeField] private IslandSO _islandSO;
+	[SerializeField] private FactionIslandSO _islandSO;
 
 	private MerchandiseType _currentMerchandiseAsked;
 	private int _currentMerchandiseAskedValue;
@@ -16,7 +16,7 @@ public class IslandController : MonoBehaviour
 	private int _currentMerchandiseToSellValue;
 	private bool _isGivingAMerchandise;
 	public Action OnUpdateMerchandise;
-	public IslandSO IslandSO => _islandSO;
+	public FactionIslandSO IslandSO => _islandSO;
 	public MerchandiseType CurrentMerchandiseAsked => _currentMerchandiseAsked;
 	public int CurrentMerchandiseAskedValue => _currentMerchandiseAskedValue;
 
@@ -28,11 +28,6 @@ public class IslandController : MonoBehaviour
 	private void InitIslandStat()
 	{
 		if (_islandSO.MerchandisesRequested != null && _islandSO.MerchandisesRequested.ToDictionary().Count != 0)
-		{
-			// Call the fonction AskForMerchandise every 3 minutes, en commençant après une seconde d'attente.
-			//InvokeRepeating(nameof(ChangeMerchandiseToSell), 1f, _islandSO.MerchandiseToSellTimeInterval);
-		}
-		if (_islandSO.MerchandisesToSell != null && _islandSO.MerchandisesToSell.ToDictionary().Count != 0)
 		{
 			InvokeRepeating(nameof(GenerateMerchandiseToAsk), 1f, _islandSO.MerchandiseRequestedTimeInterval);
 		}
