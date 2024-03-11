@@ -9,6 +9,7 @@ namespace VComponent.Tools.Timer
         public bool IsRunning { get; protected set; }
 
         public float Progress => Time / InitialTime;
+        public float GetTime() => Time;
 
         public Action OnTimerStart = delegate { };
         public Action OnTimerStop = delegate { };
@@ -89,7 +90,5 @@ namespace VComponent.Tools.Timer
         }
 
         public void Reset() => Time = 0;
-
-        public float GetTime() => Time;
     }
 }

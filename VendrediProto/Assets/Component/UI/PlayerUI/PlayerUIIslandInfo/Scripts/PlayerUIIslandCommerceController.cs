@@ -6,6 +6,7 @@ using System.Linq;
 using UnityEngine;
 using VComponent.Island;
 using VComponent.Items.Merchandise;
+using VComponent.Multiplayer.Deliveries;
 
 public class PlayerUIIslandCommerceController : MonoBehaviour
 {
@@ -29,7 +30,7 @@ public class PlayerUIIslandCommerceController : MonoBehaviour
 
 	private void LinkToIslandEvent()
 	{
-		MultiplayerIslandController.OnDeliveryRequested += SetDeliveryInfos;
+		DeliveryManager.OnDeliveryCreated += SetDeliveryInfos;
 	}
 
 	//private void LinkToShipEvent()
@@ -47,7 +48,7 @@ public class PlayerUIIslandCommerceController : MonoBehaviour
 	private void SetDeliveryInfos(Delivery delivery)
 	{
 		PlayerUIIslandInfoView playerUIIslandInfoController = Instantiate(_playerUIIslandInfoViewPrefab, _parentTransform);
-		playerUIIslandInfoController.Init(delivery, GetIslandControllerByIndex(delivery.IslandIndex).IslandData.IslandName);
+		playerUIIslandInfoController.Init(delivery);
 	}
 
 
@@ -63,18 +64,5 @@ public class PlayerUIIslandCommerceController : MonoBehaviour
 				return;
 			}
 		}
-	}
-
-	private MultiplayerIslandController GetIslandControllerByIndex(int index)
-	{
-		foreach(MultiplayerIslandController islandController in  _islandControllerList)
-		{
-			if(islandController.Index == index)
-			{
-				return islandController;
-			}
-		}
-
-		return null;
 	}
 }

@@ -3,28 +3,30 @@ using QFSW.QC;
 using Unity.Netcode;
 using UnityEngine;
 using VComponent.Items.Merchandise;
+using VComponent.Tools.IDGenerators;
 using VComponent.Tools.Timer;
 
 namespace VComponent.Island
 {
     /// <summary>
-    /// Responsible fore creating deliveries, and managing island data.
+    /// Responsible for creating deliveries, and managing island data.
     /// </summary>
     public class MultiplayerIslandController : NetworkBehaviour
     {
-        [SerializeField] private int _index;
+        [SerializeField] private byte _index;
         [SerializeField] private IslandSO _islandData;
 
         private CountdownTimer _deliveryRequestTimer;
+        
+        private DeliveryNetworkPackage _currentNetworkDeliveryNetworkPackagePackage;
+        private bool _deliveryRequested;
 
-        public int Index => _index;
+        public static Action<DeliveryNetworkPackage> OnDeliveryRequested;
+        public static Action<DeliveryNetworkPackage> OnDeliveryUpdated;
+        public static Action<DeliveryNetworkPackage> OnDeliveryExpired;
+
+        public byte Index => _index;
         public IslandSO IslandData => _islandData;
-
-        public static Action<Delivery> OnDeliveryRequested;
-        public static Action<Delivery> OnDeliveryUpdated;
-        public static Action<Delivery> OnDeliveryExpired;
-
-        private Delivery _currentDelivery;
         
         private void Start()
         {
@@ -53,6 +55,13 @@ namespace VComponent.Island
             
             // Making clock tick
             _deliveryRequestTimer.Tick(Time.deltaTime);
+
+            if (_deliveryRequested)
+            {
+                // Updating the time available on the request
+                _currentNetworkDeliveryNetworkPackagePackage.TimeAvailable = (uint)_deliveryRequestTimer.GetTime();
+                //UpdateCurrentDeliveryClientRPC(_currentNetworkDeliveryPackage);
+            }
         }
 
         public void StartRequestingDeliveries()
@@ -64,32 +73,76 @@ namespace VComponent.Island
             //_deliveryRequestTimer.Start();
         }
 
+        /// <summary>
+        /// SERVER-SIDE
+        /// Request a delivery and send a RPC to all the clients.
+        /// </summary>
         [Command]
         private void RequestDelivery()
         {
             var randomRequest = _islandData.RequestRandomMerchandiseRequest();
-            Delivery delivery = new Delivery(randomRequest.Item1, randomRequest.Item2, 0, _index, randomRequest.Item3);
             
-            RequestNewDeliveryClientRPC(delivery);
+            DeliveryNetworkPackage networkDeliveryNetworkPackagePackage = new DeliveryNetworkPackage(
+                IDGenerator.RequestUniqueDeliveryID(),
+                randomRequest.Item1, 
+                randomRequest.Item2, 
+                0, 
+                _index, 
+                randomRequest.Item3);
+            
+            RequestNewDeliveryClientRPC(networkDeliveryNetworkPackagePackage);
+                        
+            _deliveryRequested = true;
         }
         
+        /// <summary>
+        /// CLIENT-SIDE
+        /// RPC received by all the client when the server create a new delivery request.
+        /// </summary>
         [ClientRpc]
-        private void RequestNewDeliveryClientRPC(Delivery delivery) {
-            
-            OnDeliveryRequested?.Invoke(delivery);
+        private void RequestNewDeliveryClientRPC(DeliveryNetworkPackage networkDeliveryNetworkPackagePackage)
+        {
+            _currentNetworkDeliveryNetworkPackagePackage = networkDeliveryNetworkPackagePackage;
+            OnDeliveryRequested?.Invoke(networkDeliveryNetworkPackagePackage);
         }
         
+        /// <summary>
+        /// CLIENT-SIDE
+        /// The server inform the client that a delivery has been updated.
+        /// </summary>
         [ClientRpc]
-        private void UpdateCurrentDeliveryClientRPC(Delivery delivery) {
+        private void UpdateCurrentDeliveryClientRPC(DeliveryNetworkPackage networkDeliveryNetworkPackagePackage)
+        {
+            _currentNetworkDeliveryNetworkPackagePackage = networkDeliveryNetworkPackagePackage;
+            OnDeliveryUpdated?.Invoke(networkDeliveryNetworkPackagePackage);
+        }
+        
+        /// <summary>
+        /// SERVER-SIDE
+        /// A client tell to the server that is updating the current deliveries. The server will then inform all other clients.
+        /// </summary>
+        [ServerRpc(RequireOwnership = false)]
+        private void UpdateCurrentDeliveryServerRPC(DeliveryNetworkPackage networkDeliveryNetworkPackagePackage)
+        {
+            // I think i need to do something safer here.
+            // We need to handle here the race conditions when deliver things.
             
-            OnDeliveryUpdated?.Invoke(delivery);
+            _currentNetworkDeliveryNetworkPackagePackage = networkDeliveryNetworkPackagePackage;
+            
+            UpdateCurrentDeliveryClientRPC(networkDeliveryNetworkPackagePackage);
         }
 
         [Command]
-        private void UpdateDelivery()
+        public void UpdateDelivery(ushort merchandiseAmount)
         {
-            _currentDelivery.MerchandiseCurrentAmount++;
-            UpdateCurrentDeliveryClientRPC(_currentDelivery);
+            if (_currentNetworkDeliveryNetworkPackagePackage.IsDone())
+            {
+                Debug.LogWarning("Delivery already completed.");
+                return;
+            }
+            
+            _currentNetworkDeliveryNetworkPackagePackage.MerchandiseCurrentAmount += merchandiseAmount;
+            UpdateCurrentDeliveryServerRPC(_currentNetworkDeliveryNetworkPackagePackage);
         }
     }
 }

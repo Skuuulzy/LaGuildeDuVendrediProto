@@ -15,7 +15,7 @@ public enum FactionTypes
 	DOGTRIBE
 }
 
-public enum MerchandiseType
+public enum MerchandiseType : byte
 {
 	NONE,
 	BANANA,

@@ -1,16 +1,12 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using VComponent.Tools.EventSystem;
 
 public class ShipController : MonoBehaviour
 {
 	[SerializeField] private PlayerDataSO _playerDataSO;
 	[SerializeField] private MerchandiseType _currentMerchandiseCarriedType;
 	[SerializeField] private int _currentMerchandiseCarriedNumber;
-
-
+	
 	public Action<IslandController,ShipController> EnterIslandArea; 
 	public Action<ShipController> LeaveIslandArea; 
 	public Action<int> OnPlayerSaleMerchandise; 

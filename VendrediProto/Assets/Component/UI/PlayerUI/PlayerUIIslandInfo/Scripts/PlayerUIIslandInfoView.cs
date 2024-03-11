@@ -17,13 +17,13 @@ public class PlayerUIIslandInfoView : MonoBehaviour
 
 	[Header("Data")]
 	[SerializeField] private MerchandiseListSO _allMerchandise;
-	public void Init(Delivery delivery, string islandName)
+	
+	public void Init(Delivery delivery)
 	{
-		_islandName.text = islandName;
-		MerchandiseSO merchandiseSO = _allMerchandise.GetMerchandiseByType(delivery.Merchandise);
+		_islandName.text = delivery.Buyer.IslandData.IslandName;
+		MerchandiseSO merchandiseSO = _allMerchandise.GetMerchandiseByType(delivery.Data.Merchandise);
 		_merchandiseAskedImage.sprite = merchandiseSO.Sprite;
-		_merchandiseAskedText.text =  delivery.MerchandiseDesiredAmount.ToString();
+		_merchandiseAskedText.text =  delivery.Data.MerchandiseDesiredAmount.ToString();
 		_sellButton.gameObject.SetActive(false);
 	}
-	
 }
