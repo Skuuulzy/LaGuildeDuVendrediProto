@@ -8,11 +8,12 @@ public enum ItemsType
 
 public enum FactionTypes
 {
-	MONKEYTRIBE,
-	CROCODILETRIBE,
-	SKELETONTRIBE,
-	WITCHTRIBE,
-	DOGTRIBE
+	SHARKTRIBE,
+	ANGUILLATRIBE,
+	COCONUTTRIBE,
+	PERROTTRIBE,
+	TURTLETRIBE,
+	DODOTRIBE
 }
 
 public enum MerchandiseType : byte

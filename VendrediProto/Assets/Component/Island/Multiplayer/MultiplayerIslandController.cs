@@ -14,7 +14,7 @@ namespace VComponent.Island
     public class MultiplayerIslandController : NetworkBehaviour
     {
         [SerializeField] private byte _index;
-        [SerializeField] private IslandSO _islandData;
+        [SerializeField] private FactionIslandSO _islandData;
 
         private CountdownTimer _deliveryRequestTimer;
         
@@ -26,7 +26,7 @@ namespace VComponent.Island
         public static Action<DeliveryNetworkPackage> OnDeliveryExpired;
 
         public byte Index => _index;
-        public IslandSO IslandData => _islandData;
+        public FactionIslandSO IslandData => _islandData;
         
         private void Start()
         {
@@ -36,7 +36,7 @@ namespace VComponent.Island
             }
             
             // Init the timer with correct interval
-            _deliveryRequestTimer = new CountdownTimer(_islandData.MerchandiseToSellTimeInterval);
+            _deliveryRequestTimer = new CountdownTimer(_islandData.MerchandiseRequestedTimeInterval);
             
             // When the timer ends, we request another delivery and we restart the timer.
             _deliveryRequestTimer.OnTimerStop += () =>

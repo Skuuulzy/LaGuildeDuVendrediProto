@@ -116,7 +116,7 @@ Material:
     - _Foam_Amount: 1.5
     - _Foam_Color: 0
     - _Foam_CutOff: 1.03
-    - _Foam_Scale: 400
+    - _Foam_Scale: 10000
     - _Foam_Speed: 1
     - _GlossMapScale: 0
     - _Glossiness: 0
@@ -127,9 +127,9 @@ Material:
     - _QueueControl: 0
     - _QueueOffset: 0
     - _ReceiveShadows: 1
-    - _Refraction_Scale: 10
+    - _Refraction_Scale: 200
     - _Refraction_Speed: 0.05
-    - _Refraction_Strengh: 0.0012
+    - _Refraction_Strengh: 0.0091
     - _Smoothness: 0.5
     - _SmoothnessTextureChannel: 0
     - _SpecularHighlights: 1
@@ -138,23 +138,23 @@ Material:
     - _Surface: 0
     - _WaterDepth: 5
     - _Waves_Gradient_Direction: 152
-    - _Waves_Gradient_Intensity: 0
+    - _Waves_Gradient_Intensity: 0.01
     - _Waves_Gradient_Orientation: 0
     - _Waves_Gradient_Speed: 0.1
     - _Waves_Intensity: 2
     - _Waves_Simple_Intensity: 0
     - _Waves_Simple_Orientation: 0
-    - _Waves_Simple_Speed: 0.05
+    - _Waves_Simple_Speed: 0
     - _Waves_Strengh: 0.3
-    - _Waves_Vorosnoi_Intensity: 0.21
-    - _Waves_Vorosnoi_Orientation: 90
-    - _Waves_Vorosnoi_Speed: 0.1
+    - _Waves_Vorosnoi_Intensity: 0
+    - _Waves_Vorosnoi_Orientation: 0
+    - _Waves_Vorosnoi_Speed: 0
     - _WorkflowMode: 1
     - _ZWrite: 1
     m_Colors:
     - _BaseColor: {r: 1, g: 1, b: 1, a: 1}
     - _Color: {r: 1, g: 1, b: 1, a: 1}
-    - _Deep_Water: {r: 0.19530955, g: 0.41299462, b: 0.53773564, a: 0.72156864}
+    - _Deep_Water: {r: 0.19530952, g: 0.4129946, b: 0.53773564, a: 0.9372549}
     - _Depth_Water: {r: 0.23713954, g: 0.57278275, b: 0.6886792, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
     - _Foam_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -163,13 +163,13 @@ Material:
     - _Surface_Water: {r: 0, g: 0.111194976, b: 0.122641504, a: 1}
     - _Waves_02_Direction: {r: -0.01, g: 0.02, b: 0, a: 0}
     - _Waves_Direction: {r: 0.01, g: -0.08, b: 0, a: 0}
-    - _Waves_Gradient_Scale: {r: 3, g: 1, b: 0, a: 0}
+    - _Waves_Gradient_Scale: {r: 0, g: 0, b: 0, a: 0}
     - _Waves_Gradient_Speed: {r: 0.01, g: -0.04, b: 0, a: 0}
     - _Waves_Scale: {r: 1, g: 3, b: 0, a: 0}
-    - _Waves_Simple_Scale: {r: 2, g: 2, b: 0, a: 0}
+    - _Waves_Simple_Scale: {r: 0, g: 0, b: 0, a: 0}
     - _Waves_Simple_Speed: {r: -0.1, g: 0.1, b: 0, a: 0}
     - _Waves_Speed: {r: 0.01, g: -0.04, b: 0, a: 0}
-    - _Waves_Vorosnoi_Scale: {r: 4, g: 1, b: 0, a: 0}
+    - _Waves_Vorosnoi_Scale: {r: 1, g: 1, b: 0, a: 0}
     - _Waves_Vorosnoi_Speed: {r: 0, g: 1, b: 0, a: 0}
   m_BuildTextureStacks: []
 --- !u!114 &2001460810117787940
