@@ -79,6 +79,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: TurtleIsland
       objectReference: {fileID: 0}
+    - target: {fileID: 7378595318086296614, guid: 970cd4c4e47f35744abdb9aa40228d2e,
+        type: 3}
+      propertyPath: m_Radius
+      value: 120
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects:
@@ -102,6 +107,11 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1478477597753683963}
     m_Modifications:
+    - target: {fileID: 1876645842497699671, guid: 42a10d3d3e9e38346b7f3150e3337279,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 5220745376829328805, guid: 42a10d3d3e9e38346b7f3150e3337279,
         type: 3}
       propertyPath: m_LocalScale.y
@@ -110,17 +120,17 @@ PrefabInstance:
     - target: {fileID: 5220745376829328805, guid: 42a10d3d3e9e38346b7f3150e3337279,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0
+      value: -139.5
       objectReference: {fileID: 0}
     - target: {fileID: 5220745376829328805, guid: 42a10d3d3e9e38346b7f3150e3337279,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0
+      value: -60
       objectReference: {fileID: 0}
     - target: {fileID: 5220745376829328805, guid: 42a10d3d3e9e38346b7f3150e3337279,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: 0
+      value: -145.9
       objectReference: {fileID: 0}
     - target: {fileID: 5220745376829328805, guid: 42a10d3d3e9e38346b7f3150e3337279,
         type: 3}

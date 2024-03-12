@@ -8,6 +8,16 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 474052970606141446, guid: ba37394f42d8ff34d8381ddec4fee927,
+        type: 3}
+      propertyPath: m_Radius
+      value: 114.9
+      objectReference: {fileID: 0}
+    - target: {fileID: 1025610996904184189, guid: ba37394f42d8ff34d8381ddec4fee927,
+        type: 3}
+      propertyPath: m_Radius
+      value: 200
+      objectReference: {fileID: 0}
     - target: {fileID: 1539097489826229226, guid: ba37394f42d8ff34d8381ddec4fee927,
         type: 3}
       propertyPath: m_Name
@@ -91,20 +101,25 @@ PrefabInstance:
       propertyPath: m_Name
       value: Island_Ressources_01
       objectReference: {fileID: 0}
+    - target: {fileID: 6235787550167118872, guid: 28a1682ba845e4b45b677c3f9fc4eb17,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 7334236593492085340, guid: 28a1682ba845e4b45b677c3f9fc4eb17,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0
+      value: -123.3
       objectReference: {fileID: 0}
     - target: {fileID: 7334236593492085340, guid: 28a1682ba845e4b45b677c3f9fc4eb17,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0
+      value: -60
       objectReference: {fileID: 0}
     - target: {fileID: 7334236593492085340, guid: 28a1682ba845e4b45b677c3f9fc4eb17,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: 0
+      value: -117.5
       objectReference: {fileID: 0}
     - target: {fileID: 7334236593492085340, guid: 28a1682ba845e4b45b677c3f9fc4eb17,
         type: 3}
