@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using UnityEditor.Timeline;
 
 namespace SebastianLague
 {
@@ -14,6 +15,7 @@ namespace SebastianLague
 		[SerializeField] private Transform _planeTransform;
 		[SerializeField] private float rotationResponsiveness = 0.3f;
 		[SerializeField] private PathfindingView _pathfindingView;
+		[SerializeField] private PathFindingDrawer _pathfindingDrawer;
 		private Plane _plane;
 		private Vector3 _position;
 		
@@ -51,7 +53,7 @@ namespace SebastianLague
 			if (pathSuccessful) 
 			{
 				_path = new Path(waypoints, transform.position, _turnDst, _stoppingDst);
-                _pathfindingView.DrawLines(_path.LookPoints);
+				_pathfindingDrawer.DrawLines(transform.position, waypoints);
                 StopCoroutine("FollowPath");
 				StartCoroutine("FollowPath");
 			}
