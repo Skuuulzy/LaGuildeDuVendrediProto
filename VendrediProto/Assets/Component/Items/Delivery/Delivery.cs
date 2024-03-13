@@ -17,7 +17,8 @@ namespace VComponent.Items.Merchandise
         public bool IsDone => Data.MerchandiseDesiredAmount == Data.MerchandiseCurrentAmount;
 
         // TODO : It would be nice to make that only the delivery itself can raise these events.
-        public Action OnUpdated;
+        public Action OnDataUpdated;
+        public Action OnClockUpdated;
         public Action OnExpired;
         
         public Delivery(DeliveryNetworkPackage data, MultiplayerIslandController buyer)
@@ -44,7 +45,7 @@ namespace VComponent.Items.Merchandise
         public void UpdateNetworkData(DeliveryNetworkPackage newData)
         {
             Data = newData;
-            OnUpdated?.Invoke();
+            OnDataUpdated?.Invoke();
         }
 
         public void AddNewSeller(MultiplayerShipController shipController)
@@ -55,13 +56,13 @@ namespace VComponent.Items.Merchandise
             }
             
             Seller = shipController;
-            OnUpdated?.Invoke();
+            OnDataUpdated?.Invoke();
         }
 
         public void RemoveSeller(MultiplayerShipController shipController)
         {
             Seller = null;
-            OnUpdated?.Invoke();
+            OnDataUpdated?.Invoke();
         }
         
         public void SetHasExpired()

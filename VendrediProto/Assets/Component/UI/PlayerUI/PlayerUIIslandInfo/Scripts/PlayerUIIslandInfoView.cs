@@ -28,7 +28,7 @@ public class PlayerUIIslandInfoView : MonoBehaviour
 		
 		UpdateDeliveryInformations();
 
-		_currentDelivery.OnUpdated += UpdateDeliveryInformations;
+		_currentDelivery.OnDataUpdated += UpdateDeliveryInformations;
 		_currentDelivery.OnExpired += MakeDeliveryExpired;
 	}
 	
@@ -43,6 +43,7 @@ public class PlayerUIIslandInfoView : MonoBehaviour
 	/// </summary>
 	private void BindButtonIfPossible()
 	{
+		Debug.Log($"Trying to bind button, buttonBind: {_buttonBind}");
 		if (!_buttonBind && _currentDelivery.Seller != null)
 		{
 			_buttonBind = true;
@@ -57,7 +58,6 @@ public class PlayerUIIslandInfoView : MonoBehaviour
 			_sellButton.gameObject.SetActive(false);
 			_sellButton.onClick.RemoveListener(SellMerchandise);
 		}
-		
 	}
 
 	private void SellMerchandise()
@@ -67,7 +67,7 @@ public class PlayerUIIslandInfoView : MonoBehaviour
 	
 	private void MakeDeliveryExpired()
 	{
-		_currentDelivery.OnUpdated -= UpdateDeliveryInformations;
+		_currentDelivery.OnDataUpdated -= UpdateDeliveryInformations;
 		_currentDelivery.OnExpired -= MakeDeliveryExpired;
 		Destroy(gameObject);
 	}

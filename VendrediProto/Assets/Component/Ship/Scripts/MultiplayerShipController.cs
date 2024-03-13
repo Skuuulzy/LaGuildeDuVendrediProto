@@ -28,7 +28,7 @@ namespace VComponent.Ship
                 if (_currentDelivery != null)
                 {
                     UpdateSellableState();
-                    _currentDelivery.OnUpdated += UpdateSellableState;
+                    _currentDelivery.OnDataUpdated += UpdateSellableState;
                 }
                 else
                 {
@@ -50,7 +50,7 @@ namespace VComponent.Ship
                 // Remove all data from the delivery
                 if (_currentDelivery != null)
                 {
-                    _currentDelivery.OnUpdated -= UpdateSellableState;
+                    _currentDelivery.OnDataUpdated -= UpdateSellableState;
                     _currentDelivery.RemoveSeller(this);
                     _currentDelivery = null;
                 }
@@ -74,7 +74,7 @@ namespace VComponent.Ship
             // The island has created a delivery, we can update the data to try to sell our merchandise.
             _currentDelivery = delivery;
             UpdateSellableState();
-            _currentDelivery.OnUpdated += UpdateSellableState;
+            _currentDelivery.OnDataUpdated += UpdateSellableState;
         }
 
         private void UpdateSellableState()
@@ -83,6 +83,7 @@ namespace VComponent.Ship
             if (_currentDelivery.IsDone || _currentMerchandiseCarriedType != _currentDelivery.Data.Merchandise)
             {
                 _merchandiseAmountSellable = 0;
+                _currentDelivery.RemoveSeller(this);
                 return;
             }
 
