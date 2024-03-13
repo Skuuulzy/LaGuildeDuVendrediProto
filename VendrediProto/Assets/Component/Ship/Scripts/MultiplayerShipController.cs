@@ -1,6 +1,5 @@
 using QFSW.QC;
 using UnityEngine;
-using UnityEngine.Tilemaps;
 using VComponent.Island;
 using VComponent.Items.Merchandise;
 using VComponent.Multiplayer.Deliveries;
@@ -28,8 +27,8 @@ namespace VComponent.Ship
                 
                 if (_currentDelivery != null)
                 {
-                    UpdateSellableState(_currentDelivery);
-                    DeliveryManager.OnDeliveryUpdated += UpdateSellableState;
+                    UpdateSellableState();
+                    _currentDelivery.OnUpdated += UpdateSellableState;
                 }
                 else
                 {
@@ -47,9 +46,17 @@ namespace VComponent.Ship
                 Debug.Log($"Exiting island {islandController.IslandData.IslandName}");
                 
                 _dockedIsland = null;
-                _currentDelivery = null;
+                
+                // Remove all data from the delivery
+                if (_currentDelivery != null)
+                {
+                    _currentDelivery.OnUpdated -= UpdateSellableState;
+                    _currentDelivery.RemoveSeller(this);
+                    _currentDelivery = null;
+                }
+                
                 _merchandiseAmountSellable = 0;
-                DeliveryManager.OnDeliveryUpdated -= UpdateSellableState;
+                
                 DeliveryManager.OnDeliveryCreated -= HandleDeliveryCreation;
             }
         }
@@ -66,27 +73,23 @@ namespace VComponent.Ship
             
             // The island has created a delivery, we can update the data to try to sell our merchandise.
             _currentDelivery = delivery;
-            UpdateSellableState(_currentDelivery);
-            DeliveryManager.OnDeliveryUpdated += UpdateSellableState;
+            UpdateSellableState();
+            _currentDelivery.OnUpdated += UpdateSellableState;
         }
 
-        private void UpdateSellableState(Delivery delivery)
+        private void UpdateSellableState()
         {
-            // We do not want to update delivery that we are not tracking for this island.
-            if (_currentDelivery != delivery)
-            {
-                return;
-            }
-            
             // The request il already done or we do not have the correct merchandise type.
-            if (delivery.IsDone() || _currentMerchandiseCarriedType != delivery.Data.Merchandise)
+            if (_currentDelivery.IsDone || _currentMerchandiseCarriedType != _currentDelivery.Data.Merchandise)
             {
                 _merchandiseAmountSellable = 0;
                 return;
             }
 
-            // Inform the UI that we can sell this merchandise. Maybe pass this instance to then sell bind the button listener to the sell goods method.
-            _merchandiseAmountSellable = delivery.NeededAmount();
+            // Inform the delivery that we can sell this merchandise.
+            _currentDelivery.AddNewSeller(this);
+            
+            _merchandiseAmountSellable = _currentDelivery.NeededAmount();
         }
         
         [Command]
@@ -98,7 +101,7 @@ namespace VComponent.Ship
                 return;
             }
 
-            if (_merchandiseAmountSellable > 0)
+            if (_merchandiseAmountSellable <= 0)
             {
                 Debug.LogError($"The current merchandise: {_currentMerchandiseCarriedType} cannot be sell to the island: {_dockedIsland.IslandData.IslandName} !");
                 return;

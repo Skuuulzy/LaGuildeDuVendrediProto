@@ -1,5 +1,6 @@
 using System;
 using QFSW.QC;
+using Sirenix.OdinInspector;
 using Unity.Netcode;
 using UnityEngine;
 using VComponent.Items.Merchandise;
@@ -53,6 +54,7 @@ namespace VComponent.Island
                 return;
             }
             
+            return;
             // Making clock tick
             _deliveryRequestTimer.Tick(Time.deltaTime);
 
@@ -80,6 +82,11 @@ namespace VComponent.Island
         [Command]
         private void RequestDelivery()
         {
+            if (!IsServer)
+            {
+                return;
+            }
+            
             var randomRequest = _islandData.RequestRandomMerchandiseRequest();
             
             DeliveryNetworkPackage networkDeliveryNetworkPackagePackage = new DeliveryNetworkPackage(
@@ -124,7 +131,7 @@ namespace VComponent.Island
         [ServerRpc(RequireOwnership = false)]
         private void UpdateCurrentDeliveryServerRPC(DeliveryNetworkPackage networkDeliveryNetworkPackagePackage)
         {
-            // I think i need to do something safer here.
+            // I think we need to do something safer here.
             // We need to handle here the race conditions when deliver things.
             
             _currentNetworkDelivery = networkDeliveryNetworkPackagePackage;
