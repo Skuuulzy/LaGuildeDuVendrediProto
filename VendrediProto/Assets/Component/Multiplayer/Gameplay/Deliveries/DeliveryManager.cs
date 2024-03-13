@@ -19,8 +19,6 @@ namespace VComponent.Multiplayer.Deliveries
         private MultiplayerIslandController[] _islandControllers;
 
         public static Action<Delivery> OnDeliveryCreated;
-        public static Action<Delivery> OnDeliveryUpdated;
-        public static Action<Delivery> OnDeliveryExpired;
 
         #region MONO
 
@@ -72,9 +70,7 @@ namespace VComponent.Multiplayer.Deliveries
                 return;
             }
 
-            _activeDeliveries[deliveryIndexToUpdate].Data = deliveryNetworkPackage;
-            
-            OnDeliveryUpdated?.Invoke(_activeDeliveries[deliveryIndexToUpdate]);
+            _activeDeliveries[deliveryIndexToUpdate].UpdateNetworkData(deliveryNetworkPackage);
         }
         
         private void HandleDeliveryExpired(DeliveryNetworkPackage deliveryNetworkPackage)
@@ -94,7 +90,7 @@ namespace VComponent.Multiplayer.Deliveries
             // Adding it to expired deliveries.
             _expiredDeliveries.Add(deliveryToRemove);
             
-            OnDeliveryExpired?.Invoke(deliveryToRemove);
+            deliveryToRemove.SetHasExpired();
         }
 
         #endregion HANDLERS

@@ -8,6 +8,11 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 474052970606141446, guid: ba37394f42d8ff34d8381ddec4fee927,
+        type: 3}
+      propertyPath: m_Radius
+      value: 103
+      objectReference: {fileID: 0}
     - target: {fileID: 1539097489826229226, guid: ba37394f42d8ff34d8381ddec4fee927,
         type: 3}
       propertyPath: m_Name
@@ -89,17 +94,17 @@ PrefabInstance:
     - target: {fileID: 822525356602506005, guid: f78da0a8ca05cd44298ef6214cd0f738,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0
+      value: -135.9
       objectReference: {fileID: 0}
     - target: {fileID: 822525356602506005, guid: f78da0a8ca05cd44298ef6214cd0f738,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0
+      value: -60
       objectReference: {fileID: 0}
     - target: {fileID: 822525356602506005, guid: f78da0a8ca05cd44298ef6214cd0f738,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: 0
+      value: -122.3
       objectReference: {fileID: 0}
     - target: {fileID: 822525356602506005, guid: f78da0a8ca05cd44298ef6214cd0f738,
         type: 3}
@@ -140,6 +145,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Island_Ressources_06
+      objectReference: {fileID: 0}
+    - target: {fileID: 6030924855827922457, guid: f78da0a8ca05cd44298ef6214cd0f738,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

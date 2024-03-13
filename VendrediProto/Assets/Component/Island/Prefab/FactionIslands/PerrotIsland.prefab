@@ -79,6 +79,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: PerrotIsland
       objectReference: {fileID: 0}
+    - target: {fileID: 7378595318086296614, guid: 970cd4c4e47f35744abdb9aa40228d2e,
+        type: 3}
+      propertyPath: m_Radius
+      value: 95
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects:
@@ -102,6 +107,11 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1478477597753683963}
     m_Modifications:
+    - target: {fileID: 2624700471473484675, guid: 385c1128f5d65ea4ba1be630cac89c76,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 3336440667832805843, guid: 385c1128f5d65ea4ba1be630cac89c76,
         type: 3}
       propertyPath: m_Name
@@ -115,17 +125,17 @@ PrefabInstance:
     - target: {fileID: 6651064009786940812, guid: 385c1128f5d65ea4ba1be630cac89c76,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0
+      value: -150.9
       objectReference: {fileID: 0}
     - target: {fileID: 6651064009786940812, guid: 385c1128f5d65ea4ba1be630cac89c76,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0
+      value: -60
       objectReference: {fileID: 0}
     - target: {fileID: 6651064009786940812, guid: 385c1128f5d65ea4ba1be630cac89c76,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: 0
+      value: -145.5
       objectReference: {fileID: 0}
     - target: {fileID: 6651064009786940812, guid: 385c1128f5d65ea4ba1be630cac89c76,
         type: 3}
