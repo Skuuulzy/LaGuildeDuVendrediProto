@@ -26,6 +26,9 @@ public class PlayerUIIslandInfoView : MonoBehaviour
 		MerchandiseSO merchandiseSO = _allMerchandise.GetMerchandiseByType(_currentDelivery.Data.Merchandise);
 		_merchandiseAskedImage.sprite = merchandiseSO.Sprite;
 		
+		// Security
+		_sellButton.gameObject.SetActive(false);
+		
 		UpdateDeliveryInformations();
 
 		_currentDelivery.OnDataUpdated += UpdateDeliveryInformations;
@@ -43,15 +46,14 @@ public class PlayerUIIslandInfoView : MonoBehaviour
 	/// </summary>
 	private void BindButtonIfPossible()
 	{
-		Debug.Log($"Trying to bind button, buttonBind: {_buttonBind}");
-		if (!_buttonBind && _currentDelivery.Seller != null)
+		if (!_buttonBind && _currentDelivery.HasSeller)
 		{
 			_buttonBind = true;
 			
 			_sellButton.gameObject.SetActive(true);
 			_sellButton.onClick.AddListener(SellMerchandise);
 		}
-		else
+		else if (_buttonBind && !_currentDelivery.HasSeller)
 		{
 			_buttonBind = false;
 			

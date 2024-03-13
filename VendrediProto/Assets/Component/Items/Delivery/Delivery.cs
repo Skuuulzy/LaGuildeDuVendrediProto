@@ -20,6 +20,8 @@ namespace VComponent.Items.Merchandise
         public Action OnDataUpdated;
         public Action OnClockUpdated;
         public Action OnExpired;
+
+        public bool HasSeller;
         
         public Delivery(DeliveryNetworkPackage data, MultiplayerIslandController buyer)
         {
@@ -50,17 +52,24 @@ namespace VComponent.Items.Merchandise
 
         public void AddNewSeller(MultiplayerShipController shipController)
         {
-            if (Seller == shipController)
+            if (HasSeller)
             {
                 return;
             }
-            
+
+            HasSeller = true;
             Seller = shipController;
             OnDataUpdated?.Invoke();
         }
 
         public void RemoveSeller(MultiplayerShipController shipController)
         {
+            if (!HasSeller)
+            {
+                return;
+            }
+
+            HasSeller = false;
             Seller = null;
             OnDataUpdated?.Invoke();
         }

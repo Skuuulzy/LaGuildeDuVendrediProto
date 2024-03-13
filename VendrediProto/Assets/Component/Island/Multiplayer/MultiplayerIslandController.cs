@@ -1,6 +1,5 @@
 using System;
 using QFSW.QC;
-using Sirenix.OdinInspector;
 using Unity.Netcode;
 using UnityEngine;
 using VComponent.Items.Merchandise;

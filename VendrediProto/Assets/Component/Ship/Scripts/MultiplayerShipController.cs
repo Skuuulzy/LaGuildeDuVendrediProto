@@ -89,7 +89,6 @@ namespace VComponent.Ship
 
             // Inform the delivery that we can sell this merchandise.
             _currentDelivery.AddNewSeller(this);
-            
             _merchandiseAmountSellable = _currentDelivery.NeededAmount();
         }
         
