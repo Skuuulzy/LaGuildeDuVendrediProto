@@ -1,6 +1,10 @@
 fileFormatVersion: 2
+<<<<<<<< HEAD:VendrediProto/Assets/ART/Ships/Ships_01.meta
 guid: d54bb69a331ef364681779b3a3d8d84a
 folderAsset: yes
+========
+guid: 78361798359d2684ebee1c939652c1a8
+>>>>>>>> features/InteractionIsland:VendrediProto/Assets/WorldCreator/Documentation_EN.pdf.meta
 DefaultImporter:
   externalObjects: {}
   userData: 

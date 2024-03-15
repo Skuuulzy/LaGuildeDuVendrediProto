@@ -1,5 +1,7 @@
+using System;
 using Sirenix.OdinInspector;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
 using VComponent.Tools.Singletons;
 
@@ -16,9 +18,23 @@ namespace VComponent.InputSystem
         [ShowInInspector] public bool DragMovementCamera { get; private set; }
         [ShowInInspector] public bool DragRotationCamera { get; private set; }
         [ShowInInspector] public bool ShowLobbyInformation { get; private set; }
-    
+
+        private bool _isMouseOverUI;
+
+        private void Update()
+        {
+            // This is unity recommendation, i honestly don't like this approach but it will do for now.
+            _isMouseOverUI = EventSystem.current.IsPointerOverGameObject();
+        }
+
         public void RequestShipMoveInput(InputAction.CallbackContext context)
         {
+            // We want to ignore the UI.
+            if (_isMouseOverUI)
+            {
+                return;
+            }
+            
             RequestShipMove = context.performed;
         }
         
@@ -44,6 +60,12 @@ namespace VComponent.InputSystem
 
         public void ScrollInput(InputAction.CallbackContext context)
         {
+            // We want to ignore the UI.
+            if (_isMouseOverUI)
+            {
+                return;
+            }
+            
             var scrollValue = context.ReadValue<float>();
             if (scrollValue > 0)
             {
@@ -61,12 +83,24 @@ namespace VComponent.InputSystem
         
         public void DragMovementCameraInput(InputAction.CallbackContext context)
         {
+            // We want to ignore the UI.
+            if (_isMouseOverUI)
+            {
+                return;
+            }
+            
             //Debug.Log($"Start drag: {context.started}, DragMovement: {context.performed}");
             DragMovementCamera = context.performed;
         }
         
         public void DragRotationCameraInput(InputAction.CallbackContext context)
         {
+            // We want to ignore the UI.
+            if (_isMouseOverUI)
+            {
+                return;
+            }
+            
             //Debug.Log($"Start drag: {context.started}, DragMovement: {context.performed}");
             DragRotationCamera = context.performed;
         }

@@ -56,7 +56,6 @@ namespace VComponent.Multiplayer
         {
             ClearPlayerInLobby();
             
-            Debug.Log($"Updating lobby UI: {lobby.Players.Count} players");
             _lobbyPlayerCountTxt.text = $"{lobby.Players.Count} / {lobby.MaxPlayers}";
 
             foreach (Player player in lobby.Players)

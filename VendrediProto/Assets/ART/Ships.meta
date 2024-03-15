@@ -1,6 +1,10 @@
 fileFormatVersion: 2
+<<<<<<<< HEAD:VendrediProto/Assets/ART/Ships.meta
 guid: 05f3aadb0f38f1f45b7dd42539fd533f
 folderAsset: yes
+========
+guid: dfef9e6b8e64e81459413a85ec291605
+>>>>>>>> features/InteractionIsland:VendrediProto/Assets/ART/Sandbox_Map.unity.meta
 DefaultImporter:
   externalObjects: {}
   userData: 

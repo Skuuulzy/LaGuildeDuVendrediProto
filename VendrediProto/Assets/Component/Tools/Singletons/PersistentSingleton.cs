@@ -24,7 +24,7 @@ namespace VComponent.Tools.Singletons
                     _instance = FindAnyObjectByType<T>();
                     if (_instance == null)
                     {
-                        Debug.LogWarning($"There was no instance of of {typeof(T).Name} and yet someone try to call it. An new instance has been set but singletons should always be present.");
+                        Debug.LogError($"There was no instance of of {typeof(T).Name} and yet someone try to call it. An new instance has been set but singletons should always be present.");
                         var go = new GameObject(typeof(T).Name + " Auto-Generated");
                         _instance = go.AddComponent<T>();
                     }

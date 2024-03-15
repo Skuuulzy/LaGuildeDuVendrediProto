@@ -6,17 +6,19 @@ public enum ItemsType
 	WATER
 }
 
-public enum TribesType
+public enum FactionTypes
 {
-	MONKEYTRIBE,
-	CROCODILETRIBE,
-	SKELETONTRIBE,
-	WITCHTRIBE,
-	DOGTRIBE
+	SHARKTRIBE,
+	ANGUILLATRIBE,
+	COCONUTTRIBE,
+	PERROTTRIBE,
+	TURTLETRIBE,
+	DODOTRIBE
 }
 
-public enum MerchandiseType
+public enum MerchandiseType : byte
 {
+	NONE,
 	BANANA,
 	WOOD,
 	CORN,
