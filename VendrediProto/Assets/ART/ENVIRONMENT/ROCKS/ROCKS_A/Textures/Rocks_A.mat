@@ -76,6 +76,22 @@ Material:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
+    - _Rock_AO:
+        m_Texture: {fileID: 2800000, guid: 7e453231041d37342a2fca24a62cad37, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _Rock_BaseColor:
+        m_Texture: {fileID: 2800000, guid: fa1a42a345e1b1344b7b55902d7ff4c3, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _Rock_NM:
+        m_Texture: {fileID: 2800000, guid: fee6c674e7fb8384a8e4db2d56e51965, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _Secondary_BaseColor:
+        m_Texture: {fileID: 2800000, guid: e914930e95937fd40ac5785896092a68, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     - _SpecGlossMap:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
@@ -111,8 +127,11 @@ Material:
     - _GlossMapScale: 0
     - _Glossiness: 0
     - _GlossyReflections: 0
-    - _Ground_Heigh: -0.28
-    - _Ground_Smooth: 0.65
+    - _Grass_Amount: 1
+    - _Grass_Heigh: 2.21
+    - _Grass_Heigh_1: 1.5
+    - _Ground_Heigh: -1.54
+    - _Ground_Smooth: 3.17
     - _Metallic: 0
     - _OcclusionStrength: 1
     - _Parallax: 0.005
@@ -120,6 +139,8 @@ Material:
     - _QueueOffset: 0
     - _ReceiveShadows: 1
     - _Roughness: 0.3
+    - _Secondary_Amount: 1
+    - _Secondary_Heigh: 0.92
     - _Smoothness: 0.5
     - _SmoothnessTextureChannel: 0
     - _SpecularHighlights: 1
@@ -132,7 +153,9 @@ Material:
     - _BaseColor: {r: 1, g: 1, b: 1, a: 1}
     - _Color: {r: 1, g: 1, b: 1, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
-    - _Ground_AO: {r: 0.51584196, g: 0.63430935, b: 0.6792453, a: 0}
+    - _Grass_Tiling: {r: 6, g: 6, b: 0, a: 0}
+    - _Ground_AO: {r: 0.24705882, g: 0.36862746, b: 0.41568628, a: 0}
+    - _Secondary_Tiling: {r: 8, g: 8, b: 0, a: 0}
     - _SpecColor: {r: 0.19999996, g: 0.19999996, b: 0.19999996, a: 1}
     - _Specular_Color: {r: 0.22062902, g: 0.15036489, b: 0.2924528, a: 0}
   m_BuildTextureStacks: []
