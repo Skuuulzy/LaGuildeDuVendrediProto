@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 using UnityEditor.Timeline;
+using System;
 
 namespace SebastianLague
 {
@@ -15,11 +16,14 @@ namespace SebastianLague
 		[SerializeField] private Transform _planeTransform;
 		[SerializeField] private float rotationResponsiveness = 0.3f;
 		[SerializeField] private PathfindingView _pathfindingView;
-		[SerializeField] private PathFindingDrawer _pathfindingDrawer;
+		[SerializeField] private Transform _pathfindingPivot;
 		private Plane _plane;
 		private Vector3 _position;
-		
-		private Path _path;
+
+        private float _time;
+        private float _timeDelay;
+		private bool _isInMovement = false;
+        private Path _path;
 		public float Speed => _speed;
 		public float TurnSpeed => _turnSpeed;
 		public float TurnDst => _turnDst;
@@ -30,13 +34,15 @@ namespace SebastianLague
 		{
 			_position = transform.position;
 			_plane = new Plane(_planeTransform.up, _planeTransform.position);
-			
-			StartCoroutine(UpdatePath());
+            _time = 0f;
+            _timeDelay = 0.25f;
+            StartCoroutine(UpdatePath());
 		}
 
 		private void Update()
 		{
-			if (Input.GetMouseButton(0))
+           
+            if (Input.GetMouseButton(0))
 			{
 				Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
 				if (_plane.Raycast(ray, out var entry))
@@ -46,6 +52,13 @@ namespace SebastianLague
                     _pathfindingView.CreatePin(position);
 				}
 			}
+
+			_time += Time.deltaTime;
+            if (_time >= _timeDelay && _isInMovement)
+            {
+                _time = 0f;
+				_pathfindingView._pathFindingDrawer.DrawLines(_pathfindingPivot.position, _path.LookPoints);
+            }
 		}
 
 		public void OnPathFound(Vector3[] waypoints, bool pathSuccessful) 
@@ -53,9 +66,16 @@ namespace SebastianLague
 			if (pathSuccessful) 
 			{
 				_path = new Path(waypoints, transform.position, _turnDst, _stoppingDst);
-				_pathfindingDrawer.DrawLines(transform.position, waypoints);
+				_pathfindingView._pathFindingDrawer.DrawLines(_pathfindingPivot.position, waypoints);
                 StopCoroutine("FollowPath");
-				StartCoroutine("FollowPath");
+				StartCoroutine(FollowPath(() =>
+				{
+                    _pathfindingView.CleanPathfindingView();
+					_isInMovement = false;
+                }));
+				//_pathfindingView.CleanPathfindingView();
+
+               
 			}
 		}
 
@@ -88,9 +108,10 @@ namespace SebastianLague
 			}
 		}
 
-		IEnumerator FollowPath() 
+		IEnumerator FollowPath(Action isFinished) 
 		{
 			bool followingPath = true;
+			_isInMovement = true;
 			int pathIndex = 0;
 			Quaternion initialTargetRotation = Quaternion.LookRotation(_path.LookPoints[0] - transform.position);
 			transform.rotation = Quaternion.Lerp(transform.rotation, initialTargetRotation, rotationResponsiveness * Time.deltaTime);
@@ -127,12 +148,16 @@ namespace SebastianLague
                     transform.rotation = Quaternion.Lerp(transform.rotation, targetRotationPath, Time.deltaTime * _turnSpeed);
 					transform.Translate(Vector3.forward * Time.deltaTime * Speed * speedPercent, Space.Self);
 				}
-
-				yield return null;
+                yield return null;
 
 			}
+			isFinished?.Invoke();
 		}
 
+		private void  ClearUI()
+		{
+            _pathfindingView.CleanPathfindingView();
+        }
 		public void OnDrawGizmos() 
 		{
 			if (_path != null) 
