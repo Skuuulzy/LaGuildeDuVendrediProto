@@ -2,6 +2,8 @@
 using System.Collections;
 using UnityEditor.Timeline;
 using System;
+using System.Linq;
+using System.Collections.Generic;
 
 namespace SebastianLague
 {
@@ -24,6 +26,7 @@ namespace SebastianLague
         private float _timeDelay;
 		private bool _isInMovement = false;
         private Path _path;
+		private List<Vector3> _pathWaypoints;
 		public float Speed => _speed;
 		public float TurnSpeed => _turnSpeed;
 		public float TurnDst => _turnDst;
@@ -56,9 +59,9 @@ namespace SebastianLague
 			_time += Time.deltaTime;
             if (_time >= _timeDelay && _isInMovement)
             {
-                _time = 0f;
-				_pathfindingView._pathFindingDrawer.DrawLines(_pathfindingPivot.position, _path.LookPoints);
-            }
+				_time = 0f;
+				_pathfindingView._pathFindingDrawer.DrawLines(_pathfindingPivot.position, _pathWaypoints);
+			}
 		}
 
 		public void OnPathFound(Vector3[] waypoints, bool pathSuccessful) 
@@ -66,7 +69,9 @@ namespace SebastianLague
 			if (pathSuccessful) 
 			{
 				_path = new Path(waypoints, transform.position, _turnDst, _stoppingDst);
-				_pathfindingView._pathFindingDrawer.DrawLines(_pathfindingPivot.position, waypoints);
+				//ICI MATHEO
+				_pathWaypoints = waypoints.ToList();
+				_pathfindingView._pathFindingDrawer.DrawLines(_pathfindingPivot.position, _pathWaypoints);
                 StopCoroutine("FollowPath");
 				StartCoroutine(FollowPath(() =>
 				{
@@ -130,6 +135,12 @@ namespace SebastianLague
 					else 
 					{
 						pathIndex++;
+
+						//ICI MATHEO
+						if(_pathWaypoints.Count > 0)
+						{
+							_pathWaypoints.RemoveAt(0);
+						}
 					}
 				}
 
