@@ -16,7 +16,7 @@ namespace VComponent.Multiplayer.Deliveries
         [ShowInInspector, ReadOnly] private readonly List<Delivery> _activeDeliveries = new ();
         [ShowInInspector, ReadOnly] private readonly List<Delivery> _expiredDeliveries = new ();
         
-        private MultiplayerIslandController[] _islandControllers;
+        private MultiplayerFactionIslandController[] _islandControllers;
 
         public static Action<Delivery> OnDeliveryCreated;
 
@@ -26,18 +26,18 @@ namespace VComponent.Multiplayer.Deliveries
         {
             base.Awake();
 
-            _islandControllers = FindObjectsOfType<MultiplayerIslandController>();
+            _islandControllers = FindObjectsOfType<MultiplayerFactionIslandController>();
 
-            MultiplayerIslandController.OnDeliveryRequested += HandleDeliveryRequested;
-            MultiplayerIslandController.OnDeliveryUpdated += HandleDeliveryUpdated;
-            MultiplayerIslandController.OnDeliveryExpired += HandleDeliveryExpired;
+            MultiplayerFactionIslandController.OnDeliveryRequested += HandleDeliveryRequested;
+            MultiplayerFactionIslandController.OnDeliveryUpdated += HandleDeliveryUpdated;
+            MultiplayerFactionIslandController.OnDeliveryExpired += HandleDeliveryExpired;
         }
 
         public void OnDestroy()
         {
-            MultiplayerIslandController.OnDeliveryRequested -= HandleDeliveryRequested;
-            MultiplayerIslandController.OnDeliveryUpdated -= HandleDeliveryUpdated;
-            MultiplayerIslandController.OnDeliveryExpired -= HandleDeliveryExpired;
+            MultiplayerFactionIslandController.OnDeliveryRequested -= HandleDeliveryRequested;
+            MultiplayerFactionIslandController.OnDeliveryUpdated -= HandleDeliveryUpdated;
+            MultiplayerFactionIslandController.OnDeliveryExpired -= HandleDeliveryExpired;
         }
 
         #endregion MONO
@@ -97,9 +97,9 @@ namespace VComponent.Multiplayer.Deliveries
 
         #region HELPERS METHODS
 
-        private MultiplayerIslandController FindIslandById(byte islandIndex)
+        private MultiplayerFactionIslandController FindIslandById(byte islandIndex)
         {
-            foreach(MultiplayerIslandController islandController in  _islandControllers)
+            foreach(MultiplayerFactionIslandController islandController in  _islandControllers)
             {
                 if(islandController.Index == islandIndex)
                 {
@@ -139,7 +139,7 @@ namespace VComponent.Multiplayer.Deliveries
 
         #endregion HELPERS METHODS
 
-        public Delivery GetRequestedDeliveryBy(MultiplayerIslandController buyer)
+        public Delivery GetRequestedDeliveryBy(MultiplayerFactionIslandController buyer)
         {
             for (int i = 0; i < _activeDeliveries.Count; i++)
             {

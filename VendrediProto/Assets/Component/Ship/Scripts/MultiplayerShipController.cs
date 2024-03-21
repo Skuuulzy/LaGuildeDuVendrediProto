@@ -11,19 +11,20 @@ namespace VComponent.Ship
         [SerializeField] private MerchandiseType _currentMerchandiseCarriedType;
         [SerializeField] private ushort _currentMerchandiseCarriedNumber;
 
-        private MultiplayerIslandController _dockedIsland;
+        private MultiplayerFactionIslandController _factionDockedIsland;
+        private RessourcesIslandController _ressourcesDockedIsland;
         private Delivery _currentDelivery;
         private ushort _merchandiseAmountSellable;
 
         private void OnTriggerEnter(Collider other)
         {
-            MultiplayerIslandController islandController = other.gameObject.GetComponent<MultiplayerIslandController>();
-            if (islandController != null)
+            MultiplayerFactionIslandController factionIslandController = other.gameObject.GetComponent<MultiplayerFactionIslandController>();
+            if (factionIslandController != null)
             {
-                Debug.Log($"Entering island {islandController.IslandData.IslandName}");
-                _dockedIsland = islandController;
+                Debug.Log($"Entering island {factionIslandController.IslandData.IslandName}");
+                _factionDockedIsland = factionIslandController;
                 
-                _currentDelivery = DeliveryManager.Instance.GetRequestedDeliveryBy(islandController);
+                _currentDelivery = DeliveryManager.Instance.GetRequestedDeliveryBy(factionIslandController);
                 
                 if (_currentDelivery != null)
                 {
@@ -35,17 +36,36 @@ namespace VComponent.Ship
                     Debug.Log("The current island don't request any delivery.");
                     DeliveryManager.OnDeliveryCreated += HandleDeliveryCreation;
                 }
+                return;
             }
-        }
 
-        private void OnTriggerExit(Collider other)
+			RessourcesIslandController ressourcesIslandController = other.gameObject.GetComponent<RessourcesIslandController>();
+            if(ressourcesIslandController != null)
+            {
+				//Region RessourcesIsland
+				Debug.Log($"Entering island {ressourcesIslandController.IslandData.IslandName}");
+				_ressourcesDockedIsland = ressourcesIslandController;
+				return;
+            }
+
+			PlayerIslandController playerIslandController = other.gameObject.GetComponent<PlayerIslandController>();
+            if(playerIslandController != null)
+            {
+				//Region Player Island
+
+				return;
+            }
+
+		}
+
+		private void OnTriggerExit(Collider other)
         {
-            MultiplayerIslandController islandController = other.gameObject.GetComponent<MultiplayerIslandController>();
+            MultiplayerFactionIslandController islandController = other.gameObject.GetComponent<MultiplayerFactionIslandController>();
             if (islandController != null)
             {
                 Debug.Log($"Exiting island {islandController.IslandData.IslandName}");
                 
-                _dockedIsland = null;
+                _factionDockedIsland = null;
                 
                 // Remove all data from the delivery
                 if (_currentDelivery != null)
@@ -66,7 +86,7 @@ namespace VComponent.Ship
         private void HandleDeliveryCreation(Delivery delivery)
         {
             // This delivery is not on the docked island
-            if (delivery.Buyer != _dockedIsland)
+            if (delivery.Buyer != _factionDockedIsland)
             {
                 return;
             }
@@ -95,7 +115,7 @@ namespace VComponent.Ship
         [Command]
         public void SellMerchandiseToDockedIsland()
         {
-            if (_dockedIsland == null)
+            if (_factionDockedIsland == null)
             {
                 Debug.LogError("No docked island to sell merchandise to !");
                 return;
@@ -103,14 +123,14 @@ namespace VComponent.Ship
 
             if (_merchandiseAmountSellable <= 0)
             {
-                Debug.LogError($"The current merchandise: {_currentMerchandiseCarriedType} cannot be sell to the island: {_dockedIsland.IslandData.IslandName} !");
+                Debug.LogError($"The current merchandise: {_currentMerchandiseCarriedType} cannot be sell to the island: {_factionDockedIsland.IslandData.IslandName} !");
                 return;
             }
 
             // Determine how many merchandise we can sell
             ushort merchandiseSellAmount = GetSellableAmount();
 
-            _dockedIsland.UpdateDelivery(merchandiseSellAmount);
+            _factionDockedIsland.UpdateDelivery(merchandiseSellAmount);
 
             _currentMerchandiseCarriedNumber -= merchandiseSellAmount;
             _currentMerchandiseCarriedType = MerchandiseType.NONE;

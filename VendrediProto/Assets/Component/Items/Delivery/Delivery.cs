@@ -10,7 +10,7 @@ namespace VComponent.Items.Merchandise
     public class Delivery
     {
         public DeliveryNetworkPackage Data;
-        public MultiplayerIslandController Buyer;
+        public MultiplayerFactionIslandController Buyer;
         public MultiplayerShipController Seller;
         
         public bool IsExpired { get; private set; }
@@ -23,7 +23,7 @@ namespace VComponent.Items.Merchandise
 
         public bool HasSeller;
         
-        public Delivery(DeliveryNetworkPackage data, MultiplayerIslandController buyer)
+        public Delivery(DeliveryNetworkPackage data, MultiplayerFactionIslandController buyer)
         {
             Data = data;
             Buyer = buyer;
