@@ -10,8 +10,8 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 6bb2f4f9d048d5a4193c30df93e865cf, type: 3}
-  m_Name: Wood
+  m_Name: Shell
   m_EditorClassIdentifier: 
-  _type: 2
-  _sprite: {fileID: 21300000, guid: 149527ac29ad814499b44cb5cd90ec40, type: 3}
+  _type: 6
+  _sprite: {fileID: 21300000, guid: 48caaaaacf51a3b48929fe7a57036684, type: 3}
   _sellValue: 5

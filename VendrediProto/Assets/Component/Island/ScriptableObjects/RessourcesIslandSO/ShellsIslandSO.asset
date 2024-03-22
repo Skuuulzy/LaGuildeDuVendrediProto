@@ -13,9 +13,6 @@ MonoBehaviour:
   m_Name: ShellsIslandSO
   m_EditorClassIdentifier: 
   _islandName: ShellIsland
-  _merchandisesToSell:
-    m_Dictionnary: []
-  _merchandisesRequested:
-    m_Dictionnary: []
-  _merchandiseRequestedTimeInterval: 220
-  _merchandiseToTakeTimeInterval: 180
+  _merchandisesToSell: {fileID: 11400000, guid: 7fbaefa2e59b8914bb16163ab41a4949,
+    type: 2}
+  _merchandiseToSellTimeInterval: 180

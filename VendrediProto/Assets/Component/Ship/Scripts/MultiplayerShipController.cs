@@ -1,4 +1,8 @@
+using Mono.Cecil;
 using QFSW.QC;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using VComponent.Island;
 using VComponent.Items.Merchandise;
@@ -8,13 +12,18 @@ namespace VComponent.Ship
 {
     public class MultiplayerShipController : MonoBehaviour
     {
-        [SerializeField] private MerchandiseType _currentMerchandiseCarriedType;
-        [SerializeField] private ushort _currentMerchandiseCarriedNumber;
+        [SerializeField] private SerializableDictionary<RessourceType, ushort> _currentRessourcesCarried;
+		//[SerializeField] private RessourceType _currentRessourcesCarriedType;
+  //      [SerializeField] private ushort _currentRessourceCarriedNumber;
+        [SerializeField] private ushort _maxFreeSpace;
 
-        private MultiplayerFactionIslandController _factionDockedIsland;
+		
+
+		private MultiplayerFactionIslandController _factionDockedIsland;
         private RessourcesIslandController _ressourcesDockedIsland;
         private Delivery _currentDelivery;
         private ushort _merchandiseAmountSellable;
+        private int _maxDiffRessourcesTypeCarried = 2;
 
         private void OnTriggerEnter(Collider other)
         {
@@ -99,8 +108,8 @@ namespace VComponent.Ship
 
         private void UpdateSellableState()
         {
-            // The request il already done or we do not have the correct merchandise type.
-            if (_currentDelivery.IsDone || _currentMerchandiseCarriedType != _currentDelivery.Data.Merchandise)
+            // The request is already done or we do not have the correct merchandise type.
+            if (_currentDelivery.IsDone || _currentRessourcesCarried.ContainsKey(_currentDelivery.Data.Ressource) == false)
             {
                 _merchandiseAmountSellable = 0;
                 _currentDelivery.RemoveSeller(this);
@@ -113,7 +122,7 @@ namespace VComponent.Ship
         }
         
         [Command]
-        public void SellMerchandiseToDockedIsland()
+        public void SellMerchandiseToDockedIsland(RessourceType ressourceType)
         {
             if (_factionDockedIsland == null)
             {
@@ -123,33 +132,70 @@ namespace VComponent.Ship
 
             if (_merchandiseAmountSellable <= 0)
             {
-                Debug.LogError($"The current merchandise: {_currentMerchandiseCarriedType} cannot be sell to the island: {_factionDockedIsland.IslandData.IslandName} !");
+                Debug.LogError($"The current merchandise: {ressourceType} cannot be sell to the island: {_factionDockedIsland.IslandData.IslandName} !");
                 return;
             }
 
             // Determine how many merchandise we can sell
-            ushort merchandiseSellAmount = GetSellableAmount();
+            ushort merchandiseSellAmount = GetSellableAmount(ressourceType);
 
             _factionDockedIsland.UpdateDelivery(merchandiseSellAmount);
 
-            _currentMerchandiseCarriedNumber -= merchandiseSellAmount;
-            _currentMerchandiseCarriedType = MerchandiseType.NONE;
+            _currentRessourcesCarried.ToDictionary()[ressourceType] -= merchandiseSellAmount;
+            _currentRessourcesCarried.ToDictionary().Remove(ressourceType);
 
             _merchandiseAmountSellable -= merchandiseSellAmount;
         }
 
-        private ushort GetSellableAmount()
+        private ushort GetSellableAmount(RessourceType ressourceType)
         {
             // The ship do not have enough or just enough merchandise in stock to complete the order just sell everything.
-            if (_merchandiseAmountSellable >= _currentMerchandiseCarriedNumber)
+            if (_merchandiseAmountSellable >= _currentRessourcesCarried.ToDictionary()[ressourceType])
             {
-                return _currentMerchandiseCarriedNumber;
+                return _currentRessourcesCarried.ToDictionary()[ressourceType];
             }
 
             // The ship have too many resources in stock just sell the maximum asked by the delivery.
             return _merchandiseAmountSellable;
         }
 
-        #endregion
-    }
+		#endregion
+
+		#region LOAD
+
+        public void LoadRessource(RessourceType ressourceType, int amount)
+        {
+            Dictionary<RessourceType, ushort> currentRessources = _currentRessourcesCarried.ToDictionary();
+
+            //We check if we have already the maximum differents ressources 
+            if(currentRessources.Count >= _maxDiffRessourcesTypeCarried)
+            {
+                Debug.LogError("Cant add this ressource => already carriyng " + _maxDiffRessourcesTypeCarried);
+                return;
+            }
+
+            //Check if we already contains the ressource
+            if(currentRessources.ContainsKey(ressourceType))
+            {
+				_currentRessourcesCarried.ToDictionary()[ressourceType] += Convert.ToUInt16(amount);
+            }
+            else
+            {
+                //Adding the new ressource to the dictionary
+                _currentRessourcesCarried.ToDictionary().Add(ressourceType, Convert.ToUInt16(amount));
+            }
+        }
+		#endregion LOAD
+
+
+		public int GetFreeSpace()
+		{
+            int currentSpace = 0;
+            foreach(var kvp in _currentRessourcesCarried.ToDictionary())
+            {
+                currentSpace += kvp.Value;
+            }
+            return _maxFreeSpace - currentSpace; 
+        }
+	}
 }

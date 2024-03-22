@@ -13,9 +13,6 @@ MonoBehaviour:
   m_Name: RumIslandSO
   m_EditorClassIdentifier: 
   _islandName: RumIsland
-  _merchandisesToSell:
-    m_Dictionnary: []
-  _merchandisesRequested:
-    m_Dictionnary: []
-  _merchandiseRequestedTimeInterval: 220
-  _merchandiseToTakeTimeInterval: 180
+  _merchandisesToSell: {fileID: 11400000, guid: 51a197e509efdd247b98fca1d95100a4,
+    type: 2}
+  _merchandiseToSellTimeInterval: 180

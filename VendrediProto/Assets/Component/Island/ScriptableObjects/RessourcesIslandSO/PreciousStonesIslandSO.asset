@@ -13,9 +13,6 @@ MonoBehaviour:
   m_Name: PreciousStonesIslandSO
   m_EditorClassIdentifier: 
   _islandName: PreciousStonesIsland
-  _merchandisesToSell:
-    m_Dictionnary: []
-  _merchandisesRequested:
-    m_Dictionnary: []
-  _merchandiseRequestedTimeInterval: 220
-  _merchandiseToTakeTimeInterval: 180
+  _merchandisesToSell: {fileID: 11400000, guid: e1000396ace43e541b684ef7b3c50a5f,
+    type: 2}
+  _merchandiseToSellTimeInterval: 180

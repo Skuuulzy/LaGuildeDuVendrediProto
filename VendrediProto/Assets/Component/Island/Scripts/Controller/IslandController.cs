@@ -8,16 +8,16 @@ public class IslandController : MonoBehaviour
 
 	[SerializeField] private FactionIslandSO _islandSO;
 
-	private MerchandiseType _currentMerchandiseAsked;
+	private RessourceType _currentMerchandiseAsked;
 	private int _currentMerchandiseAskedValue;
 	private bool _isAskingForAMerchandise;
 
-	private MerchandiseType _currentMerchandiseToSell;
+	private RessourceType _currentMerchandiseToSell;
 	private int _currentMerchandiseToSellValue;
 	private bool _isGivingAMerchandise;
 	public Action OnUpdateMerchandise;
 	public FactionIslandSO IslandSO => _islandSO;
-	public MerchandiseType CurrentMerchandiseAsked => _currentMerchandiseAsked;
+	public RessourceType CurrentMerchandiseAsked => _currentMerchandiseAsked;
 	public int CurrentMerchandiseAskedValue => _currentMerchandiseAskedValue;
 
 	private void Start()
@@ -65,7 +65,7 @@ public class IslandController : MonoBehaviour
 	/// <summary>
 	/// Check if the merchandise is the same as the available
 	/// </summary>
-	public void CheckReceivedMerchandise(MerchandiseType merchandiseType, int numberOfMerchandiseReceived)
+	public void CheckReceivedMerchandise(RessourceType merchandiseType, int numberOfMerchandiseReceived)
 	{
 		if (merchandiseType == _currentMerchandiseAsked)
 		{

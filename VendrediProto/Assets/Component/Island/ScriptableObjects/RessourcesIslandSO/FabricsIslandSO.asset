@@ -13,9 +13,6 @@ MonoBehaviour:
   m_Name: FabricsIslandSO
   m_EditorClassIdentifier: 
   _islandName: FabricsIsland
-  _merchandisesToSell:
-    m_Dictionnary: []
-  _merchandisesRequested:
-    m_Dictionnary: []
-  _merchandiseRequestedTimeInterval: 220
-  _merchandiseToTakeTimeInterval: 180
+  _merchandisesToSell: {fileID: 11400000, guid: 77e87f51ee8010e48bd4a598ff7ec321,
+    type: 2}
+  _merchandiseToSellTimeInterval: 180
