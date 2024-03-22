@@ -3,12 +3,15 @@
 --- !u!78 &1
 TagManager:
   serializedVersion: 2
-  tags: []
+  tags:
+  - WorldCreator
+  - FX Block Zone
+  - PathFindingPlane
   layers:
   - Default
   - TransparentFX
   - Ignore Raycast
-  - 
+  - Unwalkable
   - Water
   - UI
   - Ground

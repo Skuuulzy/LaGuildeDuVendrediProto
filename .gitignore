@@ -70,3 +70,22 @@ crashlytics-build.properties
 # Temporary auto-generated Android Assets
 [Aa]ssets/[Ss]treamingAssets/aa.meta
 [Aa]ssets/[Ss]treamingAssets/aa/*
+VendrediProto/Assets/Plugins/Sirenix/Demos/Custom Attribute Processors.unitypackage.meta
+VendrediProto/Assets/Plugins/Sirenix/Demos/Custom Drawers.unitypackage.meta
+VendrediProto/Assets/Plugins/Sirenix/Demos/Editor Windows.unitypackage.meta
+VendrediProto/Assets/Plugins/Sirenix/Demos/Sample - RPG Editor.unitypackage.meta
+
+# ParrelSync Clones
+VendrediProto_clone_0
+VendrediProto_clone_1
+VendrediProto_clone_2
+VendrediProto_clone_3
+VendrediProto_clone_4
+VendrediProto_clone_5
+VendrediProto_clone_6
+VendrediProto_clone_7
+VendrediProto_clone_8
+VendrediProto_clone_9
+
+VendrediProto/Assets/Plugins/ParrelSync/
+VendrediProto/Assets/Plugins/ParrelSync.meta
