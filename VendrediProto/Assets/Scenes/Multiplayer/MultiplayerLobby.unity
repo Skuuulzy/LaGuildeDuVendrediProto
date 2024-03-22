@@ -227,12 +227,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 607e97136ff92234e9a4636e1afda2fe, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _lobbyName: Lobby
   _maxPlayers: 4
   _encryption: 0
-  _currentLobbyScene:
-    asset: {fileID: 102900000, guid: 49417717f5f020344ba863982e8e38e1, type: 3}
-    guid: 49417717f5f020344ba863982e8e38e1
+  _logPolls: 0
+  _logHeartbeats: 0
 --- !u!4 &25497343
 Transform:
   m_ObjectHideFlags: 0
@@ -3602,8 +3600,7 @@ MonoBehaviour:
   NetworkConfig:
     ProtocolVersion: 0
     NetworkTransport: {fileID: 1453829174}
-    PlayerPrefab: {fileID: 332849644814331526, guid: 8eff6b8991bc3f9479faa5168c6c2f2a,
-      type: 3}
+    PlayerPrefab: {fileID: 0}
     Prefabs:
       NetworkPrefabsLists:
       - {fileID: 11400000, guid: a01412d7daae28e4db85db55170ab124, type: 2}
