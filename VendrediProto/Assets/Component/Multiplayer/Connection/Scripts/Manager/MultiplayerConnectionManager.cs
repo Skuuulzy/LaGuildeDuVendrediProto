@@ -42,7 +42,6 @@ namespace VComponent.Multiplayer
 
         #endregion CONST VAR
         
-        private string _lobbyName;
         private Lobby _currentLobby;
         private string _playerId;
         private string _playerName;

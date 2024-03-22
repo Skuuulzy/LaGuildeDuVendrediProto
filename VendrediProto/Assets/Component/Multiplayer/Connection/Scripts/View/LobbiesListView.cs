@@ -163,6 +163,16 @@ namespace VComponent.Multiplayer
             MultiplayerConnectionManager.Instance.UpdateLobbyName(newName);
         }
 
+        public void UpdateLobbyPlayerCount(float playerCount)
+        {
+            MultiplayerConnectionManager.Instance.UpdatePlayerCount(Mathf.RoundToInt(playerCount));
+        }
+        
+        public void UpdateLobbyGameTime(float gameTime)
+        {
+            MultiplayerConnectionManager.Instance.UpdateGameTime(Mathf.RoundToInt(gameTime));
+        }
+
         #endregion PUBLIC UI METHODS
     }
 }

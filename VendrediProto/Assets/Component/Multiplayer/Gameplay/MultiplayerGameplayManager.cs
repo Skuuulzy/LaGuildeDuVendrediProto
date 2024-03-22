@@ -14,14 +14,11 @@ namespace VComponent.Multiplayer
     /// </summary>
     public class MultiplayerGameplayManager : NetworkSingleton<MultiplayerGameplayManager>
     {
-        [Header("Parameters")] 
-        [SerializeField] private int _playerMinCount = 1;
-
-        [Header("Broadcasting On")] 
+        [Header("Broadcasting On")]
         [SerializeField] private EventChannel<Empty> _onWaitingAllPlayerConnected;
         [SerializeField] private EventChannel<Empty> _onAllPlayerConnected;
 
-        [Header("Components")] 
+        [Header("Components")]
         [SerializeField] private Transform _playerPrefab;
 
         
@@ -76,7 +73,7 @@ namespace VComponent.Multiplayer
         /// </summary>
         private async void WaitForAllPlayers()
         {
-            while (_playerDataNetworkList.Count < _playerMinCount)
+            while (_playerDataNetworkList.Count < MultiplayerConnectionManager.Instance.PlayerCount)
             {
                 await Task.Delay(500);
             }
