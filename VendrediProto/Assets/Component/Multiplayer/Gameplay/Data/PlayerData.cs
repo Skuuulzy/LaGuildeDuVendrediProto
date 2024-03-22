@@ -9,7 +9,14 @@ namespace VComponent.Multiplayer
         public ulong ClientId;
         public FixedString64Bytes PlayerName;
         public FixedString64Bytes PlayerId;
-        
+
+        public PlayerData(ulong clientId, FixedString64Bytes playerName, FixedString64Bytes playerId)
+        {
+            ClientId = clientId;
+            PlayerName = playerName;
+            PlayerId = playerId;
+        }
+
         public bool Equals(PlayerData other)
         {
             return

@@ -17,7 +17,6 @@ namespace VComponent.Multiplayer
         
         public override void OnNetworkSpawn()
         {
-            base.OnNetworkSpawn();
             SetPlayerName();
             
             if (!IsOwner)
@@ -41,20 +40,12 @@ namespace VComponent.Multiplayer
                 {
                     Debug.Log($"Delivery Updated type: {delivery.Merchandise}, current amount: {delivery.MerchandiseCurrentAmount}");
                 };
-
             }
         }
 
         private void SetPlayerName()
         {
-            if (IsOwner)
-            {
-                _playerNameTxt.text = MultiplayerConnectionManager.Instance.GetPlayerName();
-            }
-            
-            // Find the player name with is ID
-            var ownerID = GetComponent<NetworkObject>().OwnerClientId;
-            Debug.Log($"Owner ID: {ownerID}");
+            _playerNameTxt.text = MultiplayerGameplayManager.Instance.GetPlayerNameFromId(GetComponent<NetworkObject>().OwnerClientId);
         }
     }
 }
