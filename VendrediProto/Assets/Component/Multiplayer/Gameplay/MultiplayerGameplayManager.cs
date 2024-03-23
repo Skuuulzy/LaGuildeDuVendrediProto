@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Sirenix.OdinInspector;
 using Unity.Collections;
 using Unity.Netcode;
 using UnityEngine;
@@ -124,6 +125,31 @@ namespace VComponent.Multiplayer
             EndOfGameClientRpc();
         }
 
+        
+        /// <summary>
+        /// SERVER - SIDE
+        /// Increase a client money and inform other of the update.
+        /// </summary>
+        public void IncreasePlayerCurrency(ulong clientId, int moneyGained)
+        {
+            for (int i = 0; i < _playerDataNetworkList.Count; i++)
+            {
+                if (_playerDataNetworkList[i].ClientId == clientId)
+                {
+                    var clientData = _playerDataNetworkList[i];
+                    clientData.Money += (ushort)moneyGained;
+
+                    _playerDataNetworkList[i] = clientData;
+                    
+                    UpdatePlayerDataListClientRpc(_playerDataNetworkList.ToArray());
+                    
+                    return;
+                }
+            }
+            
+            Debug.LogError($"Unable to find client with id: {clientId}");
+        }
+
         #endregion SERVER
 
         #region CLIENT
@@ -141,6 +167,13 @@ namespace VComponent.Multiplayer
         private void UpdatePlayerDataListClientRpc(PlayerData[] newPlayerData)
         {
             _playerDataNetworkList = newPlayerData.ToList();
+            
+            Debug.Log("Client data updated.");
+            for (int i = 0; i < _playerDataNetworkList.Count; i++)
+            {
+                var clientData = _playerDataNetworkList[i];
+                Debug.Log($"Client: {clientData.ClientId} | Money: {clientData.Money}");
+            }
         }
 
         /// <summary>

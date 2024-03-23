@@ -3,6 +3,7 @@ using QFSW.QC;
 using Unity.Netcode;
 using UnityEngine;
 using VComponent.Items.Merchandise;
+using VComponent.Multiplayer;
 using VComponent.Tools.IDGenerators;
 using VComponent.Tools.Timer;
 
@@ -128,10 +129,13 @@ namespace VComponent.Island
         /// A client tell to the server that is updating the current deliveries. The server will then inform all other clients.
         /// </summary>
         [ServerRpc(RequireOwnership = false)]
-        private void UpdateCurrentDeliveryServerRPC(DeliveryNetworkPackage networkDeliveryNetworkPackagePackage)
+        private void UpdateCurrentDeliveryServerRPC(DeliveryNetworkPackage networkDeliveryNetworkPackagePackage, ServerRpcParams rpcParams = default)
         {
             // I think we need to do something safer here.
             // We need to handle here the race conditions when deliver things.
+            // If the delivery is already completed we need to give back the merchandise to the player.
+            
+            MultiplayerGameplayManager.Instance.IncreasePlayerCurrency(rpcParams.Receive.SenderClientId, 10);
             
             _currentNetworkDelivery = networkDeliveryNetworkPackagePackage;
             
