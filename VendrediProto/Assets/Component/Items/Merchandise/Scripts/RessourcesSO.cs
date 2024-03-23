@@ -2,8 +2,8 @@ using UnityEngine;
 
 namespace VComponent.Items.Merchandise
 {
-    [CreateAssetMenu(menuName = "ProjectV/Item/Merchandise")]
-    public class MerchandiseSO : ScriptableObject
+    [CreateAssetMenu(menuName = "ProjectV/Item/Ressources")]
+    public class RessourcesSO : ScriptableObject
     {
         [SerializeField] private RessourceType _type;
         [SerializeField] private Sprite _sprite;

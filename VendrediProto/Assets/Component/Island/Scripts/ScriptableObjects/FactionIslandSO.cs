@@ -6,12 +6,12 @@ using VComponent.Items.Merchandise;
 public class FactionIslandSO : IslandSO
 {
     [SerializeField] private FactionTypes _factionType;
-	[SerializeField] protected SerializableDictionary<MerchandiseSO, ushort> _merchandisesRequested;
+	[SerializeField] protected SerializableDictionary<RessourcesSO, ushort> _merchandisesRequested;
 	[SerializeField] protected uint _merchandiseRequestedTimeInterval = 220;
 	public FactionTypes FactionType => _factionType;
 	
 
-	public SerializableDictionary<MerchandiseSO, ushort> MerchandisesRequested => _merchandisesRequested;
+	public SerializableDictionary<RessourcesSO, ushort> MerchandisesRequested => _merchandisesRequested;
 	public float MerchandiseRequestedTimeInterval => _merchandiseRequestedTimeInterval;
 
 	public (RessourceType, ushort, uint) RequestRandomMerchandiseRequest()

@@ -13,17 +13,19 @@ namespace VComponent.Ship
     public class MultiplayerShipController : MonoBehaviour
     {
         [SerializeField] private SerializableDictionary<RessourceType, ushort> _currentRessourcesCarried;
-		//[SerializeField] private RessourceType _currentRessourcesCarriedType;
-  //      [SerializeField] private ushort _currentRessourceCarriedNumber;
         [SerializeField] private ushort _maxFreeSpace;
 
-		
-
+        public SerializableDictionary<RessourceType, ushort> CurrentRessourcesCarried => _currentRessourcesCarried;
 		private MultiplayerFactionIslandController _factionDockedIsland;
         private RessourcesIslandController _ressourcesDockedIsland;
         private Delivery _currentDelivery;
         private ushort _merchandiseAmountSellable;
         private int _maxDiffRessourcesTypeCarried = 2;
+
+        public event Action<RessourcesSO, int> OnRessourceAdded;
+        public event Action<RessourceType, int> OnRessourceCarriedUpdated;
+        public event Action<RessourceType> OnRessourceCarriedDelivered;
+        public event Action<RessourcesIslandSO> OnResourceIslandDocked;
 
         private void OnTriggerEnter(Collider other)
         {
@@ -54,6 +56,7 @@ namespace VComponent.Ship
 				//Region RessourcesIsland
 				Debug.Log($"Entering island {ressourcesIslandController.IslandData.IslandName}");
 				_ressourcesDockedIsland = ressourcesIslandController;
+                OnResourceIslandDocked?.Invoke(ressourcesIslandController.IslandData);
 				return;
             }
 
@@ -143,8 +146,9 @@ namespace VComponent.Ship
 
             _currentRessourcesCarried.ToDictionary()[ressourceType] -= merchandiseSellAmount;
             _currentRessourcesCarried.ToDictionary().Remove(ressourceType);
+			OnRessourceCarriedDelivered?.Invoke(ressourceType);
 
-            _merchandiseAmountSellable -= merchandiseSellAmount;
+			_merchandiseAmountSellable -= merchandiseSellAmount;
         }
 
         private ushort GetSellableAmount(RessourceType ressourceType)
@@ -163,28 +167,29 @@ namespace VComponent.Ship
 
 		#region LOAD
 
-        public void LoadRessource(RessourceType ressourceType, int amount)
+        public void LoadRessource(RessourcesSO ressourceSO, int amount)
         {
-            Dictionary<RessourceType, ushort> currentRessources = _currentRessourcesCarried.ToDictionary();
 
             //We check if we have already the maximum differents ressources 
-            if(currentRessources.Count >= _maxDiffRessourcesTypeCarried)
+            if(_currentRessourcesCarried.ToDictionary().Count >= _maxDiffRessourcesTypeCarried)
             {
                 Debug.LogError("Cant add this ressource => already carriyng " + _maxDiffRessourcesTypeCarried);
                 return;
             }
 
             //Check if we already contains the ressource
-            if(currentRessources.ContainsKey(ressourceType))
+            if(_currentRessourcesCarried.ToDictionary().ContainsKey(ressourceSO.Type))
             {
-				_currentRessourcesCarried.ToDictionary()[ressourceType] += Convert.ToUInt16(amount);
+				_currentRessourcesCarried.ToDictionary()[ressourceSO.Type] += Convert.ToUInt16(amount);
+                OnRessourceCarriedUpdated?.Invoke(ressourceSO.Type, _currentRessourcesCarried.ToDictionary()[ressourceSO.Type]);
             }
             else
             {
                 //Adding the new ressource to the dictionary
-                _currentRessourcesCarried.ToDictionary().Add(ressourceType, Convert.ToUInt16(amount));
-            }
-        }
+                _currentRessourcesCarried.ToDictionary().Add(ressourceSO.Type, Convert.ToUInt16(amount));
+				OnRessourceAdded?.Invoke(ressourceSO, amount);
+			}
+		}
 		#endregion LOAD
 
 

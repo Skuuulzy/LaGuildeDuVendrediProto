@@ -12,7 +12,7 @@ public class LoadRessourcesInteraction : MonoBehaviour
 	[SerializeField] private Image _merchandiseImage;
 
 	// Start is called before the first frame update
-	public void Show(MerchandiseSO merchandiseSO,int freeSpace)
+	public void Show(RessourcesSO merchandiseSO,int freeSpace)
 	{
 		this.gameObject.SetActive(true);
 		_merchandiseSlider.maxValue = freeSpace;
