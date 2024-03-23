@@ -15,7 +15,7 @@ namespace VComponent.Multiplayer
     {
         private string _lobbyName;
         private int _playerCount = 1;
-        private int _gameTime = 5;
+        private int _gameTime = 300;
 
         public int PlayerCount => _playerCount;
         public int GameTime => _gameTime;

@@ -170,7 +170,8 @@ namespace VComponent.Multiplayer
         
         public void UpdateLobbyGameTime(float gameTime)
         {
-            MultiplayerConnectionManager.Instance.UpdateGameTime(Mathf.RoundToInt(gameTime));
+            // Setting game time in seconds from minutes.
+            MultiplayerConnectionManager.Instance.UpdateGameTime(Mathf.RoundToInt(gameTime * 60));
         }
 
         #endregion PUBLIC UI METHODS

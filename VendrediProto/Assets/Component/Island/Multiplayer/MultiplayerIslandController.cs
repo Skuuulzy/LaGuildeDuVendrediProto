@@ -60,7 +60,7 @@ namespace VComponent.Island
             if (_deliveryRequested)
             {
                 // Updating the time available on the request
-                _currentNetworkDelivery.TimeAvailable = (uint)_deliveryRequestTimer.GetTime();
+                _currentNetworkDelivery.TimeAvailable = (uint)_deliveryRequestTimer.Time;
                 //UpdateCurrentDeliveryClientRPC(_currentNetworkDeliveryPackage);
             }
         }

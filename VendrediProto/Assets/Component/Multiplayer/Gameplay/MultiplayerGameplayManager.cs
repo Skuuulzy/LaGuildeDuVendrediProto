@@ -6,6 +6,7 @@ using Unity.Netcode;
 using UnityEngine;
 using VComponent.Tools.EventSystem;
 using VComponent.Tools.Singletons;
+using VComponent.Tools.Timer;
 
 namespace VComponent.Multiplayer
 {
@@ -17,12 +18,16 @@ namespace VComponent.Multiplayer
         [Header("Broadcasting On")]
         [SerializeField] private EventChannel<Empty> _onWaitingAllPlayerConnected;
         [SerializeField] private EventChannel<Empty> _onAllPlayerConnected;
+        [SerializeField] private EventChannel<float> _onGameClockTick;
+        [SerializeField] private EventChannel<Empty> _onGameFinished;
 
         [Header("Components")]
         [SerializeField] private Transform _playerPrefab;
-
         
         private List<PlayerData> _playerDataNetworkList;
+        private bool _gameInProgress;
+
+        private CountdownTimer _gameClock;
 
         protected override void Awake()
         {
@@ -30,13 +35,7 @@ namespace VComponent.Multiplayer
             _playerDataNetworkList = new List<PlayerData>();
             _onWaitingAllPlayerConnected.Invoke(new Empty());
         }
-
-        public override void OnDestroy()
-        {
-            base.OnDestroy();
-            _playerDataNetworkList = null;
-        }
-
+        
         public override void OnNetworkSpawn()
         {
             if (IsServer)
@@ -51,6 +50,24 @@ namespace VComponent.Multiplayer
                 // Inform the server we enter the game.
                 ClientEnterGameServerRpc(CreatePlayerData());
             }
+        }
+
+        private void Update()
+        {
+            if (!_gameInProgress)
+                return;
+            
+            _gameClock.Tick(Time.deltaTime);
+            if (_gameClock.IsRunning)
+            {
+                _onGameClockTick.Invoke(_gameClock.Time);
+            }
+        }
+
+        public override void OnDestroy()
+        {
+            base.OnDestroy();
+            _playerDataNetworkList = null;
         }
 
         #region SERVER
@@ -79,7 +96,7 @@ namespace VComponent.Multiplayer
             }
 
             InstantiatePlayersPrefabs();
-            AllClientConnectedClientRpc();
+            AllClientConnectedClientRpc(MultiplayerConnectionManager.Instance.GameTime);
         }
 
         /// <summary>
@@ -94,6 +111,17 @@ namespace VComponent.Multiplayer
                 Transform playerTransform = Instantiate(_playerPrefab);
                 playerTransform.GetComponent<NetworkObject>().SpawnAsPlayerObject(playerData.ClientId, true);
             }
+        }
+        
+        /// <summary>
+        /// SERVER - SIDE
+        /// Raised at the end of the game clock. Inform all players that the game is finished.
+        /// </summary>
+        private void HandleEndOfGame()
+        {
+            _gameClock.OnTimerStop -= HandleEndOfGame;
+            
+            EndOfGameClientRpc();
         }
 
         #endregion SERVER
@@ -120,9 +148,32 @@ namespace VComponent.Multiplayer
         /// The server inform that all the player are connected.
         /// </summary>
         [ClientRpc]
-        private void AllClientConnectedClientRpc()
+        private void AllClientConnectedClientRpc(int gameTime)
         {
             _onAllPlayerConnected.Invoke(new Empty());
+            
+            _gameClock = new CountdownTimer(gameTime);
+            _gameClock.Start();
+
+            _gameInProgress = true;
+
+            if (IsHost)
+            {
+                _gameClock.OnTimerStop += HandleEndOfGame;
+            }
+        }
+        
+        /// <summary>
+        /// CLIENT-SIDE
+        /// The server inform that the game is finished.
+        /// </summary>
+        [ClientRpc]
+        private void EndOfGameClientRpc()
+        {
+            _gameInProgress = false;
+            _gameClock.Stop();
+            
+            _onGameFinished.Invoke(new Empty());
         }
 
         /// <summary>
