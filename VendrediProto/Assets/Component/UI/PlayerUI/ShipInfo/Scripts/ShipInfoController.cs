@@ -9,17 +9,22 @@ public class ShipInfoController : MonoBehaviour
 {
     [SerializeField] private ShipInfoView _shipÎnfoView;
     [SerializeField] private LoadRessourcesInteraction _loadRessourcesInteraction;
-    [SerializeField] private MultiplayerShipController _multiplayerShipController;
+    [SerializeField] private MultiplayerShipController _shipController;
 
     public void Init(MultiplayerShipController shipController)
     {
-		_multiplayerShipController = shipController;
-        _multiplayerShipController.OnResourceIslandDocked += OnRessourcesIslandDocked;
+		_shipController = shipController;
+        _shipController.OnResourceIslandDocked += OnRessourcesIslandDocked;
 	}
 
 
     public void OnRessourcesIslandDocked(RessourcesIslandSO islandSO)
     {
-        _loadRessourcesInteraction.Show(islandSO.MerchandisesToSell, _multiplayerShipController.GetFreeSpace());
+        _loadRessourcesInteraction.Show(islandSO.MerchandisesToSell, _shipController.GetFreeSpace());
+    }
+
+    public void OnRessourceLoaded()
+    {
+        _shipController.LoadRessource(_loadRessourcesInteraction.RessourcesSO, (int)_loadRessourcesInteraction.RessourceSlider.value);
     }
 }

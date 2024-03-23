@@ -1,13 +1,16 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using VComponent.Items.Merchandise;
 using VComponent.Ship;
 
 public class ShipInfoView : MonoBehaviour
 {
-	private MultiplayerShipController _multiplayerShipController;
+	[SerializeField] private TextMeshProUGUI _shipNameText;
+	[SerializeField] private TextMeshProUGUI _currentStateText;
 	[SerializeField] private List<ShipRessourcesCarriedView> _shipRessourcesCarriedViews;
+	private MultiplayerShipController _multiplayerShipController;
 
 	public void Init(MultiplayerShipController shipController)
     {
@@ -23,6 +26,17 @@ public class ShipInfoView : MonoBehaviour
 		_multiplayerShipController.OnRessourceCarriedUpdated -= UpdateExistedRessourceCarried;
 		_multiplayerShipController.OnRessourceCarriedDelivered -= HideCarrriedRessource;
 	}
+
+	public void SetShipName(string shipName)
+	{
+		_shipNameText.text = shipName;
+	}
+
+	public void SetCurrentState(string stateText)
+	{
+		_currentStateText.text = stateText;
+	}
+	#region ADDRESSOURCES
 
 	public void AddNewRessource(RessourcesSO ressourceType, int amount)
 	{
@@ -55,6 +69,7 @@ public class ShipInfoView : MonoBehaviour
 
 		Debug.LogError("Try to update a ressource which is not present in the ship");
 	}
+	#endregion ADDRESSOURCES
 
 	public void HideCarrriedRessource(RessourceType ressourceType)
 	{

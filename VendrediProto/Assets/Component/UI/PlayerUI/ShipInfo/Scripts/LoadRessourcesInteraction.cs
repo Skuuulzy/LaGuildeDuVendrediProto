@@ -8,15 +8,20 @@ using VComponent.Items.Merchandise;
 public class LoadRessourcesInteraction : MonoBehaviour
 {
     [SerializeField] private TextMeshProUGUI _currentAmountText;
-	[SerializeField] private Slider _merchandiseSlider;
-	[SerializeField] private Image _merchandiseImage;
+	[SerializeField] private Slider _ressourceSlider;
+	[SerializeField] private Image _ressourceImage;
+
+	private RessourcesSO _ressourceSO;
+	public Slider RessourceSlider => _ressourceSlider;
+	public RessourcesSO RessourcesSO => _ressourceSO;
 
 	// Start is called before the first frame update
-	public void Show(RessourcesSO merchandiseSO,int freeSpace)
+	public void Show(RessourcesSO ressourceSO,int freeSpace)
 	{
 		this.gameObject.SetActive(true);
-		_merchandiseSlider.maxValue = freeSpace;
-		_merchandiseImage.sprite = merchandiseSO.Sprite;
+		_ressourceSO = ressourceSO;
+		_ressourceSlider.maxValue = freeSpace;
+		_ressourceImage.sprite = ressourceSO.Sprite;
 	}
 
 	public void Hide()

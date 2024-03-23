@@ -58,7 +58,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   "_ship\xCEnfoView": {fileID: 9122064841084588388}
   _loadRessourcesInteraction: {fileID: 3839725207122815272}
-  _multiplayerShipController: {fileID: 0}
+  _shipController: {fileID: 0}
 --- !u!114 &9122064841084588388
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -71,6 +71,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fe69a445bc923fc4fac9123d307f933e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _shipNameText: {fileID: 8376632982956273173}
+  _currentStateText: {fileID: 7711090936978720860}
   _shipRessourcesCarriedViews:
   - {fileID: 7273348216384469084}
   - {fileID: 894289208749053364}
@@ -640,6 +642,41 @@ PrefabInstance:
         type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6053220010103256941, guid: 55a4021bbe8a9104090f6ebc19c173c3,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6053220010103256941, guid: 55a4021bbe8a9104090f6ebc19c173c3,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6053220010103256941, guid: 55a4021bbe8a9104090f6ebc19c173c3,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 8987219477459014832}
+    - target: {fileID: 6053220010103256941, guid: 55a4021bbe8a9104090f6ebc19c173c3,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 6053220010103256941, guid: 55a4021bbe8a9104090f6ebc19c173c3,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: OnRessourceLoaded
+      objectReference: {fileID: 0}
+    - target: {fileID: 6053220010103256941, guid: 55a4021bbe8a9104090f6ebc19c173c3,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: ShipInfoController, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 6053220010103256941, guid: 55a4021bbe8a9104090f6ebc19c173c3,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
       objectReference: {fileID: 0}
     - target: {fileID: 6512235784805349781, guid: 55a4021bbe8a9104090f6ebc19c173c3,
         type: 3}
