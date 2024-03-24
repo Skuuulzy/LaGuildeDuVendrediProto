@@ -1,4 +1,5 @@
 using System;
+using Cysharp.Threading.Tasks;
 using QFSW.QC;
 using Unity.Netcode;
 using UnityEngine;
@@ -28,8 +29,8 @@ namespace VComponent.Island
 
         public byte Index => _index;
         public FactionIslandSO IslandData => _islandData;
-        
-        private void Start()
+
+        public override void OnNetworkSpawn()
         {
             if (!IsServer)
             {
@@ -68,11 +69,16 @@ namespace VComponent.Island
 
         public void StartRequestingDeliveries()
         {
+            if (!IsServer)
+            {
+                return;
+            }
+            
             // Request the first delivery
             RequestDelivery();
             
             // Start timer for next delivery
-            //_deliveryRequestTimer.Start();
+            _deliveryRequestTimer.Start();
         }
 
         /// <summary>

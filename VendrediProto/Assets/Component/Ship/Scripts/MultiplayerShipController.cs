@@ -1,5 +1,7 @@
 using QFSW.QC;
 using System;
+using System.Collections.Generic;
+using Sirenix.OdinInspector;
 using UnityEngine;
 using VComponent.Island;
 using VComponent.Items.Merchandise;
@@ -10,7 +12,7 @@ namespace VComponent.Ship
     public class MultiplayerShipController : MonoBehaviour
     {
         [Header("Data")]
-        [SerializeField] private SerializableDictionary<ResourceType, ushort> _currentResourcesCarried;
+        [ShowInInspector] private Dictionary<ResourceType, ushort> _currentResourcesCarried = new ();
         
         [Header("Parameters")]
         [SerializeField] private ushort _capacity;
@@ -24,7 +26,7 @@ namespace VComponent.Ship
         public event Action<RessourcesSO, int> OnResourceAdded = delegate {};
         public event Action<ResourceType, int> OnResourceCarriedUpdated;
         public event Action<ResourceType> OnResourceCarriedDelivered;
-        public event Action<RessourcesIslandSO> OnResourceIslandDocked;
+        public event Action<bool,RessourcesIslandSO> OnResourceIslandDocked;
 
         private void OnTriggerEnter(Collider other)
         {
@@ -55,7 +57,7 @@ namespace VComponent.Ship
             {
                 Debug.Log($"Entering island {resourcesIslandController.IslandData.IslandName}");
                 _resourcesDockedIsland = resourcesIslandController;
-                OnResourceIslandDocked?.Invoke(resourcesIslandController.IslandData);
+                OnResourceIslandDocked?.Invoke(true,resourcesIslandController.IslandData);
 
                 return;
             }
@@ -64,8 +66,6 @@ namespace VComponent.Ship
             if (playerIslandController != null)
             {
                 //Region Player Island
-
-                return;
             }
         }
 
@@ -89,6 +89,16 @@ namespace VComponent.Ship
                 _merchandiseAmountSellable = 0;
 
                 DeliveryManager.OnDeliveryCreated -= HandleDeliveryCreation;
+            }
+            
+            ResourcesIslandController resourcesIslandController = other.gameObject.GetComponent<ResourcesIslandController>();
+            if (resourcesIslandController != null)
+            {
+                Debug.Log($"Exiting island {resourcesIslandController.IslandData.IslandName}");
+                
+                OnResourceIslandDocked?.Invoke(false,null);
+
+                return;
             }
         }
 
@@ -143,8 +153,8 @@ namespace VComponent.Ship
 
             _factionDockedIsland.UpdateDelivery(merchandiseSellAmount);
 
-            _currentResourcesCarried.ToDictionary()[resourceType] -= merchandiseSellAmount;
-            _currentResourcesCarried.ToDictionary().Remove(resourceType);
+            _currentResourcesCarried[resourceType] -= merchandiseSellAmount;
+            _currentResourcesCarried.Remove(resourceType);
             OnResourceCarriedDelivered?.Invoke(resourceType);
 
             _merchandiseAmountSellable -= merchandiseSellAmount;
@@ -153,9 +163,9 @@ namespace VComponent.Ship
         private ushort GetSellableAmount(ResourceType resourceType)
         {
             // The ship do not have enough or just enough merchandise in stock to complete the order just sell everything.
-            if (_merchandiseAmountSellable >= _currentResourcesCarried.ToDictionary()[resourceType])
+            if (_merchandiseAmountSellable >= _currentResourcesCarried[resourceType])
             {
-                return _currentResourcesCarried.ToDictionary()[resourceType];
+                return _currentResourcesCarried[resourceType];
             }
 
             // The ship have too many resources in stock just sell the maximum asked by the delivery.
@@ -169,22 +179,22 @@ namespace VComponent.Ship
         public void LoadResource(RessourcesSO resourceSO, int amount)
         {
             //We check if we have already the maximum different resources 
-            if (_currentResourcesCarried.ToDictionary().Count >= _maxResourcesTypeCarried)
+            if (_currentResourcesCarried.Count >= _maxResourcesTypeCarried)
             {
                 Debug.LogError("Cant add this resource => already carrying " + _maxResourcesTypeCarried);
                 return;
             }
 
             //Check if we already contains the resource
-            if (_currentResourcesCarried.ToDictionary().ContainsKey(resourceSO.Type))
+            if (_currentResourcesCarried.ContainsKey(resourceSO.Type))
             {
-                _currentResourcesCarried.ToDictionary()[resourceSO.Type] += Convert.ToUInt16(amount);
-                OnResourceCarriedUpdated?.Invoke(resourceSO.Type, _currentResourcesCarried.ToDictionary()[resourceSO.Type]);
+                _currentResourcesCarried[resourceSO.Type] += Convert.ToUInt16(amount);
+                OnResourceCarriedUpdated?.Invoke(resourceSO.Type, _currentResourcesCarried[resourceSO.Type]);
             }
             else
             {
                 //Adding the new resource to the dictionary
-                _currentResourcesCarried.ToDictionary().Add(resourceSO.Type, Convert.ToUInt16(amount));
+                _currentResourcesCarried.Add(resourceSO.Type, Convert.ToUInt16(amount));
                 OnResourceAdded?.Invoke(resourceSO, amount);
             }
         }
@@ -192,7 +202,7 @@ namespace VComponent.Ship
         public int GetFreeSpace()
         {
             int currentSpace = 0;
-            foreach (var kvp in _currentResourcesCarried.ToDictionary())
+            foreach (var kvp in _currentResourcesCarried)
             {
                 currentSpace += kvp.Value;
             }

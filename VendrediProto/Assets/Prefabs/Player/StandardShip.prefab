@@ -291,6 +291,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1618153209122777404, guid: 1c471ccbf44671b439fb794f72e10afb,
         type: 3}
+      propertyPath: _speed
+      value: 150
+      objectReference: {fileID: 0}
+    - target: {fileID: 1618153209122777404, guid: 1c471ccbf44671b439fb794f72e10afb,
+        type: 3}
       propertyPath: m_Enabled
       value: 1
       objectReference: {fileID: 0}
@@ -349,8 +354,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: acbc5c4bdc8e195458a7ddae64b841d3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _currentResourcesCarried:
-    m_Dictionnary: []
   _capacity: 800
   _maxResourcesTypeCarried: 2
 --- !u!114 &5325958543237942890

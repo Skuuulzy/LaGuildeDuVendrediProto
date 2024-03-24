@@ -49,15 +49,22 @@ public class ShipInfoView : MonoBehaviour
 		_currentStateText.text = stateText;
 	}
 
-	private void HandleShipDockedToResourceIsland(RessourcesIslandSO islandSO)
+	private void HandleShipDockedToResourceIsland(bool docked, RessourcesIslandSO resourcesIslandSO)
 	{
+		if (!docked)
+		{
+			_loadResourcesInteraction.Hide();
+			
+			return;
+		}
+		
 		// We cannot load anything the ship is already full
 		if (_shipController.GetFreeSpace() <= 0)
 		{
 			return;
 		}
 		
-		_loadResourcesInteraction.Show(islandSO.MerchandisesToSell, _shipController);
+		_loadResourcesInteraction.Show(resourcesIslandSO.MerchandisesToSell, _shipController);
 	}
 
 	private void HandleResourcesAdded(RessourcesSO resourceType, int amount)

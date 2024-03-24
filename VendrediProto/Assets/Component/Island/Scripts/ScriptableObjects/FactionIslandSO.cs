@@ -21,5 +21,4 @@ public class FactionIslandSO : IslandSO
 
 		return (randomRequest.Key.Type, randomRequest.Value, _merchandiseRequestedTimeInterval);
 	}
-
 }

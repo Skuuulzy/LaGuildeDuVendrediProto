@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Cysharp.Threading.Tasks;
 using Unity.Collections;
 using Unity.Netcode;
 using UnityEngine;
@@ -96,6 +97,9 @@ namespace VComponent.Multiplayer
             }
 
             SetUpPlayerIslands();
+
+            // Security to be sure that everything is correctly initialized.
+            await UniTask.WaitForEndOfFrame(this);
             AllClientConnectedClientRpc(MultiplayerConnectionManager.Instance.GameTime);
         }
 

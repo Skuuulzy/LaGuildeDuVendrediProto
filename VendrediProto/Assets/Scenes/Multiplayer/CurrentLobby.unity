@@ -576,7 +576,7 @@ GameObject:
   m_Component:
   - component: {fileID: 42040571}
   m_Layer: 5
-  m_Name: CurrentLobby
+  m_Name: LobbyInformations
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -6104,8 +6104,8 @@ RectTransform:
   - {fileID: 299560553}
   - {fileID: 42040571}
   - {fileID: 275419663}
-  - {fileID: 1740780590}
   - {fileID: 1504793864}
+  - {fileID: 1740780590}
   - {fileID: 1778052335}
   - {fileID: 789258837}
   m_Father: {fileID: 0}
@@ -6127,7 +6127,7 @@ GameObject:
   - component: {fileID: 275419665}
   - component: {fileID: 275419664}
   m_Layer: 0
-  m_Name: IslandsInfos
+  m_Name: DeliveriesViews
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -6190,8 +6190,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7b13d0051e181b14ebab322df5b1dbfd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _playerDataSO: {fileID: 11400000, guid: 661247baffdb739459e0dc8ec90f4a1d, type: 2}
-  _playerUIIslandInfoViewPrefab: {fileID: 1889245294677858168, guid: 1043cd7e458c411469ada53ce8220abd,
+  _deliveryViewPrefab: {fileID: 1889245294677858168, guid: 1043cd7e458c411469ada53ce8220abd,
     type: 3}
   _parentTransform: {fileID: 275419663}
 --- !u!1 &297984616
@@ -10555,7 +10554,7 @@ GameObject:
   - component: {fileID: 1504793865}
   - component: {fileID: 1504793866}
   m_Layer: 5
-  m_Name: ShipViews
+  m_Name: ShipsViews
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -11650,7 +11649,7 @@ GameObject:
   - component: {fileID: 1740780592}
   - component: {fileID: 1740780591}
   m_Layer: 0
-  m_Name: PlayerInfos
+  m_Name: Header
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
