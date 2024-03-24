@@ -92,7 +92,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 11.7
+  m_fontSize: 20.2
   m_fontSizeBase: 36
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -410,8 +410,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _currentAmountText: {fileID: 8908628383467002603}
-  _merchandiseSlider: {fileID: 1782345032100660986}
-  _merchandiseImage: {fileID: 8521147387047554267}
+  _resourceSlider: {fileID: 1782345032100660986}
+  _resourceImage: {fileID: 8521147387047554267}
 --- !u!1 &7509974492142524771
 GameObject:
   m_ObjectHideFlags: 0
@@ -446,8 +446,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.82, y: 0.14}
   m_AnchorMax: {x: 0.98, y: 0.3}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
+  m_AnchoredPosition: {x: -91.6, y: 8}
+  m_SizeDelta: {x: 16.5982, y: 8.4}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &4207045373405400322
 CanvasRenderer:
@@ -477,10 +477,10 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 0
+  m_text: 999
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
-  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 125cb55b44b24c4393181402bc6200e6, type: 2}
+  m_sharedMaterial: {fileID: 2100000, guid: 125cb55b44b24c4393181402bc6200e6, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -504,10 +504,10 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 9.25
-  m_fontSizeBase: 36
+  m_fontSize: 28
+  m_fontSizeBase: 28
   m_fontWeight: 400
-  m_enableAutoSizing: 1
+  m_enableAutoSizing: 0
   m_fontSizeMin: 5
   m_fontSizeMax: 72
   m_fontStyle: 0
@@ -582,7 +582,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0.14}
   m_AnchorMax: {x: 0.8, y: 0.3}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 31.5}
   m_SizeDelta: {x: 0, y: -0.0000023841858}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1782345032100660986
@@ -682,7 +682,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.8, y: 0.3}
   m_AnchorMax: {x: 1, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchoredPosition: {x: -134.5, y: -10.9}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &3580044809084921276
@@ -821,15 +821,55 @@ PrefabInstance:
       propertyPath: m_Colors.m_NormalColor.r
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 120554753253101042, guid: c873b5e854d2bb249bce0657363dcbef,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 120554753253101042, guid: c873b5e854d2bb249bce0657363dcbef,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 120554753253101042, guid: c873b5e854d2bb249bce0657363dcbef,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 414314923222620295}
+    - target: {fileID: 120554753253101042, guid: c873b5e854d2bb249bce0657363dcbef,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 120554753253101042, guid: c873b5e854d2bb249bce0657363dcbef,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: LoadSelectedResources
+      objectReference: {fileID: 0}
+    - target: {fileID: 120554753253101042, guid: c873b5e854d2bb249bce0657363dcbef,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: LoadResourcesInteraction, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 120554753253101042, guid: c873b5e854d2bb249bce0657363dcbef,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
     - target: {fileID: 4003709497890647502, guid: c873b5e854d2bb249bce0657363dcbef,
         type: 3}
       propertyPath: m_text
-      value: Load
+      value: load
       objectReference: {fileID: 0}
     - target: {fileID: 4003709497890647502, guid: c873b5e854d2bb249bce0657363dcbef,
         type: 3}
       propertyPath: m_fontSize
       value: 15
+      objectReference: {fileID: 0}
+    - target: {fileID: 4003709497890647502, guid: c873b5e854d2bb249bce0657363dcbef,
+        type: 3}
+      propertyPath: m_fontStyle
+      value: 16
       objectReference: {fileID: 0}
     - target: {fileID: 4003709497890647502, guid: c873b5e854d2bb249bce0657363dcbef,
         type: 3}
@@ -858,8 +898,13 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4003709497890647502, guid: c873b5e854d2bb249bce0657363dcbef,
         type: 3}
+      propertyPath: m_fontSizeBase
+      value: 15
+      objectReference: {fileID: 0}
+    - target: {fileID: 4003709497890647502, guid: c873b5e854d2bb249bce0657363dcbef,
+        type: 3}
       propertyPath: m_enableAutoSizing
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4003709497890647502, guid: c873b5e854d2bb249bce0657363dcbef,
         type: 3}
@@ -944,12 +989,12 @@ PrefabInstance:
     - target: {fileID: 5383225399477412424, guid: c873b5e854d2bb249bce0657363dcbef,
         type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 0
+      value: 62.9
       objectReference: {fileID: 0}
     - target: {fileID: 5383225399477412424, guid: c873b5e854d2bb249bce0657363dcbef,
         type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 0
+      value: -31.2
       objectReference: {fileID: 0}
     - target: {fileID: 5383225399477412424, guid: c873b5e854d2bb249bce0657363dcbef,
         type: 3}

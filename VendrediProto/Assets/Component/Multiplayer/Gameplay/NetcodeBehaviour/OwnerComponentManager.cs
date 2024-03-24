@@ -33,12 +33,12 @@ namespace VComponent.Multiplayer
             {
                 MultiplayerFactionIslandController.OnDeliveryRequested += (delivery) =>
                 {
-                    Debug.Log($"Delivery Requested type: {delivery.Ressource}");
+                    Debug.Log($"Delivery Requested type: {delivery.Resource}");
                 };
                 
                 MultiplayerFactionIslandController.OnDeliveryUpdated += (delivery) =>
                 {
-                    Debug.Log($"Delivery Updated type: {delivery.Ressource}, current amount: {delivery.MerchandiseCurrentAmount}");
+                    Debug.Log($"Delivery Updated type: {delivery.Resource}, current amount: {delivery.MerchandiseCurrentAmount}");
                 };
             }
         }

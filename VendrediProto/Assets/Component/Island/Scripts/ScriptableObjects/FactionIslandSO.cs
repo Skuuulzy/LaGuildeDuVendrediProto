@@ -14,7 +14,7 @@ public class FactionIslandSO : IslandSO
 	public SerializableDictionary<RessourcesSO, ushort> MerchandisesRequested => _merchandisesRequested;
 	public float MerchandiseRequestedTimeInterval => _merchandiseRequestedTimeInterval;
 
-	public (RessourceType, ushort, uint) RequestRandomMerchandiseRequest()
+	public (ResourceType, ushort, uint) RequestRandomMerchandiseRequest()
 	{
 		int randomIndex = Random.Range(0, _merchandisesRequested.ToDictionary().Count);
 		var randomRequest = _merchandisesRequested.ToDictionary().ElementAt(randomIndex);

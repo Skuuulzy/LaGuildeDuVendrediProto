@@ -16,13 +16,13 @@ public enum FactionTypes
 	DODOTRIBE
 }
 
-public enum RessourceType : byte
+public enum ResourceType : byte
 {
 	NONE,
 	BANANA,
 	COCONUT,
 	FABRICS,
-	PRECIOUSSTONES,
+	PRECIOUS_STONES,
 	RUM,
 	SHELL
 }

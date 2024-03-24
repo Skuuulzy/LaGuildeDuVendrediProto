@@ -302,7 +302,7 @@ PrefabInstance:
     - target: {fileID: 7673686761778577729, guid: 1c471ccbf44671b439fb794f72e10afb,
         type: 3}
       propertyPath: m_Name
-      value: OnlinePlayer
+      value: StandardShip
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 1810462773743339317, guid: 1c471ccbf44671b439fb794f72e10afb, type: 3}
@@ -349,8 +349,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: acbc5c4bdc8e195458a7ddae64b841d3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _currentMerchandiseCarriedType: 0
-  _currentMerchandiseCarriedNumber: 0
+  _currentResourcesCarried:
+    m_Dictionnary: []
+  _capacity: 800
+  _maxResourcesTypeCarried: 2
 --- !u!114 &5325958543237942890
 MonoBehaviour:
   m_ObjectHideFlags: 0

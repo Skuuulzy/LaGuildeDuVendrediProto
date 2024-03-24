@@ -23,7 +23,7 @@ public class PlayerUIIslandInfoView : MonoBehaviour
 		_currentDelivery = delivery;
 		
 		_islandName.text = _currentDelivery.Buyer.IslandData.IslandName;
-		RessourcesSO merchandiseSO = _allMerchandise.GetMerchandiseByType(_currentDelivery.Data.Ressource);
+		RessourcesSO merchandiseSO = _allMerchandise.GetMerchandiseByType(_currentDelivery.Data.Resource);
 		_merchandiseAskedImage.sprite = merchandiseSO.Sprite;
 		
 		// Security
@@ -64,7 +64,7 @@ public class PlayerUIIslandInfoView : MonoBehaviour
 
 	private void SellMerchandise()
 	{
-		_currentDelivery.Seller.SellMerchandiseToDockedIsland(_currentDelivery.Data.Ressource);
+		_currentDelivery.Seller.SellMerchandiseToDockedIsland(_currentDelivery.Data.Resource);
 	}
 	
 	private void MakeDeliveryExpired()

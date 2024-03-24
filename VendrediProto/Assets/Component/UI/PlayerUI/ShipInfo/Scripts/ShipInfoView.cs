@@ -1,4 +1,3 @@
-using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
@@ -7,26 +6,39 @@ using VComponent.Ship;
 
 public class ShipInfoView : MonoBehaviour
 {
+	[Header("Components")]
 	[SerializeField] private TextMeshProUGUI _shipNameText;
 	[SerializeField] private TextMeshProUGUI _currentStateText;
-	[SerializeField] private List<ShipRessourcesCarriedView> _shipRessourcesCarriedViews;
-	private MultiplayerShipController _multiplayerShipController;
+	[SerializeField] private List<ShipResourcesCarriedView> _shipResourcesCarriedViews;
+	[SerializeField] private LoadResourcesInteraction _loadResourcesInteraction;
+	
+	private MultiplayerShipController _shipController;
 
 	public void Init(MultiplayerShipController shipController)
-    {
-		_multiplayerShipController = shipController;
-		_multiplayerShipController.OnRessourceAdded += AddNewRessource;
-		_multiplayerShipController.OnRessourceCarriedUpdated += UpdateExistedRessourceCarried;
-		_multiplayerShipController.OnRessourceCarriedDelivered += HideCarrriedRessource;
+	{
+		_shipController = shipController;
+		
+		// Hiding UI since the ship is empty at start.
+		_loadResourcesInteraction.Hide();
+		foreach (var resourcesView in _shipResourcesCarriedViews)
+		{
+			resourcesView.Hide();
+		}
+
+		_shipController.OnResourceIslandDocked += HandleShipDockedToResourceIsland;
+		_shipController.OnResourceAdded += HandleResourcesAdded;
+		_shipController.OnResourceCarriedUpdated += HandleResourceCarriedUpdated;
+		_shipController.OnResourceCarriedDelivered += HandleResourcesDelivered;
 	}
 
 	private void OnDestroy()
 	{
-		_multiplayerShipController.OnRessourceAdded -= AddNewRessource;
-		_multiplayerShipController.OnRessourceCarriedUpdated -= UpdateExistedRessourceCarried;
-		_multiplayerShipController.OnRessourceCarriedDelivered -= HideCarrriedRessource;
+		_shipController.OnResourceIslandDocked -= HandleShipDockedToResourceIsland;
+		_shipController.OnResourceAdded -= HandleResourcesAdded;
+		_shipController.OnResourceCarriedUpdated -= HandleResourceCarriedUpdated;
+		_shipController.OnResourceCarriedDelivered -= HandleResourcesDelivered;
 	}
-
+	
 	public void SetShipName(string shipName)
 	{
 		_shipNameText.text = shipName;
@@ -36,54 +48,61 @@ public class ShipInfoView : MonoBehaviour
 	{
 		_currentStateText.text = stateText;
 	}
-	#region ADDRESSOURCES
 
-	public void AddNewRessource(RessourcesSO ressourceType, int amount)
+	private void HandleShipDockedToResourceIsland(RessourcesIslandSO islandSO)
 	{
-		//Search which ShipRessourcesCarriedView display this RessourceType
-		for (int i = 0; i < _shipRessourcesCarriedViews.Count; i++)
+		// We cannot load anything the ship is already full
+		if (_shipController.GetFreeSpace() <= 0)
 		{
-			if (_shipRessourcesCarriedViews[i].CurrentRessourceType == RessourceType.NONE)
+			return;
+		}
+		
+		_loadResourcesInteraction.Show(islandSO.MerchandisesToSell, _shipController);
+	}
+
+	private void HandleResourcesAdded(RessourcesSO resourceType, int amount)
+	{
+		for (int i = 0; i < _shipResourcesCarriedViews.Count; i++)
+		{
+			if (_shipResourcesCarriedViews[i].CurrentResourceType != ResourceType.NONE) 
+				continue;
+			
+			//Add a new shipResourceCarriedView
+			_shipResourcesCarriedViews[i].Init(amount, resourceType);
+			return;
+		}
+
+		Debug.LogError("Can't add new resource");
+	}
+
+	private void HandleResourceCarriedUpdated(ResourceType resourceType, int amount)
+	{
+		//Search which ShipResourcesCarriedView display this ResourceType
+		for (int i = 0; i < _shipResourcesCarriedViews.Count; i++)
+		{
+			if (_shipResourcesCarriedViews[i].CurrentResourceType != resourceType) 
+				continue;
+			
+			//Update a current ship Resource Carried View
+			_shipResourcesCarriedViews[i].UpdateNumberOfResourceCarried(amount);
+			return;
+		}
+
+		Debug.LogError("Try to update a resource which is not present in the ship");
+	}
+	
+	private void HandleResourcesDelivered(ResourceType resourceType)
+	{
+		//Search which ShipResourcesCarriedView display this ResourceType
+		for (int i = 0; i < _shipResourcesCarriedViews.Count; i++)
+		{
+			if (_shipResourcesCarriedViews[i].CurrentResourceType == resourceType)
 			{
-				//Add a new shipRessourceCarriedView
-				_shipRessourcesCarriedViews[i].Init(amount, ressourceType);
+				_shipResourcesCarriedViews[i].Hide();
 				return;
 			}
 		}
 
-		Debug.LogError("Can't add new ressource");
+		Debug.LogError("Try to hide a resource which is not present in the ship");
 	}
-
-	public void UpdateExistedRessourceCarried(RessourceType ressourceType, int amount)
-	{
-		//Search which ShipRessourcesCarriedView display this RessourceType
-		for (int i = 0; i < _shipRessourcesCarriedViews.Count; i++)
-		{
-			if (_shipRessourcesCarriedViews[i].CurrentRessourceType == ressourceType)
-			{
-				//Update a current shipRessourceCarriedView
-				_shipRessourcesCarriedViews[i].UpdateNumberOfRessourceCarried(amount);
-				return;
-			}
-		}
-
-		Debug.LogError("Try to update a ressource which is not present in the ship");
-	}
-	#endregion ADDRESSOURCES
-
-	public void HideCarrriedRessource(RessourceType ressourceType)
-	{
-		//Search which ShipRessourcesCarriedView display this RessourceType
-		for (int i = 0; i < _shipRessourcesCarriedViews.Count; i++)
-		{
-			if (_shipRessourcesCarriedViews[i].CurrentRessourceType == ressourceType)
-			{
-				_shipRessourcesCarriedViews[i].Hide();
-				return;
-			}
-		}
-
-		Debug.LogError("Try to hide a ressource which is not present in the ship");
-	}
-
 }

@@ -9,7 +9,7 @@ namespace VComponent.Items.Merchandise
 		[SerializeField] private List<RessourcesSO> _allMerchandises;
 		public List<RessourcesSO> AllMerchandise => _allMerchandises;
 
-		public RessourcesSO GetMerchandiseByType(RessourceType merchandiseType)
+		public RessourcesSO GetMerchandiseByType(ResourceType merchandiseType)
 		{
 			return _allMerchandises.Find(x => x.Type == merchandiseType);
 		}
