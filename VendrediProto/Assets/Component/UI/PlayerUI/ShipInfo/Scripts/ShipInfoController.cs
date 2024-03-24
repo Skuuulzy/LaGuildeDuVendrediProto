@@ -7,7 +7,7 @@ using VComponent.Ship;
 
 public class ShipInfoController : MonoBehaviour
 {
-    [SerializeField] private ShipInfoView _ship�nfoView;
+    [SerializeField] private ShipInfoView _shipÎnfoView;
     [SerializeField] private LoadRessourcesInteraction _loadRessourcesInteraction;
     [SerializeField] private MultiplayerShipController _shipController;
 
@@ -15,6 +15,7 @@ public class ShipInfoController : MonoBehaviour
     {
 		_shipController = shipController;
         _shipController.OnResourceIslandDocked += OnRessourcesIslandDocked;
+        _shipÎnfoView.Init(shipController);
 	}
 
 

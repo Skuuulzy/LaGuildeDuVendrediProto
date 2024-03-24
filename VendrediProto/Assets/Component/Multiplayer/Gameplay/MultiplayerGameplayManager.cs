@@ -1,7 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Sirenix.OdinInspector;
 using Unity.Collections;
 using Unity.Netcode;
 using UnityEngine;
@@ -16,14 +15,14 @@ namespace VComponent.Multiplayer
     /// </summary>
     public class MultiplayerGameplayManager : NetworkSingleton<MultiplayerGameplayManager>
     {
+        [Header("Components")] 
+        [SerializeField] private List<PlayerIslandController> _playerIslands;
+        
         [Header("Broadcasting On")]
         [SerializeField] private EventChannel<Empty> _onWaitingAllPlayerConnected;
         [SerializeField] private EventChannel<Empty> _onAllPlayerConnected;
         [SerializeField] private EventChannel<float> _onGameClockTick;
         [SerializeField] private EventChannel<Empty> _onGameFinished;
-
-        [Header("Components")]
-        [SerializeField] private Transform _playerPrefab;
         
         private List<PlayerData> _playerDataNetworkList;
         private bool _gameInProgress;
@@ -96,21 +95,25 @@ namespace VComponent.Multiplayer
                 await Task.Delay(500);
             }
 
-            InstantiatePlayersPrefabs();
+            SetUpPlayerIslands();
             AllClientConnectedClientRpc(MultiplayerConnectionManager.Instance.GameTime);
         }
 
         /// <summary>
         /// SERVER - SIDE
-        /// Instantiate the base boat player prefab for all connected players.
+        /// Setup the player island with the correct id, if 
         /// </summary>
-        private void InstantiatePlayersPrefabs()
+        private void SetUpPlayerIslands()
         {
-            // Instantiating players
-            foreach (PlayerData playerData in _playerDataNetworkList)
+            for (int i = 0; i < _playerDataNetworkList.Count; i++)
             {
-                Transform playerTransform = Instantiate(_playerPrefab);
-                playerTransform.GetComponent<NetworkObject>().SpawnAsPlayerObject(playerData.ClientId, true);
+                _playerIslands[i].SetUpForPlayer(_playerDataNetworkList[i].ClientId);
+            }
+            
+            // Tell to all client to spawn the first boat
+            for (int i = 0; i < _playerDataNetworkList.Count; i++)
+            {
+                _playerIslands[i].SpawnFirstBoatClientRpc();
             }
         }
         
