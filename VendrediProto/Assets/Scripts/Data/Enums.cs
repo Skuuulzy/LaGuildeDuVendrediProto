@@ -16,16 +16,15 @@ public enum FactionTypes
 	DODOTRIBE
 }
 
-public enum MerchandiseType : byte
+public enum RessourceType : byte
 {
 	NONE,
 	BANANA,
-	WOOD,
-	CORN,
-	DIAMOND,
-	SPICES,
-	MEAT,
-	URANIUM
+	COCONUT,
+	FABRICS,
+	PRECIOUSSTONES,
+	RUM,
+	SHELL
 }
 
 public enum CompanyBaseTeam

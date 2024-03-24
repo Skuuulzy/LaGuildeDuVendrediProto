@@ -13,9 +13,6 @@ MonoBehaviour:
   m_Name: CoconutIslandSO
   m_EditorClassIdentifier: 
   _islandName: CoconutIsland
-  _merchandisesToSell:
-    m_Dictionnary: []
-  _merchandisesRequested:
-    m_Dictionnary: []
-  _merchandiseRequestedTimeInterval: 220
-  _merchandiseToTakeTimeInterval: 180
+  _merchandisesToSell: {fileID: 11400000, guid: af84c950fb269404d97ae956760d5065,
+    type: 2}
+  _merchandiseToSellTimeInterval: 180

@@ -1,4 +1,8 @@
+using Mono.Cecil;
 using QFSW.QC;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using VComponent.Island;
 using VComponent.Items.Merchandise;
@@ -8,22 +12,30 @@ namespace VComponent.Ship
 {
     public class MultiplayerShipController : MonoBehaviour
     {
-        [SerializeField] private MerchandiseType _currentMerchandiseCarriedType;
-        [SerializeField] private ushort _currentMerchandiseCarriedNumber;
+        [SerializeField] private SerializableDictionary<RessourceType, ushort> _currentRessourcesCarried;
+        [SerializeField] private ushort _maxFreeSpace;
 
-        private MultiplayerIslandController _dockedIsland;
+        public SerializableDictionary<RessourceType, ushort> CurrentRessourcesCarried => _currentRessourcesCarried;
+		private MultiplayerFactionIslandController _factionDockedIsland;
+        private RessourcesIslandController _ressourcesDockedIsland;
         private Delivery _currentDelivery;
         private ushort _merchandiseAmountSellable;
+        private int _maxDiffRessourcesTypeCarried = 2;
+
+        public event Action<RessourcesSO, int> OnRessourceAdded;
+        public event Action<RessourceType, int> OnRessourceCarriedUpdated;
+        public event Action<RessourceType> OnRessourceCarriedDelivered;
+        public event Action<RessourcesIslandSO> OnResourceIslandDocked;
 
         private void OnTriggerEnter(Collider other)
         {
-            MultiplayerIslandController islandController = other.gameObject.GetComponent<MultiplayerIslandController>();
-            if (islandController != null)
+            MultiplayerFactionIslandController factionIslandController = other.gameObject.GetComponent<MultiplayerFactionIslandController>();
+            if (factionIslandController != null)
             {
-                Debug.Log($"Entering island {islandController.IslandData.IslandName}");
-                _dockedIsland = islandController;
+                Debug.Log($"Entering island {factionIslandController.IslandData.IslandName}");
+                _factionDockedIsland = factionIslandController;
                 
-                _currentDelivery = DeliveryManager.Instance.GetRequestedDeliveryBy(islandController);
+                _currentDelivery = DeliveryManager.Instance.GetRequestedDeliveryBy(factionIslandController);
                 
                 if (_currentDelivery != null)
                 {
@@ -35,17 +47,37 @@ namespace VComponent.Ship
                     Debug.Log("The current island don't request any delivery.");
                     DeliveryManager.OnDeliveryCreated += HandleDeliveryCreation;
                 }
+                return;
             }
-        }
 
-        private void OnTriggerExit(Collider other)
+			RessourcesIslandController ressourcesIslandController = other.gameObject.GetComponent<RessourcesIslandController>();
+            if(ressourcesIslandController != null)
+            {
+				//Region RessourcesIsland
+				Debug.Log($"Entering island {ressourcesIslandController.IslandData.IslandName}");
+				_ressourcesDockedIsland = ressourcesIslandController;
+                OnResourceIslandDocked?.Invoke(ressourcesIslandController.IslandData);
+				return;
+            }
+
+			PlayerIslandController playerIslandController = other.gameObject.GetComponent<PlayerIslandController>();
+            if(playerIslandController != null)
+            {
+				//Region Player Island
+
+				return;
+            }
+
+		}
+
+		private void OnTriggerExit(Collider other)
         {
-            MultiplayerIslandController islandController = other.gameObject.GetComponent<MultiplayerIslandController>();
+            MultiplayerFactionIslandController islandController = other.gameObject.GetComponent<MultiplayerFactionIslandController>();
             if (islandController != null)
             {
                 Debug.Log($"Exiting island {islandController.IslandData.IslandName}");
                 
-                _dockedIsland = null;
+                _factionDockedIsland = null;
                 
                 // Remove all data from the delivery
                 if (_currentDelivery != null)
@@ -66,7 +98,7 @@ namespace VComponent.Ship
         private void HandleDeliveryCreation(Delivery delivery)
         {
             // This delivery is not on the docked island
-            if (delivery.Buyer != _dockedIsland)
+            if (delivery.Buyer != _factionDockedIsland)
             {
                 return;
             }
@@ -79,8 +111,8 @@ namespace VComponent.Ship
 
         private void UpdateSellableState()
         {
-            // The request il already done or we do not have the correct merchandise type.
-            if (_currentDelivery.IsDone || _currentMerchandiseCarriedType != _currentDelivery.Data.Merchandise)
+            // The request is already done or we do not have the correct merchandise type.
+            if (_currentDelivery.IsDone || _currentRessourcesCarried.ContainsKey(_currentDelivery.Data.Ressource) == false)
             {
                 _merchandiseAmountSellable = 0;
                 _currentDelivery.RemoveSeller(this);
@@ -93,9 +125,9 @@ namespace VComponent.Ship
         }
         
         [Command]
-        public void SellMerchandiseToDockedIsland()
+        public void SellMerchandiseToDockedIsland(RessourceType ressourceType)
         {
-            if (_dockedIsland == null)
+            if (_factionDockedIsland == null)
             {
                 Debug.LogError("No docked island to sell merchandise to !");
                 return;
@@ -103,33 +135,72 @@ namespace VComponent.Ship
 
             if (_merchandiseAmountSellable <= 0)
             {
-                Debug.LogError($"The current merchandise: {_currentMerchandiseCarriedType} cannot be sell to the island: {_dockedIsland.IslandData.IslandName} !");
+                Debug.LogError($"The current merchandise: {ressourceType} cannot be sell to the island: {_factionDockedIsland.IslandData.IslandName} !");
                 return;
             }
 
             // Determine how many merchandise we can sell
-            ushort merchandiseSellAmount = GetSellableAmount();
+            ushort merchandiseSellAmount = GetSellableAmount(ressourceType);
 
-            _dockedIsland.UpdateDelivery(merchandiseSellAmount);
+            _factionDockedIsland.UpdateDelivery(merchandiseSellAmount);
 
-            _currentMerchandiseCarriedNumber -= merchandiseSellAmount;
-            _currentMerchandiseCarriedType = MerchandiseType.NONE;
+            _currentRessourcesCarried.ToDictionary()[ressourceType] -= merchandiseSellAmount;
+            _currentRessourcesCarried.ToDictionary().Remove(ressourceType);
+			OnRessourceCarriedDelivered?.Invoke(ressourceType);
 
-            _merchandiseAmountSellable -= merchandiseSellAmount;
+			_merchandiseAmountSellable -= merchandiseSellAmount;
         }
 
-        private ushort GetSellableAmount()
+        private ushort GetSellableAmount(RessourceType ressourceType)
         {
             // The ship do not have enough or just enough merchandise in stock to complete the order just sell everything.
-            if (_merchandiseAmountSellable >= _currentMerchandiseCarriedNumber)
+            if (_merchandiseAmountSellable >= _currentRessourcesCarried.ToDictionary()[ressourceType])
             {
-                return _currentMerchandiseCarriedNumber;
+                return _currentRessourcesCarried.ToDictionary()[ressourceType];
             }
 
             // The ship have too many resources in stock just sell the maximum asked by the delivery.
             return _merchandiseAmountSellable;
         }
 
-        #endregion
-    }
+		#endregion
+
+		#region LOAD
+
+        public void LoadRessource(RessourcesSO ressourceSO, int amount)
+        {
+
+            //We check if we have already the maximum differents ressources 
+            if(_currentRessourcesCarried.ToDictionary().Count >= _maxDiffRessourcesTypeCarried)
+            {
+                Debug.LogError("Cant add this ressource => already carriyng " + _maxDiffRessourcesTypeCarried);
+                return;
+            }
+
+            //Check if we already contains the ressource
+            if(_currentRessourcesCarried.ToDictionary().ContainsKey(ressourceSO.Type))
+            {
+				_currentRessourcesCarried.ToDictionary()[ressourceSO.Type] += Convert.ToUInt16(amount);
+                OnRessourceCarriedUpdated?.Invoke(ressourceSO.Type, _currentRessourcesCarried.ToDictionary()[ressourceSO.Type]);
+            }
+            else
+            {
+                //Adding the new ressource to the dictionary
+                _currentRessourcesCarried.ToDictionary().Add(ressourceSO.Type, Convert.ToUInt16(amount));
+				OnRessourceAdded?.Invoke(ressourceSO, amount);
+			}
+		}
+		#endregion LOAD
+
+
+		public int GetFreeSpace()
+		{
+            int currentSpace = 0;
+            foreach(var kvp in _currentRessourcesCarried.ToDictionary())
+            {
+                currentSpace += kvp.Value;
+            }
+            return _maxFreeSpace - currentSpace; 
+        }
+	}
 }

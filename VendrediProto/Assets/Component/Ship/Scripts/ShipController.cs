@@ -4,13 +4,13 @@ using UnityEngine;
 public class ShipController : MonoBehaviour
 {
 	[SerializeField] private PlayerDataSO _playerDataSO;
-	[SerializeField] private MerchandiseType _currentMerchandiseCarriedType;
+	[SerializeField] private RessourceType _currentMerchandiseCarriedType;
 	[SerializeField] private int _currentMerchandiseCarriedNumber;
 	
 	public Action<IslandController,ShipController> EnterIslandArea; 
 	public Action<ShipController> LeaveIslandArea; 
 	public Action<int> OnPlayerSaleMerchandise; 
-	public MerchandiseType CurrentMerchandiseCarriedType => _currentMerchandiseCarriedType;
+	public RessourceType CurrentMerchandiseCarriedType => _currentMerchandiseCarriedType;
 	public int CurrentMerchandiseCarriedNumber => _currentMerchandiseCarriedNumber;
 
 
@@ -46,7 +46,7 @@ public class ShipController : MonoBehaviour
 	public void SellMerchandise(int sellPrice)
 	{
 		_playerDataSO.PlayerInventory.IncreasePlayerMoney(sellPrice * _currentMerchandiseCarriedNumber);
-		_currentMerchandiseCarriedType = MerchandiseType.NONE;
+		_currentMerchandiseCarriedType = RessourceType.NONE;
 		_currentMerchandiseCarriedNumber = 0;
 	}
 	#endregion INTERACTIONS

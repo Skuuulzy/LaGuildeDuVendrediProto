@@ -11,18 +11,13 @@ public class PlayerUIIslandCommerceController : MonoBehaviour
 	[SerializeField] private PlayerUIIslandInfoView _playerUIIslandInfoViewPrefab;
 	[SerializeField] private Transform _parentTransform;
 
-	private List<MultiplayerIslandController> _islandControllerList;
+	private List<MultiplayerFactionIslandController> _islandControllerList;
 	private Dictionary<ShipController,PlayerUIIslandInfoController> _playerUIIslandInfoControllersDictionary;
 
 	private void Start()
 	{
-		_islandControllerList = FindObjectsOfType<MultiplayerIslandController>().ToList();
+		_islandControllerList = FindObjectsOfType<MultiplayerFactionIslandController>().ToList();
 		LinkToIslandEvent();
-
-
-		//_playerUIIslandInfoControllersDictionary = new Dictionary<ShipController, PlayerUIIslandInfoController>();
-		//LinkToShipEvent();
-		//_playerDataSO.OnShipAdded += LinkToShipEvent;
 	}
 
 	private void LinkToIslandEvent()
@@ -30,17 +25,6 @@ public class PlayerUIIslandCommerceController : MonoBehaviour
 		DeliveryManager.OnDeliveryCreated += SetDeliveryInfos;
 	}
 
-	//private void LinkToShipEvent()
-	//{
-	//	foreach(ShipController shipController in _playerDataSO.ShipControllersList)
-	//	{
-	//		shipController.EnterIslandArea -= SetPlayerUIIslandInfo;
-	//		shipController.LeaveIslandArea -= CloseIslandDetailUI;
-
-	//		shipController.EnterIslandArea += SetPlayerUIIslandInfo;
-	//		shipController.LeaveIslandArea += CloseIslandDetailUI;
-	//	}
-	//}
 
 	private void SetDeliveryInfos(Delivery delivery)
 	{

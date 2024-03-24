@@ -13,7 +13,7 @@ public class PlayerUIIslandInfoView : MonoBehaviour
     [SerializeField] private TextMeshProUGUI _sellButtonText;
 
 	[Header("Data")]
-	[SerializeField] private MerchandiseListSO _allMerchandise;
+	[SerializeField] private RessourcesListSO _allMerchandise;
 
 	private Delivery _currentDelivery;
 	private bool _buttonBind;
@@ -23,7 +23,7 @@ public class PlayerUIIslandInfoView : MonoBehaviour
 		_currentDelivery = delivery;
 		
 		_islandName.text = _currentDelivery.Buyer.IslandData.IslandName;
-		MerchandiseSO merchandiseSO = _allMerchandise.GetMerchandiseByType(_currentDelivery.Data.Merchandise);
+		RessourcesSO merchandiseSO = _allMerchandise.GetMerchandiseByType(_currentDelivery.Data.Ressource);
 		_merchandiseAskedImage.sprite = merchandiseSO.Sprite;
 		
 		// Security
@@ -64,7 +64,7 @@ public class PlayerUIIslandInfoView : MonoBehaviour
 
 	private void SellMerchandise()
 	{
-		_currentDelivery.Seller.SellMerchandiseToDockedIsland();
+		_currentDelivery.Seller.SellMerchandiseToDockedIsland(_currentDelivery.Data.Ressource);
 	}
 	
 	private void MakeDeliveryExpired()

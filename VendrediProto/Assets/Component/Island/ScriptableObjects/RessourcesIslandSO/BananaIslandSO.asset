@@ -13,11 +13,6 @@ MonoBehaviour:
   m_Name: BananaIslandSO
   m_EditorClassIdentifier: 
   _islandName: BananaIsland
-  _merchandisesToSell:
-    m_Dictionnary:
-    - m_key: {fileID: 11400000, guid: 8ba9d8f37b540674fa79f74b6d57821e, type: 2}
-      m_value: 50
-  _merchandisesRequested:
-    m_Dictionnary: []
-  _merchandiseRequestedTimeInterval: 220
-  _merchandiseToTakeTimeInterval: 180
+  _merchandisesToSell: {fileID: 11400000, guid: 8ba9d8f37b540674fa79f74b6d57821e,
+    type: 2}
+  _merchandiseToSellTimeInterval: 180
