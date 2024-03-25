@@ -42,7 +42,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2446853008596079592}
   m_Layer: 0
-  m_Name: PlayerSpawnPoint
+  m_Name: Dock
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -103,6 +103,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2127773981696619992}
+  - component: {fileID: 2750351199107865412}
+  - component: {fileID: 5824072056644233347}
   m_Layer: 0
   m_Name: PlayerIsland
   m_TagString: Untagged
@@ -128,6 +130,41 @@ Transform:
   - {fileID: 2446853008596079592}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2750351199107865412
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2545580934560772885}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b500597284fc7564b8e755eb50dc01fc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _standardShip: {fileID: 7602440660852365168, guid: 8eff6b8991bc3f9479faa5168c6c2f2a,
+    type: 3}
+  _dockTransform: {fileID: 2446853008596079592}
+--- !u!114 &5824072056644233347
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2545580934560772885}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  GlobalObjectIdHash: 951099334
+  AlwaysReplicateAsRoot: 0
+  SynchronizeTransform: 0
+  ActiveSceneSynchronization: 0
+  SceneMigrationSynchronization: 1
+  SpawnWithObservers: 1
+  DontDestroyWithOwner: 0
+  AutoObjectParentSync: 1
 --- !u!1 &7747350694227196073
 GameObject:
   m_ObjectHideFlags: 0

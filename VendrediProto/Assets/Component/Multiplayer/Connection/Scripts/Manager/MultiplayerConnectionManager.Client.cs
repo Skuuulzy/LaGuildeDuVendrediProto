@@ -39,7 +39,6 @@ namespace VComponent.Multiplayer
                 // Joining the relay if available.
                 if (_currentLobby.Data.TryGetValue(KEY_JOIN_CODE, out var joinCode))
                 {
-                    Debug.Log("Logged with relay");
                     string relayJoinCode = joinCode.Value;
                     JoinAllocation joinAllocation = await JoinRelay(relayJoinCode);
                     

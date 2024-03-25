@@ -242,7 +242,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 17.4
+  m_fontSize: 72
   m_fontSizeBase: 36
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -295,7 +295,7 @@ GameObject:
   - component: {fileID: 3879650099385834849}
   - component: {fileID: 3899944294693602959}
   m_Layer: 5
-  m_Name: MerchandisesCarried1
+  m_Name: MerchandisesCarried
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -335,5 +335,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 45f876d08e9bc8d4bb6d62893361618c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _currentRessourceCarrriedNumber: {fileID: 5052624858981291353}
-  _currentRessourceCarriedImage: {fileID: 1379887728810909301}
+  _currentResourceCarriedNumber: {fileID: 5052624858981291353}
+  _currentResourceCarriedImage: {fileID: 1379887728810909301}

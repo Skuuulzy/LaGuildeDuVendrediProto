@@ -405,8 +405,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: Tortuga island
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 0161d805a3764c089bef00bfe00793f5, type: 2}
-  m_sharedMaterial: {fileID: 2147374, guid: 0161d805a3764c089bef00bfe00793f5, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 125cb55b44b24c4393181402bc6200e6, type: 2}
+  m_sharedMaterial: {fileID: 2100000, guid: 125cb55b44b24c4393181402bc6200e6, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -430,7 +430,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 33.7
+  m_fontSize: 47
   m_fontSizeBase: 36
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -612,7 +612,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 0abeef0eadfd9974b9a4c8a088ab1d35, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 1ef4b0afed62d5e4598d3f8cb187bbad, type: 3}
   m_Type: 0
   m_PreserveAspect: 1
   m_FillCenter: 1
@@ -742,10 +742,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 112800851857665798}
-  - component: {fileID: 1137753943646999941}
   - component: {fileID: 1889245294677858168}
   m_Layer: 0
-  m_Name: PlayerUIIslandInfo
+  m_Name: DeliveryView
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -772,19 +771,6 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 100}
   m_Pivot: {x: 0.5, y: 1}
---- !u!114 &1137753943646999941
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6784669131320741950}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: cf0da2910bdc8e648b8ba9ad5c1305ef, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _islandInfoView: {fileID: 1889245294677858168}
 --- !u!114 &1889245294677858168
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -801,8 +787,7 @@ MonoBehaviour:
   _merchandiseAskedImage: {fileID: 8096040526096265097}
   _merchandiseAskedText: {fileID: 6447455484801769627}
   _sellButton: {fileID: 6249312995342190678}
-  _sellButtonText: {fileID: 6955324141630744682}
-  _allMerchandise: {fileID: 11400000, guid: 430db761b1e8f8c4097283ea40b08bb1, type: 2}
+  _allMerchandise: {fileID: 11400000, guid: f8f6c9342256aef43a3141f20753f458, type: 2}
 --- !u!1 &6902945302645760054
 GameObject:
   m_ObjectHideFlags: 0
@@ -913,7 +898,7 @@ RectTransform:
   m_Children: []
   m_Father: {fileID: 2624270390318447267}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.4, y: 0}
+  m_AnchorMin: {x: 0.3, y: 0}
   m_AnchorMax: {x: 0.6, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
@@ -948,8 +933,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: 1/10
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 0161d805a3764c089bef00bfe00793f5, type: 2}
-  m_sharedMaterial: {fileID: 2147374, guid: 0161d805a3764c089bef00bfe00793f5, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 125cb55b44b24c4393181402bc6200e6, type: 2}
+  m_sharedMaterial: {fileID: 2100000, guid: 125cb55b44b24c4393181402bc6200e6, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -973,7 +958,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 33.7
+  m_fontSize: 47
   m_fontSizeBase: 36
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -1033,11 +1018,6 @@ PrefabInstance:
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
       value: 1
       objectReference: {fileID: 0}
-    - target: {fileID: 120554753253101042, guid: c873b5e854d2bb249bce0657363dcbef,
-        type: 3}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
-      value: 
-      objectReference: {fileID: 1137753943646999941}
     - target: {fileID: 120554753253101042, guid: c873b5e854d2bb249bce0657363dcbef,
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
@@ -1194,17 +1174,5 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 4e29b1a8efbd4b44bb3f3716e73f07ff, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &6955324141630744682 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 4003709497890647502, guid: c873b5e854d2bb249bce0657363dcbef,
-    type: 3}
-  m_PrefabInstance: {fileID: 6275289888358679972}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 

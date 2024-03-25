@@ -1,8 +1,10 @@
 using System;
+using Cysharp.Threading.Tasks;
 using QFSW.QC;
 using Unity.Netcode;
 using UnityEngine;
 using VComponent.Items.Merchandise;
+using VComponent.Multiplayer;
 using VComponent.Tools.IDGenerators;
 using VComponent.Tools.Timer;
 
@@ -27,8 +29,8 @@ namespace VComponent.Island
 
         public byte Index => _index;
         public FactionIslandSO IslandData => _islandData;
-        
-        private void Start()
+
+        public override void OnNetworkSpawn()
         {
             if (!IsServer)
             {
@@ -60,18 +62,23 @@ namespace VComponent.Island
             if (_deliveryRequested)
             {
                 // Updating the time available on the request
-                _currentNetworkDelivery.TimeAvailable = (uint)_deliveryRequestTimer.GetTime();
+                _currentNetworkDelivery.TimeAvailable = (uint)_deliveryRequestTimer.Time;
                 //UpdateCurrentDeliveryClientRPC(_currentNetworkDeliveryPackage);
             }
         }
 
         public void StartRequestingDeliveries()
         {
+            if (!IsServer)
+            {
+                return;
+            }
+            
             // Request the first delivery
             RequestDelivery();
             
             // Start timer for next delivery
-            //_deliveryRequestTimer.Start();
+            _deliveryRequestTimer.Start();
         }
 
         /// <summary>
@@ -128,10 +135,13 @@ namespace VComponent.Island
         /// A client tell to the server that is updating the current deliveries. The server will then inform all other clients.
         /// </summary>
         [ServerRpc(RequireOwnership = false)]
-        private void UpdateCurrentDeliveryServerRPC(DeliveryNetworkPackage networkDeliveryNetworkPackagePackage)
+        private void UpdateCurrentDeliveryServerRPC(DeliveryNetworkPackage networkDeliveryNetworkPackagePackage, ServerRpcParams rpcParams = default)
         {
             // I think we need to do something safer here.
             // We need to handle here the race conditions when deliver things.
+            // If the delivery is already completed we need to give back the merchandise to the player.
+            
+            MultiplayerGameplayManager.Instance.IncreasePlayerCurrency(rpcParams.Receive.SenderClientId, 10);
             
             _currentNetworkDelivery = networkDeliveryNetworkPackagePackage;
             
