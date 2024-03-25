@@ -19,16 +19,10 @@ public class LoadResourcesInteraction : MonoBehaviour
 	public void Show(RessourcesSO resourceSO, MultiplayerShipController shipController)
 	{
 		gameObject.SetActive(true);
-
 		_shipController = shipController;
-		
 		_resourceSO = resourceSO;
-		
-		_resourceSlider.maxValue = _shipController.GetFreeSpace();
-		_resourceSlider.value = 0;
-		
+		SetSliderMaxValue();
 		_resourceImage.sprite = resourceSO.Sprite;
-
 		_initialized = true;
 	}
 	
@@ -53,5 +47,12 @@ public class LoadResourcesInteraction : MonoBehaviour
 	public void SetSliderValue(float sliderValue)
 	{
 		_currentAmountText.text = $"{sliderValue:000}";
+	}
+
+	public void SetSliderMaxValue()
+	{
+		_resourceSlider.maxValue = _shipController.GetFreeSpace();
+		_resourceSlider.value = 0;
+		SetSliderValue(_resourceSlider.value);
 	}
 }

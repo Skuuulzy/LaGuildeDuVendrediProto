@@ -76,6 +76,7 @@ public class ShipInfoView : MonoBehaviour
 			
 			//Add a new shipResourceCarriedView
 			_shipResourcesCarriedViews[i].Init(amount, resourceType);
+			_loadResourcesInteraction.SetSliderMaxValue();
 			return;
 		}
 
@@ -92,6 +93,7 @@ public class ShipInfoView : MonoBehaviour
 			
 			//Update a current ship Resource Carried View
 			_shipResourcesCarriedViews[i].UpdateNumberOfResourceCarried(amount);
+			_loadResourcesInteraction.SetSliderMaxValue();
 			return;
 		}
 
