@@ -26,6 +26,7 @@ public class ShipResourcesCarriedView : MonoBehaviour
 
 	public void Hide()
 	{
+        _currentResourceType = ResourceType.NONE;
 		gameObject.SetActive(false);
 	}
 }
