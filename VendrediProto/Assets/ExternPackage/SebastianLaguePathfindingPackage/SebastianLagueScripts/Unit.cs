@@ -38,7 +38,7 @@ namespace SebastianLague
 			_position = transform.position;
 			_plane = new Plane(_planeTransform.up, _planeTransform.position);
             _time = 0f;
-            _timeDelay = 0.25f;
+            _timeDelay = 0.1f;
             StartCoroutine(UpdatePath());
 		}
 
@@ -69,7 +69,6 @@ namespace SebastianLague
 			if (pathSuccessful) 
 			{
 				_path = new Path(waypoints, transform.position, _turnDst, _stoppingDst);
-				//ICI MATHEO
 				_pathWaypoints = waypoints.ToList();
 				_pathfindingView._pathFindingDrawer.DrawLines(_pathfindingPivot.position, _pathWaypoints);
                 StopCoroutine("FollowPath");
@@ -78,7 +77,6 @@ namespace SebastianLague
                     _pathfindingView.CleanPathfindingView();
 					_isInMovement = false;
                 }));
-				//_pathfindingView.CleanPathfindingView();
 
                
 			}
@@ -121,11 +119,12 @@ namespace SebastianLague
 			Quaternion initialTargetRotation = Quaternion.LookRotation(_path.LookPoints[0] - transform.position);
 			transform.rotation = Quaternion.Lerp(transform.rotation, initialTargetRotation, rotationResponsiveness * Time.deltaTime);
 			float speedPercent = 1;
-            while (followingPath) 
+            while (pathIndex < _path.TurnBoundaries.Length && followingPath) 
 			{
 				Vector2 pos2D = new Vector2 (transform.position.x, transform.position.z);
-               
-                while (_path.TurnBoundaries[pathIndex].HasCrossedLine(pos2D)) 
+				
+				
+                while ( _path.TurnBoundaries[pathIndex].HasCrossedLine(pos2D)) 
 				{
 					if (pathIndex == _path.FinishLineIndex) 
 					{
@@ -136,8 +135,7 @@ namespace SebastianLague
 					{
 						pathIndex++;
 
-						//ICI MATHEO
-						if(_pathWaypoints.Count > 0)
+						if(_pathWaypoints.Count > 1)
 						{
 							_pathWaypoints.RemoveAt(0);
 						}
@@ -165,10 +163,6 @@ namespace SebastianLague
 			isFinished?.Invoke();
 		}
 
-		private void  ClearUI()
-		{
-            _pathfindingView.CleanPathfindingView();
-        }
 		public void OnDrawGizmos() 
 		{
 			if (_path != null) 

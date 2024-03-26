@@ -16,9 +16,9 @@ public class PathFindingDrawer : MonoBehaviour
         _previousPosition = transform.position;
     }
 
-    public void DrawLines(Vector3 currentPosition, Vector3[] lookpoints)
+    public void DrawLines(Vector3 currentPosition, List<Vector3> lookpoints)
     {
-        int size = lookpoints.Length + 1;
+        int size = lookpoints.Count + 1;
         waypoints.Clear();
         waypoints.Add(currentPosition);
         foreach (Vector3 position in lookpoints)

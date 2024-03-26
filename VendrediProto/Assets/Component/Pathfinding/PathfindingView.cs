@@ -9,7 +9,7 @@ using UnityEngine.UI;
 
 public class PathfindingView : MonoBehaviour
 {
-    [SerializeField] private Image _pin;
+    [SerializeField] private GameObject _pin;
     [SerializeField] private RectTransform _rectTransformCanvas;
     [SerializeField] public PathFindingDrawer _pathFindingDrawer;
     public void UpdateCanvasSize(int width, int height)
@@ -19,7 +19,7 @@ public class PathfindingView : MonoBehaviour
     public void CreatePin(Vector3 mousePos)
     {
         Vector3 pos = new Vector3(mousePos.x, 0, mousePos.z);
-        _pin.rectTransform.position = pos;
+        _pin.transform.position = pos;
         _pin.gameObject.SetActive(true);
     }
 
