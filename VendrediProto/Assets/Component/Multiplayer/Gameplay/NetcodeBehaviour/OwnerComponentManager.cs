@@ -1,6 +1,8 @@
 using System.Collections.Generic;
+using TMPro;
 using Unity.Netcode;
 using UnityEngine;
+using VComponent.Island;
 
 namespace VComponent.Multiplayer
 {
@@ -9,19 +11,41 @@ namespace VComponent.Multiplayer
     /// </summary>
     public class OwnerComponentManager : NetworkBehaviour
     {
-        [SerializeField] private List<MonoBehaviour> _ownerComponents;
+        [SerializeField] private TMP_Text _playerNameTxt;
+        
+        [SerializeField] private List<Component> _ownerComponents;
         
         public override void OnNetworkSpawn()
         {
-            base.OnNetworkSpawn();
+            SetPlayerName();
             
             if (!IsOwner)
             {
                 foreach (var component in _ownerComponents)
                 {
-                    component.enabled = false;
+                    Destroy(component);
                 }
+
+                _ownerComponents = null;
             }
+
+            if (IsOwner)
+            {
+                MultiplayerFactionIslandController.OnDeliveryRequested += (delivery) =>
+                {
+                    Debug.Log($"Delivery Requested type: {delivery.Resource}");
+                };
+                
+                MultiplayerFactionIslandController.OnDeliveryUpdated += (delivery) =>
+                {
+                    Debug.Log($"Delivery Updated type: {delivery.Resource}, current amount: {delivery.MerchandiseCurrentAmount}");
+                };
+            }
+        }
+
+        private void SetPlayerName()
+        {
+            _playerNameTxt.text = MultiplayerGameplayManager.Instance.GetPlayerNameFromId(GetComponent<NetworkObject>().OwnerClientId);
         }
     }
 }

@@ -4,8 +4,8 @@ namespace VComponent.Tools.Timer
 {
     public abstract class Timer
     {
-        protected float InitialTime;
-        protected float Time { get; set; }
+        public float InitialTime { get; protected set; }
+        public float Time { get; protected set; }
         public bool IsRunning { get; protected set; }
 
         public float Progress => Time / InitialTime;
@@ -22,25 +22,25 @@ namespace VComponent.Tools.Timer
         public void Start()
         {
             Time = InitialTime;
-            if (!IsRunning)
-            {
-                IsRunning = true;
-                OnTimerStart.Invoke();
-            }
+            
+            if (IsRunning) 
+                return;
+            
+            IsRunning = true;
+            OnTimerStart.Invoke();
         }
 
         public void Stop()
         {
-            if (IsRunning)
-            {
-                IsRunning = false;
-                OnTimerStop.Invoke();
-            }
+            if (!IsRunning) 
+                return;
+            
+            IsRunning = false;
+            OnTimerStop.Invoke();
         }
 
         public void Resume() => IsRunning = true;
         public void Pause() => IsRunning = false;
-
         public abstract void Tick(float deltaTime);
     }
 
@@ -89,7 +89,5 @@ namespace VComponent.Tools.Timer
         }
 
         public void Reset() => Time = 0;
-
-        public float GetTime() => Time;
     }
 }

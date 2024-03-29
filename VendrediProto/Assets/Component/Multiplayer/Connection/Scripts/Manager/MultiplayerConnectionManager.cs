@@ -21,6 +21,8 @@ namespace VComponent.Multiplayer
         [Header("Parameters")]
         [SerializeField] private int _maxPlayers = 4;
         [SerializeField] private EncryptionType _encryption = EncryptionType.DTLS;
+        [SerializeField] private bool _logPolls;
+        [SerializeField] private bool _logHeartbeats;
         
         #region CONST VAR
 
@@ -40,7 +42,6 @@ namespace VComponent.Multiplayer
 
         #endregion CONST VAR
         
-        private string _lobbyName;
         private Lobby _currentLobby;
         private string _playerId;
         private string _playerName;
@@ -320,7 +321,10 @@ namespace VComponent.Multiplayer
             try
             {
                 await LobbyService.Instance.SendHeartbeatPingAsync(_currentLobby.Id);
-                Debug.Log($"Sent heartbeat ping to lobby: {_currentLobby.Name}.");
+                if (_logHeartbeats)
+                {
+                    Debug.Log($"Sent heartbeat ping to lobby: {_currentLobby.Name}.");
+                }
             }
             catch (LobbyServiceException e)
             {
@@ -350,6 +354,11 @@ namespace VComponent.Multiplayer
 
                 //Debug.Log($"Polled for updates on lobby: {_currentLobby.Name}");
                 OnLobbyPolled?.Invoke(_currentLobby);
+
+                if (_logPolls)
+                {
+                    Debug.Log($"Polling lobby: {_currentLobby.Name}.");
+                }
             }
             catch (LobbyServiceException e)
             {
