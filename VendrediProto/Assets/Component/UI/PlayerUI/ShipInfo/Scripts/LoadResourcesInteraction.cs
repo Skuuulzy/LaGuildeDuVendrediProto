@@ -9,14 +9,15 @@ public class LoadResourcesInteraction : MonoBehaviour
     [SerializeField] private TextMeshProUGUI _currentAmountText;
 	[SerializeField] private Slider _resourceSlider;
 	[SerializeField] private Image _resourceImage;
+	[SerializeField] private GameObject _loadingGO;
 
 	private MultiplayerShipController _shipController;
 	
-	private RessourcesSO _resourceSO;
-
+	private ResourcesSO _resourceSO;
+	private int _ressourceStepValue = 50;
 	private bool _initialized;
 
-	public void Show(RessourcesSO resourceSO, MultiplayerShipController shipController)
+	public void Show(ResourcesSO resourceSO, MultiplayerShipController shipController)
 	{
 		gameObject.SetActive(true);
 		_shipController = shipController;
@@ -36,7 +37,7 @@ public class LoadResourcesInteraction : MonoBehaviour
 			return;
 		}
 		
-		_shipController.LoadResource(_resourceSO, (int)_resourceSlider.value);
+		_shipController.LoadResourceToShip(_resourceSO, (int)_resourceSlider.value);
 	}
 
 	public void Hide()
@@ -44,9 +45,20 @@ public class LoadResourcesInteraction : MonoBehaviour
 		gameObject.SetActive(false);
 	}
 
+	public void DisplayLoadingGO(bool value)
+	{
+		_loadingGO.SetActive(value);
+	}
+
 	public void SetSliderValue(float sliderValue)
 	{
-		_currentAmountText.text = $"{sliderValue:000}";
+		//Go 50 by 50 for the loading
+		float steppedValue = Mathf.Round(sliderValue / _ressourceStepValue) * _ressourceStepValue;
+		if (steppedValue != sliderValue)
+		{
+			_resourceSlider.value = steppedValue;
+		}
+		_currentAmountText.text = $"{_resourceSlider.value:000}";
 	}
 
 	public void SetSliderMaxValue()

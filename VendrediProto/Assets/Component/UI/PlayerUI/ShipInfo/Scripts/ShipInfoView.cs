@@ -48,6 +48,9 @@ public class ShipInfoView : MonoBehaviour
 
 	}
 
+	/// <summary>
+	/// Display the current state of the boat
+	/// </summary>
 	private void HandleStateUpdated(ShipState shipState, string islandName)
 	{
 		switch (shipState)
@@ -56,15 +59,23 @@ public class ShipInfoView : MonoBehaviour
 			case ShipState.IN_SEA:
 				_currentStateText.text = $"Sailing on sea";
 				break;
+
 			case ShipState.DOCKED:
 				_currentStateText.text = $"Docked to {islandName}";
+				//Hide the Loading GameObject (because when we finished he loading of resources we are docked to the island and perhaps we want to load more resources)
+				_loadResourcesInteraction.DisplayLoadingGO(false);
 				break;
+
 			case ShipState.LOAD_RESOURCES:
 				_currentStateText.text = $"Loading resources";
+				//Display the Loading GameObject to have visual feedback
+				_loadResourcesInteraction.DisplayLoadingGO(true);
 				break;
+
 			case ShipState.SELL_RESOURCES:
 				_currentStateText.text = $"Selling resources";
 				break;
+
 			case ShipState.ATTACKED:
 				_currentStateText.text = $"Attacked by a ship";
 				break;
@@ -81,7 +92,7 @@ public class ShipInfoView : MonoBehaviour
 		_currentStateText.text = stateText;
 	}
 
-	private void HandleShipDockedToResourceIsland(bool docked, RessourcesIslandSO resourcesIslandSO)
+	private void HandleShipDockedToResourceIsland(bool docked, ResourcesIslandSO resourcesIslandSO)
 	{
 		if (!docked)
 		{
@@ -99,7 +110,7 @@ public class ShipInfoView : MonoBehaviour
 		_loadResourcesInteraction.Show(resourcesIslandSO.MerchandisesToSell, _shipController);
 	}
 
-	private void HandleResourcesAdded(RessourcesSO resourceType, int amount)
+	private void HandleResourcesAdded(ResourcesSO resourceType, int amount)
 	{
 		for (int i = 0; i < _shipResourcesCarriedViews.Count; i++)
 		{

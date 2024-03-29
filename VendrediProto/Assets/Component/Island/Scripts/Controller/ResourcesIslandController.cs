@@ -2,10 +2,10 @@ using UnityEngine;
 
 public class ResourcesIslandController : MonoBehaviour
 {
-    [SerializeField] private RessourcesIslandSO _islandData;
+    [SerializeField] private ResourcesIslandSO _islandData;
 	[SerializeField] private RessourcesIslandView _view;
 
-    public RessourcesIslandSO IslandData => _islandData;
+    public ResourcesIslandSO IslandData => _islandData;
 
     private void Start()
     {

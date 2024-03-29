@@ -18,6 +18,7 @@ namespace VComponent.Island
         [SerializeField] private byte _index;
         [SerializeField] private FactionIslandSO _islandData;
 
+
         private CountdownTimer _deliveryRequestTimer;
         
         private DeliveryNetworkPackage _currentNetworkDelivery;
