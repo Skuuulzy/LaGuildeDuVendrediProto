@@ -27,6 +27,7 @@ namespace VComponent.Ship
         public event Action<ResourceType, int> OnResourceCarriedUpdated;
         public event Action<ResourceType> OnResourceCarriedDelivered;
         public event Action<bool,RessourcesIslandSO> OnResourceIslandDocked;
+        public event Action<ShipState, string> OnShipStateUpdated;
 
         private void OnTriggerEnter(Collider other)
         {
@@ -38,6 +39,7 @@ namespace VComponent.Ship
 
                 _currentDelivery = DeliveryManager.Instance.GetRequestedDeliveryBy(factionIslandController);
 
+                OnShipStateUpdated?.Invoke(ShipState.DOCKED, _factionDockedIsland.IslandData.IslandName);
                 if (_currentDelivery != null)
                 {
                     UpdateSellableState();
@@ -58,7 +60,7 @@ namespace VComponent.Ship
                 Debug.Log($"Entering island {resourcesIslandController.IslandData.IslandName}");
                 _resourcesDockedIsland = resourcesIslandController;
                 OnResourceIslandDocked?.Invoke(true,resourcesIslandController.IslandData);
-
+                OnShipStateUpdated?.Invoke(ShipState.DOCKED, _resourcesDockedIsland.IslandData.IslandName);
                 return;
             }
 
@@ -75,6 +77,7 @@ namespace VComponent.Ship
             if (islandController != null)
             {
                 Debug.Log($"Exiting island {islandController.IslandData.IslandName}");
+                OnShipStateUpdated?.Invoke(ShipState.IN_SEA, "");
 
                 _factionDockedIsland = null;
 
@@ -95,7 +98,7 @@ namespace VComponent.Ship
             if (resourcesIslandController != null)
             {
                 Debug.Log($"Exiting island {resourcesIslandController.IslandData.IslandName}");
-                
+                OnShipStateUpdated?.Invoke(ShipState.IN_SEA, "");
                 OnResourceIslandDocked?.Invoke(false,null);
 
                 return;

@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
@@ -29,6 +30,8 @@ public class ShipInfoView : MonoBehaviour
 		_shipController.OnResourceAdded += HandleResourcesAdded;
 		_shipController.OnResourceCarriedUpdated += HandleResourceCarriedUpdated;
 		_shipController.OnResourceCarriedDelivered += HandleResourcesDelivered;
+		_shipController.OnShipStateUpdated += HandleStateUpdated;
+		HandleStateUpdated(ShipState.DEFAULT, "");
 	}
 
 	private void OnDestroy()
@@ -37,8 +40,33 @@ public class ShipInfoView : MonoBehaviour
 		_shipController.OnResourceAdded -= HandleResourcesAdded;
 		_shipController.OnResourceCarriedUpdated -= HandleResourceCarriedUpdated;
 		_shipController.OnResourceCarriedDelivered -= HandleResourcesDelivered;
+		_shipController.OnShipStateUpdated -= HandleStateUpdated;
+
 	}
-	
+
+	private void HandleStateUpdated(ShipState shipState, string islandName)
+	{
+		switch (shipState)
+		{
+			case ShipState.DEFAULT:
+			case ShipState.IN_SEA:
+				_currentStateText.text = $"Sailing on sea";
+				break;
+			case ShipState.DOCKED:
+				_currentStateText.text = $"Docked to {islandName}";
+				break;
+			case ShipState.LOAD_RESOURCES:
+				_currentStateText.text = $"Loading resources";
+				break;
+			case ShipState.SELL_RESOURCES:
+				_currentStateText.text = $"Selling resources";
+				break;
+			case ShipState.ATTACKED:
+				_currentStateText.text = $"Attacked by a ship";
+				break;
+		}
+	}
+
 	public void SetShipName(string shipName)
 	{
 		_shipNameText.text = shipName;
