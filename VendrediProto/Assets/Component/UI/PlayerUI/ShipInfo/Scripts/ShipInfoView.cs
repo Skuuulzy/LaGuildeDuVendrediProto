@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using VComponent.CameraSystem;
 using VComponent.Items.Merchandise;
 using VComponent.Ship;
 
@@ -14,11 +15,12 @@ public class ShipInfoView : MonoBehaviour
 	[SerializeField] private LoadResourcesInteraction _loadResourcesInteraction;
 	
 	private MultiplayerShipController _shipController;
+	private CameraController _cameraController;
 
-	public void Init(MultiplayerShipController shipController)
+	public void Init(MultiplayerShipController shipController, CameraController cameraController)
 	{
 		_shipController = shipController;
-		
+		_cameraController = cameraController;
 		// Hiding UI since the ship is empty at start.
 		_loadResourcesInteraction.Hide();
 		foreach (var resourcesView in _shipResourcesCarriedViews)
@@ -31,7 +33,9 @@ public class ShipInfoView : MonoBehaviour
 		_shipController.OnResourceCarriedUpdated += HandleResourceCarriedUpdated;
 		_shipController.OnResourceCarriedDelivered += HandleResourcesDelivered;
 		_shipController.OnShipStateUpdated += HandleStateUpdated;
+
 		HandleStateUpdated(ShipState.DEFAULT, "");
+		SetCameraPositionToShipPosition();
 	}
 
 	private void OnDestroy()
@@ -142,4 +146,11 @@ public class ShipInfoView : MonoBehaviour
 
 		Debug.LogError("Try to hide a resource which is not present in the ship");
 	}
+
+	#region CAMERA
+	public void SetCameraPositionToShipPosition()
+	{
+		_cameraController.SetCameraPosition(new Vector3(_shipController.transform.position.x, _cameraController.transform.position.y, _shipController.transform.position.z));
+	}
+	#endregion CAMERA
 }
