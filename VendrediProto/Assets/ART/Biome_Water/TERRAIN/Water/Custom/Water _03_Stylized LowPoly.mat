@@ -129,7 +129,7 @@ Material:
     - _Refraction_Scale: 200
     - _Refraction_Speed: 0.05
     - _Refraction_Strengh: 0.2
-    - _Smoothness: 0.932
+    - _Smoothness: 0.044
     - _SmoothnessTextureChannel: 0
     - _Smothness: 0.5
     - _SpecularHighlights: 1
@@ -150,11 +150,11 @@ Material:
     - _Bot_Color: {r: 0.17621925, g: 0.26496348, b: 0.37735847, a: 0}
     - _Color: {r: 1, g: 1, b: 1, a: 1}
     - _Deep_Water: {r: 0.08686342, g: 0.14829865, b: 0.30188653, a: 0.78431374}
-    - _Deep_Water_Color: {r: 0.0990566, g: 0.8057789, b: 1, a: 0}
+    - _Deep_Water_Color: {r: 0.09905658, g: 0.8057789, b: 1, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
     - _Foam_Color: {r: 1, g: 1, b: 1, a: 1}
     - _Normal_Tiling: {r: 10, g: 10, b: 0, a: 0}
-    - _Shalow_Water_Color: {r: 0, g: 0.59796804, b: 0.9056604, a: 0}
+    - _Shalow_Water_Color: {r: 0, g: 0.5979681, b: 0.9056604, a: 1}
     - _SpecColor: {r: 0.19999996, g: 0.19999996, b: 0.19999996, a: 1}
     - _Surface_Water: {r: 0.06341207, g: 0.4900052, b: 0.53773564, a: 0.78431374}
     - _Top_Color: {r: 0.14702737, g: 0.40476888, b: 0.5283019, a: 0}

@@ -138,7 +138,7 @@ Material:
     m_Colors:
     - _Absorption_Color: {r: 1, g: 1, b: 1, a: 1}
     - _BaseColor: {r: 1, g: 1, b: 1, a: 1}
-    - _Bot_Color: {r: 0.04614632, g: 0.09766229, b: 0.16037738, a: 0}
+    - _Bot_Color: {r: 0.046146296, g: 0.09766226, b: 0.16037735, a: 1}
     - _Color: {r: 1, g: 1, b: 1, a: 1}
     - _Deep_Water: {r: 0.08686342, g: 0.14829865, b: 0.30188653, a: 0.78431374}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}

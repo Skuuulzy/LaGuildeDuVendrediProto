@@ -21,7 +21,7 @@ MonoBehaviour:
       e10: 0
       e11: 4.5
       e12: -0
-      e13: 27.3
+      e13: 0.6409689
       e20: 0
       e21: 0
       e22: -16
@@ -31,7 +31,7 @@ MonoBehaviour:
       e32: 0
       e33: 1
     WaveID: 0
-    Position: {x: -21.066948, y: 27.3, z: -67.50699}
+    Position: {x: -21.066948, y: 0.6409689, z: -67.50699}
     EulerRotationY: 0
     Size: {x: 14, y: 4.5, z: 16}
     TimeOffset: 0
@@ -46,7 +46,7 @@ MonoBehaviour:
       e10: 0
       e11: 3.629077
       e12: 0
-      e13: 27.300003
+      e13: 0.6409689
       e20: 0
       e21: 0
       e22: 12.903385
@@ -56,7 +56,7 @@ MonoBehaviour:
       e32: 0
       e33: 1
     WaveID: 0
-    Position: {x: -18.658392, y: 27.300003, z: -56.632904}
+    Position: {x: -18.658392, y: 0.6409689, z: -56.632904}
     EulerRotationY: 0
     Size: {x: 14, y: 4.5, z: 16}
     TimeOffset: 0.14339764
@@ -96,7 +96,7 @@ MonoBehaviour:
       e10: 0
       e11: 4.5045905
       e12: 0
-      e13: 27.300003
+      e13: 0.6409689
       e20: 0
       e21: 0
       e22: 16.016321
@@ -106,7 +106,7 @@ MonoBehaviour:
       e32: 0
       e33: 1
     WaveID: 0
-    Position: {x: -15.927457, y: 27.300003, z: -32.78983}
+    Position: {x: -15.927457, y: 0.6409689, z: -32.78983}
     EulerRotationY: 0
     Size: {x: 14, y: 4.5, z: 16}
     TimeOffset: 0.49901044
@@ -146,7 +146,7 @@ MonoBehaviour:
       e10: 0
       e11: 4.276837
       e12: 0
-      e13: 27.299995
+      e13: 0.6409689
       e20: 0
       e21: 0
       e22: 15.206532
@@ -156,7 +156,7 @@ MonoBehaviour:
       e32: 0
       e33: 1
     WaveID: 0
-    Position: {x: -15.478647, y: 27.299995, z: -8.595054}
+    Position: {x: -15.478647, y: 0.6409689, z: -8.595054}
     EulerRotationY: 0
     Size: {x: 14, y: 4.5, z: 16}
     TimeOffset: 0.82573897
@@ -171,7 +171,7 @@ MonoBehaviour:
       e10: 0
       e11: 3.7271752
       e12: 0
-      e13: 27.3
+      e13: 0.6409689
       e20: 0
       e21: 0
       e22: 13.252178
@@ -181,7 +181,7 @@ MonoBehaviour:
       e32: 0
       e33: 1
     WaveID: 0
-    Position: {x: -11.816835, y: 27.3, z: 2.7322578}
+    Position: {x: -11.816835, y: 0.6409689, z: 2.7322578}
     EulerRotationY: 0
     Size: {x: 14, y: 4.5, z: 16}
     TimeOffset: 0.02984202
@@ -221,7 +221,7 @@ MonoBehaviour:
       e10: 0
       e11: 3.876622
       e12: 0
-      e13: 27.3
+      e13: 0.6409689
       e20: 0
       e21: 0
       e22: 13.783545
@@ -231,7 +231,7 @@ MonoBehaviour:
       e32: 0
       e33: 1
     WaveID: 0
-    Position: {x: -9.064239, y: 27.3, z: 22.806673}
+    Position: {x: -9.064239, y: 0.6409689, z: 22.806673}
     EulerRotationY: 0
     Size: {x: 14, y: 4.5, z: 16}
     TimeOffset: 0.39162213
@@ -296,7 +296,7 @@ MonoBehaviour:
       e10: 0
       e11: 4.351381
       e12: -0
-      e13: 27.3
+      e13: 0.6409689
       e20: 0
       e21: 0
       e22: -15.471577
@@ -306,7 +306,7 @@ MonoBehaviour:
       e32: 0
       e33: 1
     WaveID: 0
-    Position: {x: -21.392548, y: 27.3, z: -40.158066}
+    Position: {x: -21.392548, y: 0.6409689, z: -40.158066}
     EulerRotationY: 0
     Size: {x: 14, y: 4.5, z: 16}
     TimeOffset: 0.8297534
@@ -421,7 +421,7 @@ MonoBehaviour:
       e10: 0
       e11: 4.322349
       e12: 0
-      e13: 27.3
+      e13: 0.6409689
       e20: 0
       e21: 0
       e22: 15.368353
@@ -431,7 +431,7 @@ MonoBehaviour:
       e32: 0
       e33: 1
     WaveID: 0
-    Position: {x: -14.061608, y: 27.3, z: 21.185442}
+    Position: {x: -14.061608, y: 0.6409689, z: 21.185442}
     EulerRotationY: 0
     Size: {x: 14, y: 4.5, z: 16}
     TimeOffset: 0.71244234
@@ -446,7 +446,7 @@ MonoBehaviour:
       e10: 0
       e11: 5.004898
       e12: -0
-      e13: 27.3
+      e13: 0.6409689
       e20: 0
       e21: 0
       e22: -17.795193
@@ -456,7 +456,7 @@ MonoBehaviour:
       e32: 0
       e33: 1
     WaveID: 0
-    Position: {x: -16.33215, y: 27.3, z: 35.077904}
+    Position: {x: -16.33215, y: 0.6409689, z: 35.077904}
     EulerRotationY: 0
     Size: {x: 14, y: 4.5, z: 16}
     TimeOffset: 0.9273435
@@ -471,7 +471,7 @@ MonoBehaviour:
       e10: 0
       e11: 4.248623
       e12: 0
-      e13: 27.3
+      e13: 0.6409689
       e20: 0
       e21: 0
       e22: 15.106215
@@ -481,7 +481,7 @@ MonoBehaviour:
       e32: 0
       e33: 1
     WaveID: 0
-    Position: {x: -13.73518, y: 27.3, z: -3.8354053}
+    Position: {x: -13.73518, y: 0.6409689, z: -3.8354053}
     EulerRotationY: 0
     Size: {x: 14, y: 4.5, z: 16}
     TimeOffset: 0.0660615
@@ -496,7 +496,7 @@ MonoBehaviour:
       e10: 0
       e11: 3.9937255
       e12: 0
-      e13: 27.300003
+      e13: 0.6409689
       e20: 0
       e21: 0
       e22: 14.199913
@@ -506,7 +506,7 @@ MonoBehaviour:
       e32: 0
       e33: 1
     WaveID: 0
-    Position: {x: -15.346219, y: 27.300003, z: -39.111053}
+    Position: {x: -15.346219, y: 0.6409689, z: -39.111053}
     EulerRotationY: 0
     Size: {x: 14, y: 4.5, z: 16}
     TimeOffset: 0.24199215
@@ -521,7 +521,7 @@ MonoBehaviour:
       e10: 0
       e11: 4.0940113
       e12: -0
-      e13: 27.3
+      e13: 0.6409689
       e20: 1.1378075
       e21: 0
       e22: -14.498288
@@ -531,7 +531,7 @@ MonoBehaviour:
       e32: 0
       e33: 1
     WaveID: 0
-    Position: {x: -18.691006, y: 27.3, z: -73.181305}
+    Position: {x: -18.691006, y: 0.6409689, z: -73.181305}
     EulerRotationY: 354.87485
     Size: {x: 14, y: 4.5, z: 16}
     TimeOffset: 0.44695744

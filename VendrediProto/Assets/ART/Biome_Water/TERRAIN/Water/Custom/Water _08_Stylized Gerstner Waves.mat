@@ -132,7 +132,7 @@ Material:
     - _ReceiveShadows: 1
     - _Refraction_Scale: 10
     - _Refraction_Speed: 0.05
-    - _Refraction_Strengh: 0.0027
+    - _Refraction_Strengh: 0.0017
     - _SSS_Height: 3
     - _SSS_Power: 2
     - _Smoothness: 0.693

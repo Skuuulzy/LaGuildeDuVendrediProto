@@ -15,6 +15,9 @@ MonoBehaviour:
   AreaSize: 300
   AreaPosition: {x: 0, y: 1, z: 0}
   FlowmapResolution: 4096
-  FlowmapTexture: {fileID: -2132291534297195559, guid: 153fc8b702742874ca17598ac9a8133d, type: 3}
-  FluidsMaskTexture: {fileID: 1285056442345677342, guid: 2dc2f6f19ec611f40a3c09d994d58f1a, type: 3}
-  FluidsPrebakedTexture: {fileID: -8883488007571992108, guid: 2c6ff81d010b22e4680494037f5a24c8, type: 3}
+  FlowmapTexture: {fileID: -2132291534297195559, guid: 153fc8b702742874ca17598ac9a8133d,
+    type: 3}
+  FluidsMaskTexture: {fileID: 1285056442345677342, guid: 2dc2f6f19ec611f40a3c09d994d58f1a,
+    type: 3}
+  FluidsPrebakedTexture: {fileID: -8883488007571992108, guid: 2c6ff81d010b22e4680494037f5a24c8,
+    type: 3}
