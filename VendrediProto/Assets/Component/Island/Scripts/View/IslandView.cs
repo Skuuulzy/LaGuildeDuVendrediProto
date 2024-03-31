@@ -15,7 +15,7 @@ public class IslandView : MonoBehaviour
 
 	[Header("NeededAssets")]
 	//Change Later with a SO
-	[SerializeField] private RessourcesListSO _allMerchandiseList;
+	[SerializeField] private ResourcesListSO _allMerchandiseList;
 	public void DisplayMerchandiseAsked(ResourceType currentMerchandiseAsked, int currentMerchandiseAskedValue)
 	{
 		_merchandiseRequestedGO.SetActive(true);

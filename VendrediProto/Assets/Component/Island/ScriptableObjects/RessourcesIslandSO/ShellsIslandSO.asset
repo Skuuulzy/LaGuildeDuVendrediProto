@@ -9,10 +9,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3fa16636f16320740b913e6532430a32, type: 3}
+  m_Script: {fileID: 11500000, guid: 41b1522af5df02a46b02f464249a7c3b, type: 3}
   m_Name: ShellsIslandSO
   m_EditorClassIdentifier: 
   _islandName: ShellIsland
+  _resourcesTimeLoadAndSell: 2
+  _resourceAmountLoadAndSell: 50
   _merchandisesToSell: {fileID: 11400000, guid: 7fbaefa2e59b8914bb16163ab41a4949,
     type: 2}
-  _merchandiseToSellTimeInterval: 180

@@ -27,6 +27,16 @@ public enum ResourceType : byte
 	SHELL
 }
 
+public enum ShipState
+{
+	DEFAULT,
+	IN_SEA,
+	DOCKED,
+	LOAD_RESOURCES,
+	SELL_RESOURCES,
+	ATTACKED
+}
+
 public enum CompanyBaseTeam
 {
 	YELLOW,

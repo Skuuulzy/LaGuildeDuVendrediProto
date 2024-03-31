@@ -11,7 +11,7 @@ public class ShipResourcesCarriedView : MonoBehaviour
     private ResourceType _currentResourceType = ResourceType.NONE;
     public ResourceType CurrentResourceType => _currentResourceType;
 
-    public void Init(int numberOfResourceCarried, RessourcesSO resourcesSO)
+    public void Init(int numberOfResourceCarried, ResourcesSO resourcesSO)
     {
         UpdateNumberOfResourceCarried(numberOfResourceCarried);
         _currentResourceType = resourcesSO.Type;

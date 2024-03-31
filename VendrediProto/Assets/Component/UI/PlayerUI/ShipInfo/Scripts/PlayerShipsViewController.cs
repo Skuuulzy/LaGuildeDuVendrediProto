@@ -1,9 +1,11 @@
 using UnityEngine;
+using VComponent.CameraSystem;
 using VComponent.Ship;
 
 public class PlayerShipsViewController : MonoBehaviour
 {
     [SerializeField] ShipInfoView _shipView;
+    [SerializeField] private CameraController _cameraController;
 
     private void Awake()
     {
@@ -21,6 +23,7 @@ public class PlayerShipsViewController : MonoBehaviour
     private void HandleShipCreated(MultiplayerShipController shipController)
     {
 	    ShipInfoView shipView = Instantiate(_shipView, transform);
-	    shipView.Init(shipController);
+	    shipView.Init(shipController, _cameraController);
     }
+
 }

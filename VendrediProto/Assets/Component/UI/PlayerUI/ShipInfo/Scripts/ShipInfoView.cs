@@ -1,6 +1,8 @@
+using System;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using VComponent.CameraSystem;
 using VComponent.Items.Merchandise;
 using VComponent.Ship;
 
@@ -13,11 +15,12 @@ public class ShipInfoView : MonoBehaviour
 	[SerializeField] private LoadResourcesInteraction _loadResourcesInteraction;
 	
 	private MultiplayerShipController _shipController;
+	private CameraController _cameraController;
 
-	public void Init(MultiplayerShipController shipController)
+	public void Init(MultiplayerShipController shipController, CameraController cameraController)
 	{
 		_shipController = shipController;
-		
+		_cameraController = cameraController;
 		// Hiding UI since the ship is empty at start.
 		_loadResourcesInteraction.Hide();
 		foreach (var resourcesView in _shipResourcesCarriedViews)
@@ -29,6 +32,10 @@ public class ShipInfoView : MonoBehaviour
 		_shipController.OnResourceAdded += HandleResourcesAdded;
 		_shipController.OnResourceCarriedUpdated += HandleResourceCarriedUpdated;
 		_shipController.OnResourceCarriedDelivered += HandleResourcesDelivered;
+		_shipController.OnShipStateUpdated += HandleStateUpdated;
+
+		HandleStateUpdated(ShipState.DEFAULT, "");
+		SetCameraPositionToShipPosition();
 	}
 
 	private void OnDestroy()
@@ -37,8 +44,44 @@ public class ShipInfoView : MonoBehaviour
 		_shipController.OnResourceAdded -= HandleResourcesAdded;
 		_shipController.OnResourceCarriedUpdated -= HandleResourceCarriedUpdated;
 		_shipController.OnResourceCarriedDelivered -= HandleResourcesDelivered;
+		_shipController.OnShipStateUpdated -= HandleStateUpdated;
+
 	}
-	
+
+	/// <summary>
+	/// Display the current state of the boat
+	/// </summary>
+	private void HandleStateUpdated(ShipState shipState, string islandName)
+	{
+		switch (shipState)
+		{
+			case ShipState.DEFAULT:
+			case ShipState.IN_SEA:
+				_currentStateText.text = $"Sailing on sea";
+				break;
+
+			case ShipState.DOCKED:
+				_currentStateText.text = $"Docked to {islandName}";
+				//Hide the Loading GameObject (because when we finished he loading of resources we are docked to the island and perhaps we want to load more resources)
+				_loadResourcesInteraction.DisplayLoadingGO(false);
+				break;
+
+			case ShipState.LOAD_RESOURCES:
+				_currentStateText.text = $"Loading resources";
+				//Display the Loading GameObject to have visual feedback
+				_loadResourcesInteraction.DisplayLoadingGO(true);
+				break;
+
+			case ShipState.SELL_RESOURCES:
+				_currentStateText.text = $"Selling resources";
+				break;
+
+			case ShipState.ATTACKED:
+				_currentStateText.text = $"Attacked by a ship";
+				break;
+		}
+	}
+
 	public void SetShipName(string shipName)
 	{
 		_shipNameText.text = shipName;
@@ -49,7 +92,7 @@ public class ShipInfoView : MonoBehaviour
 		_currentStateText.text = stateText;
 	}
 
-	private void HandleShipDockedToResourceIsland(bool docked, RessourcesIslandSO resourcesIslandSO)
+	private void HandleShipDockedToResourceIsland(bool docked, ResourcesIslandSO resourcesIslandSO)
 	{
 		if (!docked)
 		{
@@ -67,7 +110,7 @@ public class ShipInfoView : MonoBehaviour
 		_loadResourcesInteraction.Show(resourcesIslandSO.MerchandisesToSell, _shipController);
 	}
 
-	private void HandleResourcesAdded(RessourcesSO resourceType, int amount)
+	private void HandleResourcesAdded(ResourcesSO resourceType, int amount)
 	{
 		for (int i = 0; i < _shipResourcesCarriedViews.Count; i++)
 		{
@@ -114,4 +157,11 @@ public class ShipInfoView : MonoBehaviour
 
 		Debug.LogError("Try to hide a resource which is not present in the ship");
 	}
+
+	#region CAMERA
+	public void SetCameraPositionToShipPosition()
+	{
+		_cameraController.SetCameraPosition(new Vector3(_shipController.transform.position.x, _cameraController.transform.position.y, _shipController.transform.position.z));
+	}
+	#endregion CAMERA
 }

@@ -11,7 +11,7 @@ public class DeliveryView : MonoBehaviour
 	[SerializeField] private Button _sellButton;
 
 	[Header("Data")]
-	[SerializeField] private RessourcesListSO _allMerchandise;
+	[SerializeField] private ResourcesListSO _allMerchandise;
 
 	private Delivery _currentDelivery;
 	private bool _buttonBind;
@@ -21,7 +21,7 @@ public class DeliveryView : MonoBehaviour
 		_currentDelivery = delivery;
 		
 		_islandName.text = _currentDelivery.Buyer.IslandData.IslandName;
-		RessourcesSO merchandiseSO = _allMerchandise.GetMerchandiseByType(_currentDelivery.Data.Resource);
+		ResourcesSO merchandiseSO = _allMerchandise.GetMerchandiseByType(_currentDelivery.Data.Resource);
 		_merchandiseAskedImage.sprite = merchandiseSO.Sprite;
 		
 		// Security
@@ -62,7 +62,7 @@ public class DeliveryView : MonoBehaviour
 
 	private void SellMerchandise()
 	{
-		_currentDelivery.Seller.SellMerchandiseToDockedIsland(_currentDelivery.Data.Resource);
+		_currentDelivery.Seller.SellResourceToDockedIsland(_currentDelivery.Data.Resource);
 	}
 	
 	private void MakeDeliveryExpired()

@@ -9,7 +9,7 @@ public class RessourcesIslandView : MonoBehaviour
     [SerializeField] private TextMeshProUGUI _islandNameText;
     [SerializeField] private Image _islandRessourcesImage;
 
-    public void Init(RessourcesIslandSO islandSO)
+    public void Init(ResourcesIslandSO islandSO)
     {
         _islandNameText.text = islandSO.IslandName;
         _islandRessourcesImage.sprite = islandSO.MerchandisesToSell.Sprite;
