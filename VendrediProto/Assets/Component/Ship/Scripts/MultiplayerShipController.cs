@@ -37,14 +37,13 @@ namespace VComponent.Ship
 
         private void OnTriggerEnter(Collider other)
         {
-            MultiplayerFactionIslandController factionIslandController = other.gameObject.GetComponent<MultiplayerFactionIslandController>();
-            if (factionIslandController != null)
+            // FACTION ISLAND
+            if (other.TryGetComponent(out MultiplayerFactionIslandController factionIslandController))
             {
                 Debug.Log($"Entering island {factionIslandController.IslandData.IslandName}");
                 _factionDockedIsland = factionIslandController;
 
                 _currentDelivery = DeliveryManager.Instance.GetRequestedDeliveryBy(factionIslandController);
-
                 OnShipStateUpdated?.Invoke(ShipState.DOCKED, _factionDockedIsland.IslandData.IslandName);
                 if (_currentDelivery != null)
                 {
@@ -56,29 +55,23 @@ namespace VComponent.Ship
                     Debug.Log("The current island don't request any delivery.");
                     DeliveryManager.OnDeliveryCreated += HandleDeliveryCreation;
                 }
-
-                return;
             }
-
-            ResourcesIslandController resourcesIslandController = other.gameObject.GetComponent<ResourcesIslandController>();
-            if (resourcesIslandController != null)
+            // RESOURCE ISLAND
+            if (other.TryGetComponent(out ResourcesIslandController resourcesIslandController))
             {
                 Debug.Log($"Entering island {resourcesIslandController.IslandData.IslandName}");
                 _resourcesDockedIsland = resourcesIslandController;
-                OnResourceIslandDocked?.Invoke(true,resourcesIslandController.IslandData);
+                OnResourceIslandDocked?.Invoke(true, resourcesIslandController.IslandData);
                 OnShipStateUpdated?.Invoke(ShipState.DOCKED, _resourcesDockedIsland.IslandData.IslandName);
-                return;
             }
-
-            PlayerIslandController playerIslandController = other.gameObject.GetComponent<PlayerIslandController>();
-            if (playerIslandController != null)
+            // PLAYER ISLAND
+            if (other.TryGetComponent(out PlayerIslandController playerIslandController))
             {
-                //Region Player Island
+                
             }
-
-            MultiplayerShipMilitaryController multiplayerShipMilitaryController = other.gameObject.GetComponent<MultiplayerShipMilitaryController>();
-            if(multiplayerShipMilitaryController != null)
-			{
+            // OTHER SHIP
+            if (other.TryGetComponent(out MultiplayerShipMilitaryController multiplayerShipMilitaryController))
+            {
                 string shipName = other.gameObject.GetComponent<OwnerComponentManager>().PlayerNameTxt.text;
                 Debug.Log($"Encounter ship {shipName}");
                 OnShipEncountered?.Invoke(multiplayerShipMilitaryController);
@@ -87,10 +80,11 @@ namespace VComponent.Ship
 
         private void OnTriggerExit(Collider other)
         {
-            MultiplayerFactionIslandController islandController = other.gameObject.GetComponent<MultiplayerFactionIslandController>();
-            if (islandController != null)
+            // FACTION ISLAND
+            if (other.TryGetComponent(out MultiplayerFactionIslandController factionIslandController))
             {
-                Debug.Log($"Exiting island {islandController.IslandData.IslandName}");
+                // FACTION ISLAND
+                Debug.Log($"Exiting island {factionIslandController.IslandData.IslandName}");
                 OnShipStateUpdated?.Invoke(ShipState.IN_SEA, "");
 
                 _factionDockedIsland = null;
@@ -108,28 +102,29 @@ namespace VComponent.Ship
                 DeliveryManager.OnDeliveryCreated -= HandleDeliveryCreation;
 
                 //Cancel the selling if we exit the island
-                if(_cancellationTokenSource != null && !_cancellationTokenSource.IsCancellationRequested)
-				{
+                if (_cancellationTokenSource != null && !_cancellationTokenSource.IsCancellationRequested)
+                {
                     _cancellationTokenSource.Cancel();
-				}
+                    _cancellationTokenSource = null;
+                }
             }
-            
-            ResourcesIslandController resourcesIslandController = other.gameObject.GetComponent<ResourcesIslandController>();
-            if (resourcesIslandController != null)
+            // RESOURCE ISLAND
+            if (other.TryGetComponent(out ResourcesIslandController resourcesIslandController))
             {
                 Debug.Log($"Exiting island {resourcesIslandController.IslandData.IslandName}");
                 OnShipStateUpdated?.Invoke(ShipState.IN_SEA, "");
-                OnResourceIslandDocked?.Invoke(false,null);
+                OnResourceIslandDocked?.Invoke(false, null);
 
                 //Cancel the loading if we exit the island
                 if (_cancellationTokenSource != null && !_cancellationTokenSource.IsCancellationRequested)
                 {
                     _cancellationTokenSource.Cancel();
+                    _cancellationTokenSource = null;
                 }
-                return;
             }
         }
-
+        
+        
         #region SELL
 
         private void HandleDeliveryCreation(Delivery delivery)
@@ -179,13 +174,14 @@ namespace VComponent.Ship
 
             //Create a cancel Token to cancel LoadResource if we exit the island area 
             _cancellationTokenSource = new CancellationTokenSource();
+            
             //Sell the resource of the boat to the island during time
-            await SellResource(resourceType, _cancellationTokenSource);
+            await AsynchronouslySellResource(resourceType, _cancellationTokenSource.Token);
             
             OnResourceCarriedDelivered?.Invoke(resourceType);
         }
 
-        public async UniTask SellResource(ResourceType resourceType, CancellationTokenSource cancellationTokenSource)
+        private async UniTask AsynchronouslySellResource(ResourceType resourceType, CancellationToken cancellationTokenSource)
 		{
             // Determine how many merchandise we can sell
             ushort merchandiseSellAmount = GetSellableAmount(resourceType);
@@ -194,24 +190,28 @@ namespace VComponent.Ship
             //Sell resource 50 by 50. Each step lasts 2 seconds 
             for (int i = 0; i < merchandiseSellAmount / resourceAmount; i++)
 			{
-                await UniTask.Delay((int) _factionDockedIsland.IslandData.ResourceTimeLoadAndSell * 1000, cancellationToken: cancellationTokenSource.Token);
-                //Log not working when cancel is called but cancel work 
-				if (cancellationTokenSource.IsCancellationRequested)
+                await UniTask.Delay((int) _factionDockedIsland.IslandData.ResourceTimeLoadAndSell * 1000);
+                
+                // Stop the selling if a cancellation is requested  
+				if (cancellationTokenSource.IsCancellationRequested || _currentDelivery.IsDone)
 				{
-                    Debug.Log("CancelSelling");
+                    Debug.Log($"Selling resources on {name} stopped.");
                     return;
 				}
 
                 //Update the livery on the island 
                 _factionDockedIsland.UpdateDelivery(resourceAmount);
+                
                 //Update the resource amount on the ship
                 _currentResourcesCarried[resourceType] -= resourceAmount;
                 _merchandiseAmountSellable -= resourceAmount;
+                
                 OnResourceCarriedUpdated?.Invoke(resourceType, _currentResourcesCarried[resourceType]);
             }
 
             //Remove the resource from the ship
             _currentResourcesCarried.Remove(resourceType);
+            Debug.Log($"Loading resources on {name} done.");
         }
 
         private ushort GetSellableAmount(ResourceType resourceType)
@@ -242,22 +242,24 @@ namespace VComponent.Ship
 
             //Create a cancel Token to cancel LoadResource if we exit the island area 
             _cancellationTokenSource = new CancellationTokenSource();
-            //Load the resource of the island on the boat during time
-            await LoadResource(resourceSO, amount, _cancellationTokenSource);
             
+            //Load the resource of the island on the boat during time
+            await AsynchronouslyLoadResource(resourceSO, amount, _cancellationTokenSource.Token);
         }
 
-        public async UniTask LoadResource(ResourcesSO resourceSO, int amount, CancellationTokenSource cancellationTokenSource)
+        private async UniTask AsynchronouslyLoadResource(ResourcesSO resourceSO, int amount, CancellationToken cancellationTokenSource)
 		{
             int resourceAmount = _resourcesDockedIsland.IslandData.ResourceAmountLoadAndSell;
+            
             //Load resource 50 by 50. Each step lasts 2 seconds 
             for (int i = 0; i < amount / resourceAmount; i++)
             {
-                await UniTask.Delay((int) _resourcesDockedIsland.IslandData.ResourceTimeLoadAndSell * 1000, cancellationToken: cancellationTokenSource.Token);
-                //Log not working when cancel is called but cancel work 
+                await UniTask.Delay((int)_resourcesDockedIsland.IslandData.ResourceTimeLoadAndSell * 1000);
+                
+                // Stop the loading if a cancellation is requested 
                 if (cancellationTokenSource.IsCancellationRequested)
                 {
-                    Debug.Log("CancelLoading");
+                    Debug.Log($"Loading resources on {name} stopped.");
                     return;
                 }
 
@@ -274,9 +276,10 @@ namespace VComponent.Ship
                     OnResourceAdded?.Invoke(resourceSO, resourceAmount);
                 }
             }
+            
             //Setting the state of the ship to docked to the island
             OnShipStateUpdated?.Invoke(ShipState.DOCKED, _resourcesDockedIsland.IslandData.IslandName);
-
+            Debug.Log($"Loading resources on {name} done.");
         }
 
         public int GetFreeSpace()
