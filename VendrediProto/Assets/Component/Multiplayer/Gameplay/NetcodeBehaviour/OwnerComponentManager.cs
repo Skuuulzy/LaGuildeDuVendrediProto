@@ -14,6 +14,8 @@ namespace VComponent.Multiplayer
         [SerializeField] private TMP_Text _playerNameTxt;
         
         [SerializeField] private List<Component> _ownerComponents;
+
+        public TMP_Text PlayerNameTxt => _playerNameTxt;
         
         public override void OnNetworkSpawn()
         {

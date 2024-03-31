@@ -8,6 +8,7 @@ using VComponent.Items.Merchandise;
 using VComponent.Multiplayer.Deliveries;
 using Cysharp.Threading.Tasks;
 using System.Threading;
+using VComponent.Multiplayer;
 
 namespace VComponent.Ship
 {
@@ -30,6 +31,7 @@ namespace VComponent.Ship
         public event Action<ResourceType> OnResourceCarriedDelivered;
         public event Action<bool,ResourcesIslandSO> OnResourceIslandDocked;
         public event Action<ShipState, string> OnShipStateUpdated;
+        public event Action<MultiplayerShipMilitaryController> OnShipEncountered;
 
         private CancellationTokenSource _cancellationTokenSource;
 
@@ -72,6 +74,14 @@ namespace VComponent.Ship
             if (playerIslandController != null)
             {
                 //Region Player Island
+            }
+
+            MultiplayerShipMilitaryController multiplayerShipMilitaryController = other.gameObject.GetComponent<MultiplayerShipMilitaryController>();
+            if(multiplayerShipMilitaryController != null)
+			{
+                string shipName = other.gameObject.GetComponent<OwnerComponentManager>().PlayerNameTxt.text;
+                Debug.Log($"Encounter ship {shipName}");
+                OnShipEncountered?.Invoke(multiplayerShipMilitaryController);
             }
         }
 
