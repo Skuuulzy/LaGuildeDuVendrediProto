@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -24,8 +25,10 @@ namespace VComponent.Multiplayer
         [SerializeField] private EventChannel<Empty> _onAllPlayerConnected;
         [SerializeField] private EventChannel<float> _onGameClockTick;
         [SerializeField] private EventChannel<Empty> _onGameFinished;
+
+        public Action<List<PlayerData>> OnPlayerDataUpdated;
+        public List<PlayerData> PlayerDataNetworkList { get; private set; }
         
-        private List<PlayerData> _playerDataNetworkList;
         private bool _gameInProgress;
 
         private CountdownTimer _gameClock;
@@ -33,7 +36,7 @@ namespace VComponent.Multiplayer
         protected override void Awake()
         {
             base.Awake();
-            _playerDataNetworkList = new List<PlayerData>();
+            PlayerDataNetworkList = new List<PlayerData>();
             _onWaitingAllPlayerConnected.Invoke(new Empty());
         }
         
@@ -42,7 +45,7 @@ namespace VComponent.Multiplayer
             if (IsServer)
             {
                 // Add the host to the list.
-                _playerDataNetworkList.Add(CreatePlayerData());
+                PlayerDataNetworkList.Add(CreatePlayerData());
                 
                 WaitForAllPlayers();
             }
@@ -68,7 +71,7 @@ namespace VComponent.Multiplayer
         public override void OnDestroy()
         {
             base.OnDestroy();
-            _playerDataNetworkList = null;
+            PlayerDataNetworkList = null;
         }
 
         #region SERVER
@@ -80,9 +83,9 @@ namespace VComponent.Multiplayer
         [ServerRpc(RequireOwnership = false)]
         private void ClientEnterGameServerRpc(PlayerData playerData)
         {
-            _playerDataNetworkList.Add(playerData);
+            PlayerDataNetworkList.Add(playerData);
 
-            UpdatePlayerDataListClientRpc(_playerDataNetworkList.ToArray());
+            UpdatePlayerDataListClientRpc(PlayerDataNetworkList.ToArray());
         }
         
         /// <summary>
@@ -91,7 +94,7 @@ namespace VComponent.Multiplayer
         /// </summary>
         private async void WaitForAllPlayers()
         {
-            while (_playerDataNetworkList.Count < MultiplayerConnectionManager.Instance.PlayerCount)
+            while (PlayerDataNetworkList.Count < MultiplayerConnectionManager.Instance.PlayerCount)
             {
                 await Task.Delay(500);
             }
@@ -109,13 +112,13 @@ namespace VComponent.Multiplayer
         /// </summary>
         private void SetUpPlayerIslands()
         {
-            for (int i = 0; i < _playerDataNetworkList.Count; i++)
+            for (int i = 0; i < PlayerDataNetworkList.Count; i++)
             {
-                _playerIslands[i].SetUpForPlayer(_playerDataNetworkList[i].ClientId);
+                _playerIslands[i].SetUpForPlayer(PlayerDataNetworkList[i].ClientId);
             }
             
             // Tell to all client to spawn the first boat
-            for (int i = 0; i < _playerDataNetworkList.Count; i++)
+            for (int i = 0; i < PlayerDataNetworkList.Count; i++)
             {
                 _playerIslands[i].SpawnFirstBoatClientRpc();
             }
@@ -139,16 +142,16 @@ namespace VComponent.Multiplayer
         /// </summary>
         public void IncreasePlayerCurrency(ulong clientId, int moneyGained)
         {
-            for (int i = 0; i < _playerDataNetworkList.Count; i++)
+            for (int i = 0; i < PlayerDataNetworkList.Count; i++)
             {
-                if (_playerDataNetworkList[i].ClientId == clientId)
+                if (PlayerDataNetworkList[i].ClientId == clientId)
                 {
-                    var clientData = _playerDataNetworkList[i];
+                    var clientData = PlayerDataNetworkList[i];
                     clientData.Money += (ushort)moneyGained;
 
-                    _playerDataNetworkList[i] = clientData;
+                    PlayerDataNetworkList[i] = clientData;
                     
-                    UpdatePlayerDataListClientRpc(_playerDataNetworkList.ToArray());
+                    UpdatePlayerDataListClientRpc(PlayerDataNetworkList.ToArray());
                     
                     return;
                 }
@@ -173,14 +176,8 @@ namespace VComponent.Multiplayer
         [ClientRpc]
         private void UpdatePlayerDataListClientRpc(PlayerData[] newPlayerData)
         {
-            _playerDataNetworkList = newPlayerData.ToList();
-            
-            Debug.Log("Client data updated.");
-            for (int i = 0; i < _playerDataNetworkList.Count; i++)
-            {
-                var clientData = _playerDataNetworkList[i];
-                Debug.Log($"Client: {clientData.ClientId} | Money: {clientData.Money}");
-            }
+            PlayerDataNetworkList = newPlayerData.ToList();
+            OnPlayerDataUpdated?.Invoke(PlayerDataNetworkList);
         }
 
         /// <summary>
@@ -221,11 +218,11 @@ namespace VComponent.Multiplayer
         /// </summary>
         public string GetPlayerNameFromId(ulong clientId)
         {
-            for (int i = 0; i < _playerDataNetworkList.Count; i++)
+            for (int i = 0; i < PlayerDataNetworkList.Count; i++)
             {
-                if (_playerDataNetworkList[i].ClientId == clientId)
+                if (PlayerDataNetworkList[i].ClientId == clientId)
                 {
-                    return _playerDataNetworkList[i].PlayerName.ToString();
+                    return PlayerDataNetworkList[i].PlayerName.ToString();
                 }
             }
 
