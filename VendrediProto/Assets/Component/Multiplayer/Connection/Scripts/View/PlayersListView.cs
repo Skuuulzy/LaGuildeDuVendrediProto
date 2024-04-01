@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -17,7 +18,7 @@ namespace VComponent.Multiplayer
         [SerializeField] private PlayerInLobbyView _playerInLobbyPlayerPrefab;
         [SerializeField] private Transform _lobbyPlayerContainer;
 
-        private List<PlayerInLobbyView> _playerViews;
+        private Dictionary<ulong, PlayerInLobbyView> _playerViews;
 
         private bool _initialized;
         
@@ -62,20 +63,26 @@ namespace VComponent.Multiplayer
         private void CreatePlayerViews(List<PlayerData> allPlayerData)
         {
             ClearPlayerViews();
-            _playerViews = new List<PlayerInLobbyView>();
+            _playerViews = new Dictionary<ulong, PlayerInLobbyView>();
             
             foreach (PlayerData player in allPlayerData)
             {
                 PlayerInLobbyView playerInLobbyView = Instantiate(_playerInLobbyPlayerPrefab, _lobbyPlayerContainer);
                 playerInLobbyView.SetPlayerData(player);
-                
-                _playerViews.Add(playerInLobbyView);
+
+                _playerViews.Add(player.ClientId, playerInLobbyView);
             }
         }
         
+        /// <summary>
+        /// Update the player view information and sort the player view position by money.
+        /// </summary>
         private void UpdatePlayerViews(List<PlayerData> allPlayerData)
         {
-            for (int i = 0; i < _playerViews.Count; i++)
+            // Sort the player data by currency amount
+            var sortedPlayerData = allPlayerData.OrderByDescending(playerData => playerData.Money).ToList();
+
+            for (int i = 0; i < sortedPlayerData.Count; i++)
             {
                 if (i >= allPlayerData.Count)
                 {
@@ -83,7 +90,10 @@ namespace VComponent.Multiplayer
                     break;
                 }
                 
-                _playerViews[i].UpdatePlayerData(allPlayerData[i]);
+                var playerView = _playerViews[sortedPlayerData[i].ClientId];
+                
+                playerView.UpdatePlayerData(sortedPlayerData[i]);
+                playerView.transform.SetSiblingIndex(i);
             }
         }
 
