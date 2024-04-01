@@ -21,4 +21,17 @@ public class FactionIslandSO : IslandSO
 
 		return (randomRequest.Key.Type, randomRequest.Value, _merchandiseRequestedTimeInterval);
 	}
+
+	public ushort GetResourceSellPrice(ResourceType type)
+	{
+		var resource = _merchandisesRequested.ToDictionary().Keys.SingleOrDefault(res => res.Type == type);
+		
+		if (resource == null)
+		{
+			Debug.LogError($"Unable to find the resource of type {type} to get is sell price.");
+			return 0;
+		}
+
+		return (ushort)resource.SellValue;
+	}
 }

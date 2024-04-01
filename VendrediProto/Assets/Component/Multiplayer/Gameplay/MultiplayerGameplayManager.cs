@@ -26,7 +26,7 @@ namespace VComponent.Multiplayer
         [SerializeField] private EventChannel<float> _onGameClockTick;
         [SerializeField] private EventChannel<Empty> _onGameFinished;
 
-        public Action<List<PlayerData>> OnPlayerDataUpdated;
+        public static Action<List<PlayerData>> OnPlayerDataUpdated;
         public List<PlayerData> PlayerDataNetworkList { get; private set; }
         
         private bool _gameInProgress;
@@ -144,17 +144,17 @@ namespace VComponent.Multiplayer
         {
             for (int i = 0; i < PlayerDataNetworkList.Count; i++)
             {
-                if (PlayerDataNetworkList[i].ClientId == clientId)
-                {
-                    var clientData = PlayerDataNetworkList[i];
-                    clientData.Money += (ushort)moneyGained;
+                if (PlayerDataNetworkList[i].ClientId != clientId) 
+                    continue;
+                
+                var clientData = PlayerDataNetworkList[i];
+                clientData.Money += (ushort)moneyGained;
 
-                    PlayerDataNetworkList[i] = clientData;
+                PlayerDataNetworkList[i] = clientData;
                     
-                    UpdatePlayerDataListClientRpc(PlayerDataNetworkList.ToArray());
+                UpdatePlayerDataListClientRpc(PlayerDataNetworkList.ToArray());
                     
-                    return;
-                }
+                return;
             }
             
             Debug.LogError($"Unable to find client with id: {clientId}");

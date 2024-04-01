@@ -30,14 +30,14 @@ namespace VComponent.Multiplayer
             CreatePlayerViews(MultiplayerGameplayManager.Instance.PlayerDataNetworkList);
             
             // Listening for updates
-            MultiplayerGameplayManager.Instance.OnPlayerDataUpdated += UpdatePlayerViews;
+            MultiplayerGameplayManager.OnPlayerDataUpdated += UpdatePlayerViews;
 
             _initialized = true;
         }
 
         private void OnDestroy()
         {
-            MultiplayerGameplayManager.Instance.OnPlayerDataUpdated -= UpdatePlayerViews;
+            MultiplayerGameplayManager.OnPlayerDataUpdated -= UpdatePlayerViews;
         }
 
         private void Update()

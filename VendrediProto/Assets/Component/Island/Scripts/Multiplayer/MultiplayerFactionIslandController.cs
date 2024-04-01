@@ -17,8 +17,7 @@ namespace VComponent.Island
     {
         [SerializeField] private byte _index;
         [SerializeField] private FactionIslandSO _islandData;
-
-
+        
         private CountdownTimer _deliveryRequestTimer;
         
         private DeliveryNetworkPackage _currentNetworkDelivery;
@@ -136,24 +135,31 @@ namespace VComponent.Island
         /// A client tell to the server that is updating the current deliveries. The server will then inform all other clients.
         /// </summary>
         [ServerRpc(RequireOwnership = false)]
-        private void UpdateCurrentDeliveryServerRPC(DeliveryNetworkPackage networkDeliveryNetworkPackagePackage, ServerRpcParams rpcParams = default)
+        private void UpdateCurrentDeliveryServerRPC(DeliveryNetworkPackage networkDeliveryNetworkPackagePackage, ushort amount, ServerRpcParams rpcParams = default)
         {
-            // I think we need to do something safer here.
-            // We need to handle here the race conditions when deliver things.
-            // If the delivery is already completed we need to give back the merchandise to the player.
+            if (amount == 0)
+            {
+                Debug.LogError("A delivery update with an amount of 0 has been called !");
+                return;
+            }
             
-            MultiplayerGameplayManager.Instance.IncreasePlayerCurrency(rpcParams.Receive.SenderClientId, 10);
+            // I'm not sure if we need to handle here the refund of player if the delivery is already completed.
+
+            // Increase player currency
+            var sellPrice = (ushort)(_islandData.GetResourceSellPrice(networkDeliveryNetworkPackagePackage.Resource) * amount);
+            MultiplayerGameplayManager.Instance.IncreasePlayerCurrency(rpcParams.Receive.SenderClientId, sellPrice);
             
-            _currentNetworkDelivery = networkDeliveryNetworkPackagePackage;
+            // Update the delivery
+            _currentNetworkDelivery.MerchandiseCurrentAmount += amount;
             
-            UpdateCurrentDeliveryClientRPC(networkDeliveryNetworkPackagePackage);
+            // Inform all clients of the delivery update
+            UpdateCurrentDeliveryClientRPC(_currentNetworkDelivery);
         }
 
         [Command]
         public void UpdateDelivery(ushort merchandiseAmount)
         {
-            _currentNetworkDelivery.MerchandiseCurrentAmount += merchandiseAmount;
-            UpdateCurrentDeliveryServerRPC(_currentNetworkDelivery);
+            UpdateCurrentDeliveryServerRPC(_currentNetworkDelivery, merchandiseAmount);
         }
     }
 }
