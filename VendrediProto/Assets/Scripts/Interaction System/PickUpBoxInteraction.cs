@@ -8,12 +8,10 @@ public class PickUpBoxInteraction : MonoBehaviour, IInteractable
 	[SerializeField] private GameObject _popUpCanvas;
 	[SerializeField] private TMP_Text _popUpText;
 	[SerializeField] private TMP_Text _nameOfItemsStored;
-	[SerializeField] private Item _item;
 	[SerializeField] private int _quantityOfItems;
 
 	public void GetName()
 	{
-		_nameOfItemsStored.text = _item.ItemType.ToString() + " : " + _quantityOfItems;
 	}
 
 	public void GetPriority()

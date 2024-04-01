@@ -69,13 +69,6 @@ namespace VComponent.Ship
             {
                 
             }
-            // OTHER SHIP
-            if (other.TryGetComponent(out MultiplayerShipMilitaryController multiplayerShipMilitaryController))
-            {
-                string shipName = other.gameObject.GetComponent<OwnerComponentManager>().PlayerNameTxt.text;
-                Debug.Log($"Encounter ship {shipName}");
-                OnShipEncountered?.Invoke(multiplayerShipMilitaryController);
-            }
         }
 
         private void OnTriggerExit(Collider other)
@@ -122,6 +115,7 @@ namespace VComponent.Ship
                     _cancellationTokenSource = null;
                 }
             }
+
         }
         
         
