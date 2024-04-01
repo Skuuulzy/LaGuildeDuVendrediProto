@@ -1,4 +1,5 @@
 using System;
+using System.Threading.Tasks;
 using Unity.Netcode;
 using Unity.Netcode.Transports.UTP;
 using Unity.Networking.Transport.Relay;
@@ -18,9 +19,9 @@ namespace VComponent.Multiplayer
             HybridSceneLoader.Instance.ListenNetworkLoading(true);
         }
 
-        private void StopClient()
+        private async Task StopClient()
         {
-            HybridSceneLoader.Instance.UnListenNetworkLoading(true);
+            await HybridSceneLoader.Instance.QuitNetwork(true);
         }
         
         #region JOIN LOBBY
