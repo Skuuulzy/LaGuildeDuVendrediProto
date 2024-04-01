@@ -23,6 +23,11 @@ namespace VComponent.InputSystem
 
         private void Update()
         {
+            if (EventSystem.current == null)
+            {
+                return;
+            }
+            
             // This is unity recommendation, i honestly don't like this approach but it will do for now.
             _isMouseOverUI = EventSystem.current.IsPointerOverGameObject();
         }

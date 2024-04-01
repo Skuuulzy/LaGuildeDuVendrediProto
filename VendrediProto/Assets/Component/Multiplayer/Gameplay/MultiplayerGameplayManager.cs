@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Cysharp.Threading.Tasks;
+using QFSW.QC;
 using Unity.Collections;
 using Unity.Netcode;
 using UnityEngine;
@@ -128,9 +129,15 @@ namespace VComponent.Multiplayer
         /// SERVER - SIDE
         /// Raised at the end of the game clock. Inform all players that the game is finished.
         /// </summary>
-        private void HandleEndOfGame()
+        [Command]
+        private void FinishGame()
         {
-            _gameClock.OnTimerStop -= HandleEndOfGame;
+            if (!IsServer)
+            {
+                return;
+            }
+            
+            _gameClock.OnTimerStop -= FinishGame;
             
             EndOfGameClientRpc();
         }
@@ -196,7 +203,7 @@ namespace VComponent.Multiplayer
 
             if (IsHost)
             {
-                _gameClock.OnTimerStop += HandleEndOfGame;
+                _gameClock.OnTimerStop += FinishGame;
             }
         }
         

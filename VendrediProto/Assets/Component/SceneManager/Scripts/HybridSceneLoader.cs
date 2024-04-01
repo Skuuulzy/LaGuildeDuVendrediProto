@@ -1,4 +1,5 @@
 using System.Collections;
+using System.Threading.Tasks;
 using Cysharp.Threading.Tasks;
 using Eflatun.SceneReference;
 using MyGameDevTools.SceneLoading;
@@ -23,6 +24,8 @@ namespace VComponent.SceneLoader
         private bool _localLoadScreenIsLoaded;
         private bool _localLoadScreenIsListening;
         private LoadingBehavior _localLoadingBehavior;
+
+        private LoadSceneInfoName _lastNetworkScene;
 
         private LoadSceneInfoName LoadingScreenReference => GetSceneReference(SceneIdentifier.LOADING_SCREEN);
         
@@ -59,7 +62,7 @@ namespace VComponent.SceneLoader
 
         #region LOCAL SCENE LOAD METHODS
         
-        public async void TransitionTo(SceneIdentifier identifier)
+        public async UniTask TransitionTo(SceneIdentifier identifier)
         {
             var targetSceneReference = GetSceneReference(identifier);
 
@@ -93,12 +96,24 @@ namespace VComponent.SceneLoader
                 Debug.LogError($"No scene associated with the identifier {identifier} found in the scenes.");
                 return;
             }
+
+            _lastNetworkScene = targetSceneReference;
             
             await LoadLocalLoadingScreen();
             
             NetworkManager.Singleton.SceneManager.LoadScene(targetSceneReference.Reference.ToString(), LoadSceneMode.Single);
             
             // We do not need to unload the local loading screen since the network scene manager unload all local scenes.
+        }
+
+        public async Task QuitNetwork(bool isClient)
+        {
+            UnListenNetworkLoading(isClient);
+            
+            await TransitionTo(SceneIdentifier.MAIN_MENU);
+            
+            // We need to unload the scene with the basic manager since our custom does know the network scenes.
+            UnityEngine.SceneManagement.SceneManager.UnloadSceneAsync(_lastNetworkScene.Reference.ToString());
         }
         
         #endregion NETWORK SCENE LOAD METHODS
@@ -123,7 +138,7 @@ namespace VComponent.SceneLoader
         /// <summary>
         /// Stop to listen to Scene Event on the Network Scene Manager, to display loading information.
         /// </summary>
-        public void UnListenNetworkLoading(bool isClient)
+        private void UnListenNetworkLoading(bool isClient)
         {
             if (isClient)
             {

@@ -26,9 +26,10 @@ namespace VComponent.Multiplayer
             HybridSceneLoader.Instance.ListenNetworkLoading(false);
         }
 
-        private void StopHost()
+        private async Task StopHost()
         {
-            HybridSceneLoader.Instance.UnListenNetworkLoading(false);
+            await HybridSceneLoader.Instance.QuitNetwork(true);
+            NetworkManager.Singleton.Shutdown();
         }
         
         #region LOBBY CREATION

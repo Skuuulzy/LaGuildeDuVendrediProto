@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using MyGameDevTools.SceneLoading;
 using Unity.Netcode;
 using Unity.Services.Authentication;
 using Unity.Services.Core;
@@ -230,20 +231,20 @@ namespace VComponent.Multiplayer
 
         #region QUIT
 
-        public void QuitNetwork()
+        public async void QuitNetwork()
         {
             if (IsLobbyHost())
             {
-                StopHost();
+                await StopHost();
             }
             else
             {
-                StopClient();
+                await StopClient();
             }
             
             // Destroying multiplayer singletons instances
             Destroy(NetworkManager.Singleton.gameObject);
-            Destroy(this.gameObject);
+            Destroy(gameObject);
         }
 
         #endregion
