@@ -11,7 +11,6 @@ GameObject:
   - component: {fileID: 6651064009786940812}
   - component: {fileID: 2624700471473484675}
   - component: {fileID: 2133126247147445511}
-  - component: {fileID: 6673952349066818166}
   m_Layer: 0
   m_Name: Island_Faction_Perrot
   m_TagString: WorldCreator
@@ -93,15 +92,3 @@ Terrain:
   m_EnableHeightmapRayTracing: 1
   m_EnableTreesAndDetailsRayTracing: 0
   m_TreeMotionVectorModeOverride: 3
---- !u!114 &6673952349066818166
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3336440667832805843}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: -711467253, guid: 47b3864ffe738cf458c312b32fc7ec3d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 

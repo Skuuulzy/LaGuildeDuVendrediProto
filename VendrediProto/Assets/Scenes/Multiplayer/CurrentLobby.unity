@@ -153,7 +153,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Profile: {fileID: 0}
-  Settings: {fileID: 552510063}
+  Settings: {fileID: 376075178}
   IsWaterRenderingActive: 1
   UseNetworkTime: 0
   NetworkTime: 0
@@ -6404,6 +6404,136 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 335028278}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &376075178
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8bf75699500d2c349aac22df3efb5415, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Transparent: 5
+  WaterColor: {r: 0.6862745, g: 0.88235295, b: 0.9411765, a: 1}
+  TurbidityColor: {r: 0.039215688, g: 0.43137255, b: 0.39215687, a: 1}
+  Turbidity: 0.25
+  FFT_SimulationSize: 256
+  WindSpeed: 1.5
+  WindRotation: 0
+  WindTurbulence: 0.5
+  TimeScale: 1
+  ReflectionProfile: 2
+  UseScreenSpaceReflection: 1
+  ScreenSpaceReflectionResolutionQuality: 50
+  UseScreenSpaceReflectionHolesFilling: 1
+  ScreenSpaceBordersStretching: 0.015
+  UsePlanarReflection: 0
+  PlanarCullingMask: -1
+  PlanarReflectionResolutionQuality: 368
+  ReflectionClipPlaneOffset: 0.0025
+  RenderPlanarShadows: 0
+  RenderPlanarVolumetricsAndFog: 0
+  RenderPlanarClouds: 0
+  CubemapUpdateInterval: 10
+  CubemapCullingMask: 32
+  CubemapCullingMaskWithIndoorSkylingReflectionFix: -17
+  CubemapReflectionResolutionQuality: 256
+  FixCubemapIndoorSkylightReflection: 0
+  UseAnisotropicReflections: 1
+  AnisotropicReflectionsHighQuality: 0
+  AnisotropicReflectionsScale: 0.75
+  UseAnisotropicCubemapSkyForSSR: 0
+  ReflectSun: 1
+  ReflectedSunCloudinessStrength: 0.04
+  ReflectedSunStrength: 1
+  RefractionProfile: 2
+  RefractionMode: 1
+  RefractionAproximatedDepth: 2
+  RefractionSimpleStrength: 0.25
+  UseRefractionDispersion: 1
+  RefractionDispersionStrength: 0.35
+  VolumetricLightProfile: 2
+  UseVolumetricLight: 1
+  VolumetricLightResolutionQuality: 50
+  VolumetricLightIteration: 6
+  VolumetricLightBlurRadius: 2
+  VolumetricLightFilter: 0
+  FlowmapProfile: 2
+  UseFlowMap: 0
+  FlowMapAreaPosition: {x: 0, y: 0, z: 0}
+  FlowMapAreaSize: 200
+  FlowMapTextureResolution: 2048
+  FlowMapSpeed: 1
+  UseFluidsSimulation: 0
+  FluidsAreaSize: 40
+  FluidsSimulationIterrations: 2
+  FluidsTextureSize: 1024
+  FluidsSimulationFPS: 60
+  FluidsSpeed: 1
+  FluidsFoamStrength: 0.5
+  FlowingScriptableData: {fileID: 0}
+  DynamicWavesProfile: 2
+  UseDynamicWaves: 0
+  DynamicWavesAreaSize: 25
+  DynamicWavesSimulationFPS: 60
+  DynamicWavesResolutionPerMeter: 40
+  DynamicWavesPropagationSpeed: 1
+  UseDynamicWavesRainEffect: 0
+  DynamicWavesRainStrength: 0.2
+  ShorelineProfile: 2
+  UseShorelineRendering: 0
+  ShorelineColor: {r: 0.85, g: 0.85, b: 0.85, a: 0.9}
+  ShorelineFoamLodQuality: 0
+  UseShorelineFoamFastMode: 0
+  ShorelineFoamReceiveDirShadows: 1
+  ShorelineWavesScriptableData: {fileID: 0}
+  FoamProfile: 2
+  UseFoamRendering: 0
+  FoamColor: {r: 0.85, g: 0.85, b: 0.85, a: 0.9}
+  FoamFadeDistance: 1.5
+  FoamSize: 20
+  CausticProfile: 2
+  UseCausticEffect: 1
+  UseCausticBicubicInterpolation: 1
+  UseCausticDispersion: 1
+  CausticTextureSize: 768
+  CausticMeshResolution: 320
+  CausticActiveLods: 3
+  CausticStrength: 1
+  UseDepthCausticScale: 0
+  CausticDepthScale: 1
+  CausticOrthoDepthPosition: {x: Infinity, y: Infinity, z: Infinity}
+  CausticOrthoDepthAreaSize: 512
+  CausticOrthoDepthTextureResolution: 2048
+  UnderwaterProfile: 2
+  UseUnderwaterEffect: 1
+  UseUnderwaterBlur: 0
+  UnderwaterBlurRadius: 2.6
+  UnderwaterQueue: 1
+  MeshProfile: 2
+  WaterMeshType: 0
+  OceanDetailingFarDistance: 5000
+  RiverSplineNormalOffset: 1
+  RiverSplineVertexCountBetweenPoints: 20
+  RiverSplineDepth: 10
+  CustomMesh: {fileID: 0}
+  WaterMeshQualityInfinite: 1
+  WaterMeshQualityFinite: 1
+  MeshSize: {x: 10, y: 10, z: 10}
+  UseTesselation: 0
+  TesselationFactor: 0.6
+  TesselationInfiniteMeshMaxDistance: 2000
+  TesselationOtherMeshMaxDistance: 100
+  SplineScriptableData: {fileID: 0}
+  RenderingProfile: 2
+  EnabledMeshRendering: 1
+  UseFiltering: 1
+  UseAnisotropicFiltering: 0
+  DrawToPosteffectsDepth: 0
+  WireframeMode: 0
 --- !u!1 &381360255
 GameObject:
   m_ObjectHideFlags: 0
@@ -6847,136 +6977,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 547096674}
   m_CullTransparentMesh: 1
---- !u!114 &552510063
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8bf75699500d2c349aac22df3efb5415, type: 3}
-  m_Name: (Clone)
-  m_EditorClassIdentifier: 
-  Transparent: 6
-  WaterColor: {r: 0.5411765, g: 0.88877213, b: 1, a: 1}
-  TurbidityColor: {r: 0.09104663, g: 0.390596, b: 0.6226415, a: 1}
-  Turbidity: 0.5
-  FFT_SimulationSize: 512
-  WindSpeed: 2.32
-  WindRotation: 0
-  WindTurbulence: 0.338
-  TimeScale: 1
-  ReflectionProfile: 0
-  UseScreenSpaceReflection: 0
-  ScreenSpaceReflectionResolutionQuality: 75
-  UseScreenSpaceReflectionHolesFilling: 0
-  ScreenSpaceBordersStretching: 0.015
-  UsePlanarReflection: 1
-  PlanarCullingMask: -17
-  PlanarReflectionResolutionQuality: 512
-  ReflectionClipPlaneOffset: 0.01
-  RenderPlanarShadows: 0
-  RenderPlanarVolumetricsAndFog: 0
-  RenderPlanarClouds: 0
-  CubemapUpdateInterval: 10
-  CubemapCullingMask: 32
-  CubemapCullingMaskWithIndoorSkylingReflectionFix: -17
-  CubemapReflectionResolutionQuality: 512
-  FixCubemapIndoorSkylightReflection: 0
-  UseAnisotropicReflections: 1
-  AnisotropicReflectionsHighQuality: 1
-  AnisotropicReflectionsScale: 0.85
-  UseAnisotropicCubemapSkyForSSR: 0
-  ReflectSun: 0
-  ReflectedSunCloudinessStrength: 0.03
-  ReflectedSunStrength: 1
-  RefractionProfile: 0
-  RefractionMode: 1
-  RefractionAproximatedDepth: 4
-  RefractionSimpleStrength: 0.25
-  UseRefractionDispersion: 0
-  RefractionDispersionStrength: 0.35
-  VolumetricLightProfile: 0
-  UseVolumetricLight: 1
-  VolumetricLightResolutionQuality: 75
-  VolumetricLightIteration: 8
-  VolumetricLightBlurRadius: 1
-  VolumetricLightFilter: 1
-  FlowmapProfile: 2
-  UseFlowMap: 0
-  FlowMapAreaPosition: {x: 0, y: 0, z: 0}
-  FlowMapAreaSize: 200
-  FlowMapTextureResolution: 4096
-  FlowMapSpeed: 1
-  UseFluidsSimulation: 0
-  FluidsAreaSize: 35
-  FluidsSimulationIterrations: 2
-  FluidsTextureSize: 1536
-  FluidsSimulationFPS: 60
-  FluidsSpeed: 1
-  FluidsFoamStrength: 0.5
-  FlowingScriptableData: {fileID: 0}
-  DynamicWavesProfile: 2
-  UseDynamicWaves: 1
-  DynamicWavesAreaSize: 50
-  DynamicWavesSimulationFPS: 60
-  DynamicWavesResolutionPerMeter: 34
-  DynamicWavesPropagationSpeed: 1
-  UseDynamicWavesRainEffect: 0
-  DynamicWavesRainStrength: 0.2
-  ShorelineProfile: 1
-  UseShorelineRendering: 0
-  ShorelineColor: {r: 0.85, g: 0.85, b: 0.85, a: 0.9}
-  ShorelineFoamLodQuality: 0
-  UseShorelineFoamFastMode: 0
-  ShorelineFoamReceiveDirShadows: 1
-  ShorelineWavesScriptableData: {fileID: 0}
-  FoamProfile: 2
-  UseFoamRendering: 1
-  FoamColor: {r: 0.85, g: 0.85, b: 0.85, a: 0.85882354}
-  FoamFadeDistance: 2.86
-  FoamSize: 45
-  CausticProfile: 0
-  UseCausticEffect: 1
-  UseCausticBicubicInterpolation: 1
-  UseCausticDispersion: 1
-  CausticTextureSize: 1024
-  CausticMeshResolution: 384
-  CausticActiveLods: 4
-  CausticStrength: 1.05
-  UseDepthCausticScale: 0
-  CausticDepthScale: 5
-  CausticOrthoDepthPosition: {x: Infinity, y: Infinity, z: Infinity}
-  CausticOrthoDepthAreaSize: 512
-  CausticOrthoDepthTextureResolution: 2048
-  UnderwaterProfile: 2
-  UseUnderwaterEffect: 0
-  UseUnderwaterBlur: 1
-  UnderwaterBlurRadius: 0.84
-  UnderwaterQueue: 1
-  MeshProfile: 2
-  WaterMeshType: 0
-  OceanDetailingFarDistance: 6000
-  RiverSplineNormalOffset: 1
-  RiverSplineVertexCountBetweenPoints: 20
-  RiverSplineDepth: 10
-  CustomMesh: {fileID: 0}
-  WaterMeshQualityInfinite: 1
-  WaterMeshQualityFinite: 1
-  MeshSize: {x: 10, y: 10, z: 10}
-  UseTesselation: 1
-  TesselationFactor: 0.75
-  TesselationInfiniteMeshMaxDistance: 2000
-  TesselationOtherMeshMaxDistance: 100
-  SplineScriptableData: {fileID: 0}
-  RenderingProfile: 0
-  EnabledMeshRendering: 1
-  UseFiltering: 1
-  UseAnisotropicFiltering: 0
-  DrawToPosteffectsDepth: 0
-  WireframeMode: 0
 --- !u!1 &580312583
 GameObject:
   m_ObjectHideFlags: 0
@@ -6992,7 +6992,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &580312584
 Transform:
   m_ObjectHideFlags: 0
@@ -7101,7 +7101,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &607945307
 Transform:
   m_ObjectHideFlags: 0
@@ -10833,7 +10833,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1479979085
 Transform:
   m_ObjectHideFlags: 0
@@ -12611,6 +12611,11 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1479979085}
     m_Modifications:
+    - target: {fileID: 1782805812590708113, guid: ed485cebb6b936b4f9bb074b87b8fe8e,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 1944822162282281002, guid: ed485cebb6b936b4f9bb074b87b8fe8e,
         type: 3}
       propertyPath: GlobalObjectIdHash
@@ -12671,7 +12676,8 @@ PrefabInstance:
       propertyPath: m_Name
       value: AnguillaIsland
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 8365630276891571591, guid: ed485cebb6b936b4f9bb074b87b8fe8e, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []
@@ -12942,8 +12948,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _playerIslands:
-  - {fileID: 2051433544}
-  - {fileID: 2084714273}
   - {fileID: 2051416759}
   - {fileID: 1556348932}
   - {fileID: 2068933210}
@@ -22952,18 +22956,6 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 2051433542}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &2051433544 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 6862833100695281859, guid: a6198ae07c84dd34d9ff6fcc1bb2176f,
-    type: 3}
-  m_PrefabInstance: {fileID: 2051433542}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b500597284fc7564b8e755eb50dc01fc, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1001 &2068933208
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -23129,18 +23121,6 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 2084714271}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &2084714273 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 6862833100695281859, guid: feb9dee3df8dc7c429f5da0f17252bb9,
-    type: 3}
-  m_PrefabInstance: {fileID: 2084714271}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b500597284fc7564b8e755eb50dc01fc, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &2089116633
 GameObject:
   m_ObjectHideFlags: 0

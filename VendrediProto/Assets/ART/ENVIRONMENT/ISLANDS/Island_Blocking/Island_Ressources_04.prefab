@@ -11,9 +11,8 @@ GameObject:
   - component: {fileID: 4601525436567341919}
   - component: {fileID: 7109222430387829448}
   - component: {fileID: 4035925887996663514}
-  - component: {fileID: 1664890794367946314}
   m_Layer: 0
-  m_Name: RumIsland
+  m_Name: Island_Ressources_04
   m_TagString: WorldCreator
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -93,15 +92,3 @@ Terrain:
   m_EnableHeightmapRayTracing: 1
   m_EnableTreesAndDetailsRayTracing: 0
   m_TreeMotionVectorModeOverride: 3
---- !u!114 &1664890794367946314
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3376705395295057107}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: -711467253, guid: 47b3864ffe738cf458c312b32fc7ec3d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 

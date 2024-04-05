@@ -11,7 +11,6 @@ GameObject:
   - component: {fileID: 1343107547944665805}
   - component: {fileID: 3837239133306110344}
   - component: {fileID: 5563562756952090776}
-  - component: {fileID: 336801657793835598}
   m_Layer: 0
   m_Name: CoconutIsland
   m_TagString: WorldCreator
@@ -93,15 +92,3 @@ Terrain:
   m_EnableHeightmapRayTracing: 1
   m_EnableTreesAndDetailsRayTracing: 0
   m_TreeMotionVectorModeOverride: 3
---- !u!114 &336801657793835598
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6142987539547923461}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: -711467253, guid: 47b3864ffe738cf458c312b32fc7ec3d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
