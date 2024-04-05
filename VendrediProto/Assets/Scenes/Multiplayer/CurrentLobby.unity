@@ -12715,6 +12715,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: AnguillaIsland
       objectReference: {fileID: 0}
+    - target: {fileID: 7547753024496705893, guid: ed485cebb6b936b4f9bb074b87b8fe8e,
+        type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: -0
+      objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 8365630276891571591, guid: ed485cebb6b936b4f9bb074b87b8fe8e, type: 3}
     m_RemovedGameObjects: []
