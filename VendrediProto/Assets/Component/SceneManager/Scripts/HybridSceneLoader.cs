@@ -113,7 +113,7 @@ namespace VComponent.SceneLoader
             await TransitionTo(SceneIdentifier.MAIN_MENU);
             
             // We need to unload the scene with the basic manager since our custom does know the network scenes.
-            UnityEngine.SceneManagement.SceneManager.UnloadSceneAsync(_lastNetworkScene.Reference.ToString());
+            _ = UnityEngine.SceneManagement.SceneManager.UnloadSceneAsync(_lastNetworkScene.Reference.ToString());
         }
         
         #endregion NETWORK SCENE LOAD METHODS

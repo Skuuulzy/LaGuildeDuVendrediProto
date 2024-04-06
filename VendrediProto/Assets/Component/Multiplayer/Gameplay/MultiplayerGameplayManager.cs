@@ -18,9 +18,6 @@ namespace VComponent.Multiplayer
     /// </summary>
     public class MultiplayerGameplayManager : NetworkSingleton<MultiplayerGameplayManager>
     {
-        [Header("Components")] 
-        [SerializeField] private List<PlayerIslandController> _playerIslands;
-        
         [Header("Broadcasting On")]
         [SerializeField] private EventChannel<Empty> _onWaitingAllPlayerConnected;
         [SerializeField] private EventChannel<Empty> _onAllPlayerConnected;
@@ -29,9 +26,11 @@ namespace VComponent.Multiplayer
 
         public static Action<List<PlayerData>> OnPlayerDataUpdated;
         public List<PlayerData> PlayerDataNetworkList { get; private set; }
+        public CountdownTimer GameClock => _gameClock;
         
         private bool _gameInProgress;
-
+        
+        private List<PlayerIslandController> _playerIslands;
         private CountdownTimer _gameClock;
 
         protected override void Awake()
@@ -113,6 +112,14 @@ namespace VComponent.Multiplayer
         /// </summary>
         private void SetUpPlayerIslands()
         {
+            _playerIslands = FindObjectsOfType<PlayerIslandController>().ToList();
+
+            if (_playerIslands.Count < PlayerDataNetworkList.Count)
+            {
+                Debug.LogError($"There is not enough island({_playerIslands.Count}) for the number of player in the game({PlayerDataNetworkList.Count}) !");
+                return;
+            }
+            
             for (int i = 0; i < PlayerDataNetworkList.Count; i++)
             {
                 _playerIslands[i].SetUpForPlayer(PlayerDataNetworkList[i].ClientId);
