@@ -478,8 +478,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 495064700}
   serializedVersion: 2
-  m_LocalRotation: {x: -0.02736788, y: 0.94045126, z: -0.07805626, w: -0.3297116}
-  m_LocalPosition: {x: 12.678597, y: 2.4995394, z: 12.991913}
+  m_LocalRotation: {x: 0.077916056, y: -0.8504905, z: 0.50325215, w: 0.13165227}
+  m_LocalPosition: {x: 5.9982543, y: 38.180603, z: 9.930315}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -873,6 +873,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: WaterPrefab (1)
       objectReference: {fileID: 0}
+    - target: {fileID: 4486847362037227261, guid: a20d32a3a91d27348a1f66d087af4468,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -940,6 +945,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: WaterPrefab (2)
+      objectReference: {fileID: 0}
+    - target: {fileID: 4486847362037227261, guid: a20d32a3a91d27348a1f66d087af4468,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -1009,6 +1019,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: WaterPrefab (5)
       objectReference: {fileID: 0}
+    - target: {fileID: 4486847362037227261, guid: a20d32a3a91d27348a1f66d087af4468,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -1076,6 +1091,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: WaterPrefab
+      objectReference: {fileID: 0}
+    - target: {fileID: 4486847362037227261, guid: a20d32a3a91d27348a1f66d087af4468,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -1324,6 +1344,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: WaterPrefab (4)
       objectReference: {fileID: 0}
+    - target: {fileID: 4486847362037227261, guid: a20d32a3a91d27348a1f66d087af4468,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -1392,6 +1417,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: WaterPrefab (3)
       objectReference: {fileID: 0}
+    - target: {fileID: 4486847362037227261, guid: a20d32a3a91d27348a1f66d087af4468,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -1458,13 +1488,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2083227094}
   serializedVersion: 2
-  m_LocalRotation: {x: -0, y: 0.13727133, z: -0, w: 0.9905335}
-  m_LocalPosition: {x: 3.716, y: 0.343, z: 0.184}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 3.762, y: 0.343, z: 0.047}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1997996432}
-  m_LocalEulerAnglesHint: {x: 0, y: 15.78, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!73398921 &2083227096
 VFXRenderer:
   serializedVersion: 1
