@@ -28,10 +28,10 @@ MonoBehaviour:
   rotationPeriodOffset: 0
   satelliteRotateAxis: {x: 0, y: 0, z: 0}
   satelliteDirection: 0
-  satelliteRotation: 342.9352
+  satelliteRotation: 86.18015
   satellitePitch: -0.19
   declination: -18.61
   declinationPeriod: 768
   declinationPeriodOffset: 0
   changedLastFrame: 0
-  open: 0
+  open: 1

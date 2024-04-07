@@ -8,7 +8,7 @@ Material:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: Stylized Clouds
-  m_Shader: {fileID: -6465566751694194690, guid: 207593851775985478014b34cee4b0e4,
+  m_Shader: {fileID: -6465566751694194690, guid: 86ec3be8e71cd46419f8a4da496a676c,
     type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
