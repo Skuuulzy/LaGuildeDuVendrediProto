@@ -23,15 +23,14 @@ namespace VComponent.Multiplayer
         [SerializeField] private EventChannel<Empty> _onAllPlayerConnected;
         [SerializeField] private EventChannel<float> _onGameClockTick;
         [SerializeField] private EventChannel<Empty> _onGameFinished;
-
+        
         public static Action<List<PlayerData>> OnPlayerDataUpdated;
         public List<PlayerData> PlayerDataNetworkList { get; private set; }
-        public CountdownTimer GameClock => _gameClock;
         
         private bool _gameInProgress;
         
         private List<PlayerIslandController> _playerIslands;
-        private CountdownTimer _gameClock;
+        private CountdownTimer _gameClock = new (0);
 
         protected override void Awake()
         {

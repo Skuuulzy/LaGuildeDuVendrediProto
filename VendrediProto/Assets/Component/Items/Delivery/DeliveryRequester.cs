@@ -2,7 +2,6 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using VComponent.Island;
-using VComponent.Multiplayer;
 using VComponent.Multiplayer.Deliveries;
 using VComponent.Tools.Singletons;
 using VComponent.Tools.Timer;
@@ -12,13 +11,10 @@ public class DeliveryRequester : NetworkSingleton<DeliveryRequester>
     [Header("Parameters")]
     [SerializeField] private AnimationCurve _maxDeliveriesCountOverTime;
     [SerializeField] private AnimationCurve _minDeliveriesCountOverTime;
-    
     [SerializeField] private int _deliveryGenerationInterval;
 
-    private CountdownTimer _deliveryRequestTimer;
-    
-    private float GameProgress => MultiplayerGameplayManager.Instance.GameClock.Progress;
-
+    private CountdownTimer _deliveryRequestTimer = new (0);
+    private float _gameProgress;
     private List<MultiplayerFactionIslandController> _factionIslands;
 
     public override void OnNetworkSpawn()
@@ -35,6 +31,11 @@ public class DeliveryRequester : NetworkSingleton<DeliveryRequester>
     private void Update()
     {
         _deliveryRequestTimer.Tick(Time.deltaTime);
+    }
+
+    public void UpdateGameClockValue(float gameClock)
+    {
+        _gameProgress = gameClock;
     }
 
     public void StartDeliveriesGeneration()
@@ -71,6 +72,7 @@ public class DeliveryRequester : NetworkSingleton<DeliveryRequester>
             return;
         }
 
+        // Sort island by how much delivery they already request
         potentialIsland = potentialIsland.OrderBy(island => island.DeliveriesRequestedCount).ToList();
 
         for (int i = 0; i < deliveryToGenerateCount; i++)
@@ -81,6 +83,7 @@ public class DeliveryRequester : NetworkSingleton<DeliveryRequester>
                 break;
             }
             
+            Debug.Log($"[DeliveryRequester] Delivery requested on island {potentialIsland[i].IslandData.IslandName}");
             potentialIsland[i].RequestDelivery();
         }
     }
@@ -90,21 +93,21 @@ public class DeliveryRequester : NetworkSingleton<DeliveryRequester>
     /// </summary>
     private int DeliveryToGenerateCount()
     {
-        int minDeliveryCount = Mathf.RoundToInt(_maxDeliveriesCountOverTime.Evaluate(GameProgress));
-        int maxDeliveryCount = Mathf.RoundToInt(_minDeliveriesCountOverTime.Evaluate(GameProgress));
+        int minDeliveryCount = Mathf.RoundToInt(_maxDeliveriesCountOverTime.Evaluate(_gameProgress));
+        int maxDeliveryCount = Mathf.RoundToInt(_minDeliveriesCountOverTime.Evaluate(_gameProgress));
 
         if (minDeliveryCount > maxDeliveryCount || maxDeliveryCount < minDeliveryCount)
         {
-            Debug.LogError($"Please check the generation curve for progress: {GameProgress:0.00} the data are not logic.");
+            Debug.LogError($"Please check the generation curve for progress: {_gameProgress:0.00} the data are not logic.");
             minDeliveryCount = maxDeliveryCount;
         }
         
         // We generate a random delivery count (+1 because Random.Range is exclusive on the upper value)
-        int randomDeliveryCount = UnityEngine.Random.Range(minDeliveryCount, maxDeliveryCount + 1);
+        int randomDeliveryCount = Random.Range(minDeliveryCount, maxDeliveryCount + 1);
         
-        int currentDeliveryCount = DeliveryManager.Instance.ActiveDeliveriesCount;
+        // We compute how many deliveries we can generate.
+        var maxCountToGenerate = maxDeliveryCount - DeliveryManager.Instance.ActiveDeliveriesCount;
 
-        // If there is enough deliveries return 0, otherwise the random count.
-        return currentDeliveryCount >= randomDeliveryCount ? 0 : randomDeliveryCount;
+        return randomDeliveryCount > maxCountToGenerate ? maxCountToGenerate : randomDeliveryCount;
     }
 }

@@ -44,7 +44,7 @@ namespace VComponent.Island
             // When the timer ends, we request another delivery and we restart the timer.
             _deliveryRequestTimer.OnTimerStop += () =>
             {
-                RequestDelivery();
+                //RequestDelivery();
                 _deliveryRequestTimer.Start();
             };
 
@@ -77,7 +77,7 @@ namespace VComponent.Island
             }
             
             // Request the first delivery
-            RequestDelivery();
+            //RequestDelivery();
             
             // Start timer for next delivery
             _deliveryRequestTimer.Start();

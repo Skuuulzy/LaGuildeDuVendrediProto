@@ -30,19 +30,6 @@ namespace VComponent.Multiplayer
 
                 _ownerComponents = null;
             }
-
-            if (IsOwner)
-            {
-                MultiplayerFactionIslandController.OnDeliveryRequested += (delivery) =>
-                {
-                    Debug.Log($"Delivery Requested type: {delivery.Resource}");
-                };
-                
-                MultiplayerFactionIslandController.OnDeliveryUpdated += (delivery) =>
-                {
-                    Debug.Log($"Delivery Updated type: {delivery.Resource}, current amount: {delivery.MerchandiseCurrentAmount}");
-                };
-            }
         }
 
         private void SetPlayerName()

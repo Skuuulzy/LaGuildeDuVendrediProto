@@ -54,7 +54,6 @@ namespace VComponent.Multiplayer.Deliveries
                 return;
             }
 
-            Debug.Log("New delivery requested !");
             Delivery delivery = new Delivery(deliveryNetworkPackage, FindIslandById(deliveryNetworkPackage.IslandIndex));
             _activeDeliveries.Add(delivery);
             
