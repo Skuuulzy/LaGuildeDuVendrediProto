@@ -1,4 +1,5 @@
 using System;
+using System.Threading.Tasks;
 using Unity.Netcode;
 using Unity.Netcode.Transports.UTP;
 using Unity.Networking.Transport.Relay;
@@ -18,9 +19,9 @@ namespace VComponent.Multiplayer
             HybridSceneLoader.Instance.ListenNetworkLoading(true);
         }
 
-        private void StopClient()
+        private async Task StopClient()
         {
-            HybridSceneLoader.Instance.UnListenNetworkLoading(true);
+            await HybridSceneLoader.Instance.QuitNetwork(true);
         }
         
         #region JOIN LOBBY
@@ -39,7 +40,6 @@ namespace VComponent.Multiplayer
                 // Joining the relay if available.
                 if (_currentLobby.Data.TryGetValue(KEY_JOIN_CODE, out var joinCode))
                 {
-                    Debug.Log("Logged with relay");
                     string relayJoinCode = joinCode.Value;
                     JoinAllocation joinAllocation = await JoinRelay(relayJoinCode);
                     
@@ -91,7 +91,7 @@ namespace VComponent.Multiplayer
         private void HandleClientKickedFromLobby()
         {
             Debug.Log("You have been kicked from the lobby !");
-            HybridSceneLoader.Instance.TransitionTo(HybridSceneLoader.SceneIdentifier.MAIN_MENU);
+            _ = HybridSceneLoader.Instance.TransitionTo(HybridSceneLoader.SceneIdentifier.MAIN_MENU);
         }
     }
 }

@@ -1,0 +1,19 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 41b1522af5df02a46b02f464249a7c3b, type: 3}
+  m_Name: RumIslandSO
+  m_EditorClassIdentifier: 
+  _islandName: RumIsland
+  _resourcesTimeLoadAndSell: 2
+  _resourceAmountLoadAndSell: 50
+  _merchandisesToSell: {fileID: 11400000, guid: 51a197e509efdd247b98fca1d95100a4,
+    type: 2}

@@ -29,7 +29,7 @@ namespace VComponent.Multiplayer
 
         public void ToMainMenu()
         {
-            HybridSceneLoader.Instance.TransitionTo(HybridSceneLoader.SceneIdentifier.MAIN_MENU);
+            _ = HybridSceneLoader.Instance.TransitionTo(HybridSceneLoader.SceneIdentifier.MAIN_MENU);
         }
     }
 }

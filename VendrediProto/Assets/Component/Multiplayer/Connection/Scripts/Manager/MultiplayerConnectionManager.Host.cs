@@ -13,15 +13,23 @@ namespace VComponent.Multiplayer
 {
     public partial class MultiplayerConnectionManager
     {
+        private string _lobbyName;
+        private int _playerCount = 1;
+        private int _gameTime = 300;
+
+        public int PlayerCount => _playerCount;
+        public int GameTime => _gameTime;
+
         private void StartHost()
         {
             NetworkManager.Singleton.StartHost();
             HybridSceneLoader.Instance.ListenNetworkLoading(false);
         }
 
-        private void StopHost()
+        private async Task StopHost()
         {
-            HybridSceneLoader.Instance.UnListenNetworkLoading(false);
+            await HybridSceneLoader.Instance.QuitNetwork(true);
+            NetworkManager.Singleton.Shutdown();
         }
         
         #region LOBBY CREATION
@@ -81,6 +89,16 @@ namespace VComponent.Multiplayer
         public void UpdateLobbyName(string lobbyName)
         {
             _lobbyName = lobbyName;
+        }
+        
+        public void UpdatePlayerCount(int playerCount)
+        {
+            _playerCount = playerCount;
+        }
+        
+        public void UpdateGameTime(int gameTime)
+        {
+            _gameTime = gameTime;
         }
 
         #endregion LOBBY CREATION

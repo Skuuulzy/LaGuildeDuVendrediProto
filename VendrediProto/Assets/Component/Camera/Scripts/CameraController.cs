@@ -36,7 +36,7 @@ namespace VComponent.CameraSystem
         private bool _dragMovementInitialized;
         private bool _dragRotationInitialized;
 
-        void Start()
+        void Awake()
         {
             _mainCam = Camera.main;
             
@@ -134,5 +134,13 @@ namespace VComponent.CameraSystem
 
             _cameraTransform.localPosition = Vector3.Lerp(_cameraTransform.localPosition, _newZoom, _movementResponsiveness * Time.deltaTime);
         }
+
+        /// <summary>
+        /// Set the camera position by an extern call
+        /// </summary>
+        public void SetCameraPosition(Vector3 position)
+		{
+            _newPosition = position;
+		}
     }
 }
