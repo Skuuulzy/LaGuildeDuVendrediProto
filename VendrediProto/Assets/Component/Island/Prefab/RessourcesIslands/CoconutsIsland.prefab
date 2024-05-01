@@ -72,7 +72,7 @@ PrefabInstance:
         type: 3}
       propertyPath: _islandData
       value: 
-      objectReference: {fileID: 11400000, guid: 78ed4d839572ab54e806891743c5d7e6,
+      objectReference: {fileID: 11400000, guid: ddb7e6e385df39a4ba80fb6644dd8dd1,
         type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

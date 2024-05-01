@@ -5,6 +5,6 @@ public class ToMenuButton : MonoBehaviour
 {
     public void LoadMainMenuScene()
     {
-        HybridSceneLoader.Instance.TransitionTo(HybridSceneLoader.SceneIdentifier.MAIN_MENU);
+        _ = HybridSceneLoader.Instance.TransitionTo(HybridSceneLoader.SceneIdentifier.MAIN_MENU);
     }
 }

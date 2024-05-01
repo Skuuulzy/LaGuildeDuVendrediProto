@@ -91,7 +91,7 @@ namespace VComponent.Multiplayer
         private void HandleClientKickedFromLobby()
         {
             Debug.Log("You have been kicked from the lobby !");
-            HybridSceneLoader.Instance.TransitionTo(HybridSceneLoader.SceneIdentifier.MAIN_MENU);
+            _ = HybridSceneLoader.Instance.TransitionTo(HybridSceneLoader.SceneIdentifier.MAIN_MENU);
         }
     }
 }

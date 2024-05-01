@@ -11,7 +11,6 @@ GameObject:
   - component: {fileID: 8409946845970904650}
   - component: {fileID: 4435820839567943121}
   - component: {fileID: 8132286610244724386}
-  - component: {fileID: 1412499285840153938}
   m_Layer: 0
   m_Name: Island_Player_01
   m_TagString: WorldCreator
@@ -93,15 +92,3 @@ Terrain:
   m_EnableHeightmapRayTracing: 1
   m_EnableTreesAndDetailsRayTracing: 0
   m_TreeMotionVectorModeOverride: 3
---- !u!114 &1412499285840153938
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4172405880929379987}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: -711467253, guid: 47b3864ffe738cf458c312b32fc7ec3d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 

@@ -11,9 +11,8 @@ GameObject:
   - component: {fileID: 822525356602506005}
   - component: {fileID: 6030924855827922457}
   - component: {fileID: 6381905965543345725}
-  - component: {fileID: 8136137325617526648}
   m_Layer: 0
-  m_Name: PreciousStonesIsland
+  m_Name: Island_Ressources_06
   m_TagString: WorldCreator
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -93,15 +92,3 @@ Terrain:
   m_EnableHeightmapRayTracing: 1
   m_EnableTreesAndDetailsRayTracing: 0
   m_TreeMotionVectorModeOverride: 3
---- !u!114 &8136137325617526648
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3083085591396471752}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: -711467253, guid: 47b3864ffe738cf458c312b32fc7ec3d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 

@@ -1,5 +1,4 @@
 using System;
-using Cysharp.Threading.Tasks;
 using QFSW.QC;
 using Unity.Netcode;
 using UnityEngine;
@@ -21,7 +20,6 @@ namespace VComponent.Island
         private CountdownTimer _deliveryRequestTimer;
         
         private DeliveryNetworkPackage _currentNetworkDelivery;
-        private bool _deliveryRequested;
 
         public static Action<DeliveryNetworkPackage> OnDeliveryRequested;
         public static Action<DeliveryNetworkPackage> OnDeliveryUpdated;
@@ -29,6 +27,9 @@ namespace VComponent.Island
 
         public byte Index => _index;
         public FactionIslandSO IslandData => _islandData;
+        
+        public bool DeliveryRequested { get; private set; }
+        public int DeliveriesRequestedCount { get; private set; }
 
         public override void OnNetworkSpawn()
         {
@@ -43,9 +44,11 @@ namespace VComponent.Island
             // When the timer ends, we request another delivery and we restart the timer.
             _deliveryRequestTimer.OnTimerStop += () =>
             {
-                RequestDelivery();
+                //RequestDelivery();
                 _deliveryRequestTimer.Start();
             };
+
+            DeliveriesRequestedCount = 0;
         }
 
         private void Update()
@@ -55,16 +58,15 @@ namespace VComponent.Island
                 return;
             }
             
-            return;
-            // Making clock tick
-            _deliveryRequestTimer.Tick(Time.deltaTime);
-
-            if (_deliveryRequested)
-            {
-                // Updating the time available on the request
-                _currentNetworkDelivery.TimeAvailable = (uint)_deliveryRequestTimer.Time;
-                //UpdateCurrentDeliveryClientRPC(_currentNetworkDeliveryPackage);
-            }
+            // // Making clock tick
+            // _deliveryRequestTimer.Tick(Time.deltaTime);
+            //
+            // if (_deliveryRequested)
+            // {
+            //     // Updating the time available on the request
+            //     _currentNetworkDelivery.TimeAvailable = (uint)_deliveryRequestTimer.Time;
+            //     //UpdateCurrentDeliveryClientRPC(_currentNetworkDeliveryPackage);
+            // }
         }
 
         public void StartRequestingDeliveries()
@@ -75,7 +77,7 @@ namespace VComponent.Island
             }
             
             // Request the first delivery
-            RequestDelivery();
+            //RequestDelivery();
             
             // Start timer for next delivery
             _deliveryRequestTimer.Start();
@@ -85,8 +87,7 @@ namespace VComponent.Island
         /// SERVER-SIDE
         /// Request a delivery and send a RPC to all the clients.
         /// </summary>
-        [Command]
-        private void RequestDelivery()
+        public void RequestDelivery()
         {
             if (!IsServer)
             {
@@ -105,7 +106,8 @@ namespace VComponent.Island
             
             RequestNewDeliveryClientRPC(networkDeliveryNetworkPackagePackage);
                         
-            _deliveryRequested = true;
+            DeliveryRequested = true;
+            DeliveriesRequestedCount++;
         }
         
         /// <summary>
