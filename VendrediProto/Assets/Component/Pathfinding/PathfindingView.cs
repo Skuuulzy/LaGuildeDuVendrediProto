@@ -23,7 +23,7 @@ public class PathfindingView : MonoBehaviour
         _pin.gameObject.SetActive(true);
     }
 
-   
+
     public void CleanPathfindingView()
     {
         _pin.gameObject.SetActive(false);

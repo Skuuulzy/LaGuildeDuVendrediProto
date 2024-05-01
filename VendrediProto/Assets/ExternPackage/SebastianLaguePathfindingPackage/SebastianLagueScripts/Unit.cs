@@ -23,6 +23,8 @@ namespace SebastianLague
         [SerializeField] private Transform _pathfindingPivot;
         private Plane _plane;
         private Vector3 _position;
+        private Vector3 _secondPosition;
+
         private float _time;
         private float _timeDelay;
         private bool _isInMovement = false;
@@ -30,14 +32,15 @@ namespace SebastianLague
 
         //Multi paths
         private bool _severalPointsOfInterest = false;
-        private Vector3 _secondPosition;
 
+        private int mouseClickCount = 0;
 
         private List<Vector3> _pathWaypoints;
         public float Speed => _speed;
         public float TurnSpeed => _turnSpeed;
         public float TurnDst => _turnDst;
         public float StoppingDst => _stoppingDst;
+
 
 
         void Start()
@@ -61,27 +64,40 @@ namespace SebastianLague
                     var position = ray.GetPoint(entry);
                     _position = position;
                     _pathfindingView.CreatePin(position);
+
                 }
             }
-            if (Input.GetKey(KeyCode.LeftShift) && Input.GetMouseButton(0))
+            if (Input.GetKey(KeyCode.LeftShift) && Input.GetMouseButtonDown(0))
             {
-
+                
+                mouseClickCount++;
                 Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
                 if (_plane.Raycast(ray, out var entry))
                 {
                     var position = ray.GetPoint(entry);
-                    if (!_severalPointsOfInterest)
+                    if (mouseClickCount == 1)
                     {
+
                         _position = position;
                         _severalPointsOfInterest = true;
+                        _pathfindingView.CreatePin(position);
                     }
-                    else
+                    else if (mouseClickCount == 2)
                     {
                         _secondPosition = position;
+                        _pathfindingView.CreatePin(_secondPosition);
                     }
-                    _pathfindingView.CreatePin(position);
+
+
                 }
+
+
             }
+            if (Input.GetKeyUp(KeyCode.LeftShift))
+            {
+                mouseClickCount = 0;
+            }
+
             _time += Time.deltaTime;
             if (_time >= _timeDelay && _isInMovement)
             {
@@ -92,22 +108,30 @@ namespace SebastianLague
 
         public void OnPathFound(Vector3[] waypoints, bool pathSuccessful)
         {
+
             if (pathSuccessful)
             {
-                    _path = new Path(waypoints.ToList(), transform.position, _turnDst, _stoppingDst);
-                    _pathWaypoints = waypoints.ToList();
-                    _pathfindingView._pathFindingDrawer.DrawLines(_pathfindingPivot.position, _pathWaypoints);
-                    StopCoroutine("FollowPath");
-                    StartCoroutine(FollowPath(() =>
+                _path = new Path(waypoints.ToList(), transform.position, _turnDst, _stoppingDst);
+                _pathWaypoints = waypoints.ToList();
+                _pathfindingView._pathFindingDrawer.DrawLines(_pathfindingPivot.position, _pathWaypoints);
+                StopCoroutine(FollowPath(() =>
+                {
+                    _severalPointsOfInterest = false;
+                    mouseClickCount = 0;
+                    _pathfindingView.CleanPathfindingView();
+                }));
+
+                StartCoroutine(FollowPath(() =>
+                {
+                    if (_severalPointsOfInterest)
                     {
-                        if (_severalPointsOfInterest)
-                        {
-                            PathRequestManager.RequestPath(new PathRequest(_path.LookPoints[_path.LookPoints.Count - 1], _secondPosition, OnPathFound));
-                        }
-                        _pathfindingView.CleanPathfindingView();
-                        _isInMovement = false;
-                        _severalPointsOfInterest = false;
-                    }));
+                        PathRequestManager.RequestPath(new PathRequest(_path.LookPoints[_path.LookPoints.Count - 1], _secondPosition, OnPathFound));
+                    }
+
+                    _pathfindingView.CleanPathfindingView();
+                    _isInMovement = false;
+                    _severalPointsOfInterest = false;
+                }));
             }
         }
 
