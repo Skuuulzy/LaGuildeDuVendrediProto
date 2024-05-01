@@ -47,7 +47,7 @@ public class DeliveryRequester : NetworkSingleton<DeliveryRequester>
         _deliveryRequestTimer = new CountdownTimer(_deliveryGenerationInterval);
         _deliveryRequestTimer.Start();
         
-        // When the timer stop we try to generate deliveries and we relaunch the timer.
+        // When the timer stop we try to generate deliveries, then we relaunch the timer.
         _deliveryRequestTimer.OnTimerStop += () =>
         {
             GenerateDeliveries();
@@ -63,7 +63,7 @@ public class DeliveryRequester : NetworkSingleton<DeliveryRequester>
             return;
         }
 
-        // We get the potential island by selecting those wo don't already have a delivery requested.
+        // We get the potential island by selecting those who don't already have a delivery requested.
         var potentialIsland = _factionIslands.Where(island => !island.DeliveryRequested).ToList();
 
         // There is no potential islands.
