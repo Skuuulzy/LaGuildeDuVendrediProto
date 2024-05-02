@@ -13,4 +13,6 @@ MonoBehaviour:
   m_Name: CannonBall
   m_EditorClassIdentifier: 
   _weaponName: CannonBall
+  _weaponType: 0
   _weaponDamage: 10
+  _weaponSpeed: 100

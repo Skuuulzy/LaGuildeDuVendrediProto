@@ -10,6 +10,7 @@ namespace VComponent.InputSystem
     public class InputsManager : PersistentSingleton<InputsManager>
     {
         [ShowInInspector] public bool RequestShipMove { get; private set; }
+        [ShowInInspector] public bool OnInteract { get; private set; }
         [ShowInInspector] public Vector2 MoveCamera { get; private set; }
         [ShowInInspector] public bool QuickMoveCamera { get; private set; }
         [ShowInInspector] public bool ClockwiseRotationCamera { get; private set; }
@@ -114,5 +115,10 @@ namespace VComponent.InputSystem
         {
             ShowLobbyInformation = context.performed;
         }
+
+        public void Interact(InputAction.CallbackContext context)
+        {
+			OnInteract = context.performed;
+		}
     }
 }
