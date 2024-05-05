@@ -123,6 +123,75 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
+--- !u!1 &9454474
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 9454476}
+  - component: {fileID: 9454475}
+  m_Layer: 0
+  m_Name: FogOfWar
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &9454475
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9454474}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b5de54c084f472845b61ee9a97cb8a48, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  fogRevealers: []
+  levelMidPoint: {fileID: 4287821482626782517}
+  FogRefreshRate: 10
+  fogPlaneHeight: 1
+  fogPlaneMaterial: {fileID: 2100000, guid: 36b93ac6fcf129c449491654e397fe4a, type: 2}
+  fogColor: {r: 0.8113208, g: 0.8113208, b: 0.8113208, a: 1}
+  fogPlaneAlpha: 1
+  fogLerpSpeed: 2.5
+  fogPlaneTextureLerpTarget: {fileID: 0}
+  fogPlaneTextureLerpBuffer: {fileID: 0}
+  LevelDataToLoad: {fileID: 0}
+  saveDataOnScan: 1
+  levelNameToSave: Default
+  levelDimensionX: 100
+  levelDimensionY: 100
+  unitScale: 20
+  scanSpacingPerUnit: 0.25
+  rayStartHeight: 5
+  rayMaxDistance: 10
+  obstacleLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  ignoreTriggers: 1
+  drawGizmos: 0
+  LogOutOfRange: 0
+--- !u!4 &9454476
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9454474}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &32525341
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1421,33 +1490,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _deliveryViewPrefab: {fileID: 0}
   _parentTransform: {fileID: 643923811}
---- !u!1 &691184633 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 5532621820060563884, guid: 970cd4c4e47f35744abdb9aa40228d2e,
-    type: 3}
-  m_PrefabInstance: {fileID: 1384773145}
-  m_PrefabAsset: {fileID: 0}
---- !u!135 &691184637
-SphereCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 691184633}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 1
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Radius: 200
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1001 &734133757
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1904,7 +1946,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 72
+  m_fontSize: 68.9
   m_fontSizeBase: 36
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -2245,10 +2287,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 3082965443989740352, guid: 970cd4c4e47f35744abdb9aa40228d2e,
+    - target: {fileID: 320441512106573874, guid: 970cd4c4e47f35744abdb9aa40228d2e,
         type: 3}
-      propertyPath: m_Layer
-      value: 3
+      propertyPath: GlobalObjectIdHash
+      value: 2474423045
       objectReference: {fileID: 0}
     - target: {fileID: 3139203080329497566, guid: 970cd4c4e47f35744abdb9aa40228d2e,
         type: 3}
@@ -2300,90 +2342,15 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 3347152258464158677, guid: 970cd4c4e47f35744abdb9aa40228d2e,
-        type: 3}
-      propertyPath: _allMerchandiseList
-      value: 
-      objectReference: {fileID: 11400000, guid: 430db761b1e8f8c4097283ea40b08bb1,
-        type: 2}
-    - target: {fileID: 3347152258464158677, guid: 970cd4c4e47f35744abdb9aa40228d2e,
-        type: 3}
-      propertyPath: _spriteByMerchandiseType.m_Dictionnary.Array.data[0].m_key
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 3347152258464158677, guid: 970cd4c4e47f35744abdb9aa40228d2e,
-        type: 3}
-      propertyPath: _spriteByMerchandiseType.m_Dictionnary.Array.data[1].m_key
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 3347152258464158677, guid: 970cd4c4e47f35744abdb9aa40228d2e,
-        type: 3}
-      propertyPath: _spriteByMerchandiseType.m_Dictionnary.Array.data[2].m_key
-      value: 3
-      objectReference: {fileID: 0}
-    - target: {fileID: 3347152258464158677, guid: 970cd4c4e47f35744abdb9aa40228d2e,
-        type: 3}
-      propertyPath: _spriteByMerchandiseType.m_Dictionnary.Array.data[3].m_key
-      value: 4
-      objectReference: {fileID: 0}
-    - target: {fileID: 3347152258464158677, guid: 970cd4c4e47f35744abdb9aa40228d2e,
-        type: 3}
-      propertyPath: _spriteByMerchandiseType.m_Dictionnary.Array.data[4].m_key
-      value: 5
-      objectReference: {fileID: 0}
-    - target: {fileID: 3347152258464158677, guid: 970cd4c4e47f35744abdb9aa40228d2e,
-        type: 3}
-      propertyPath: _spriteByMerchandiseType.m_Dictionnary.Array.data[5].m_key
-      value: 6
-      objectReference: {fileID: 0}
-    - target: {fileID: 3841402876877889734, guid: 970cd4c4e47f35744abdb9aa40228d2e,
-        type: 3}
-      propertyPath: m_Layer
-      value: 3
-      objectReference: {fileID: 0}
     - target: {fileID: 5532621820060563884, guid: 970cd4c4e47f35744abdb9aa40228d2e,
         type: 3}
       propertyPath: m_Name
       value: MonkeyIsland
       objectReference: {fileID: 0}
-    - target: {fileID: 5532621820060563884, guid: 970cd4c4e47f35744abdb9aa40228d2e,
-        type: 3}
-      propertyPath: m_Layer
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6053916297744199122, guid: 970cd4c4e47f35744abdb9aa40228d2e,
-        type: 3}
-      propertyPath: m_Layer
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6218223700289771570, guid: 970cd4c4e47f35744abdb9aa40228d2e,
-        type: 3}
-      propertyPath: m_Layer
-      value: 3
-      objectReference: {fileID: 0}
-    - target: {fileID: 9060579359680630692, guid: 970cd4c4e47f35744abdb9aa40228d2e,
-        type: 3}
-      propertyPath: m_Radius
-      value: 7000
-      objectReference: {fileID: 0}
-    - target: {fileID: 9060579359680630692, guid: 970cd4c4e47f35744abdb9aa40228d2e,
-        type: 3}
-      propertyPath: m_Enabled
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 9060579359680630692, guid: 970cd4c4e47f35744abdb9aa40228d2e,
-        type: 3}
-      propertyPath: m_IsTrigger
-      value: 1
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 5532621820060563884, guid: 970cd4c4e47f35744abdb9aa40228d2e,
-        type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 691184637}
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 970cd4c4e47f35744abdb9aa40228d2e, type: 3}
 --- !u!1001 &1390398867
 PrefabInstance:
@@ -3405,6 +3372,12 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 8336ef2844f99ca47a788d64f7efa5fa, type: 3}
+--- !u!4 &4287821482626782517 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 6680253864973552264, guid: 8336ef2844f99ca47a788d64f7efa5fa,
+    type: 3}
+  m_PrefabInstance: {fileID: 4287821482626782516}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
@@ -3419,3 +3392,4 @@ SceneRoots:
   - {fileID: 161468299}
   - {fileID: 1900405784}
   - {fileID: 1522592770}
+  - {fileID: 9454476}
