@@ -6,21 +6,25 @@ namespace VComponent.CameraSystem
 {
     public class CameraController : MonoBehaviour
     {
-        [Header("Parameters")]
+        [Header("Main Parameters")]
         [Tooltip("The standard speed of the camera")] [Range(0.1f,10)]
         [SerializeField] private float _normalMovementSpeed = 1;
         [Tooltip("The fats speed of the camera, when the fast speed key is pressed")] [Range(0.1f,10)]
         [SerializeField] private float _fastMovementSpeed = 2;
-        [Tooltip("The rotation amount when the rotation key are pressed")] [Range(0.1f,10)]
-        [SerializeField] private float _rotationAmount = 1;
-        [Tooltip("How fast the camera will zoom")] [Range(1,20)]
+        [Tooltip("The rotation amount when the rotation key are pressed")] 
+        [Range(0.1f,10)] [SerializeField] private float _rotationAmount = 1;
+        [Tooltip("How fast the camera will zoom")] [Range(1,40)]
         [SerializeField] private int _zoomAmount = 5;
         [Tooltip("The higher this value the higher the camera movement will be responsive")] [Range(0.1f,10)]
         [SerializeField] private float _movementResponsiveness = 5;
+        [Header("Pitch")]
         [Tooltip("Max angle for the pitching of the camera")] 
         [SerializeField] private float _maxPitchAngle = 10;
         [Tooltip("Min angle for the pitching of the camera")] 
         [SerializeField] private float _minPitchAngle = 75;
+        [Tooltip("The screen ratio that the mouse need to travel before detecting a pitch")]
+        [SerializeField] private float _pitchDeadZone = 0.05f;
+        [SerializeField] private bool _inversePitch;
         
         
         [Header("Components")] 
@@ -45,6 +49,8 @@ namespace VComponent.CameraSystem
         void Awake()
         {
             _mainCam = Camera.main;
+            
+            _cameraTransform.localRotation = Quaternion.Euler(_minPitchAngle, 0, 0);
             
             _newPosition = transform.position;
             _newYRotation = transform.rotation;
@@ -96,18 +102,34 @@ namespace VComponent.CameraSystem
                 // First frame input
                 if (!_dragRotationInitialized)
                 {
-                    _dragRotateStartPosition = Mouse.current.position.ReadValue();
+                    // Reset previous rotation since it may not be reached because of the lerp.
+                    _newXRotation = _cameraTransform.localRotation;
+                    _newYRotation = transform.rotation;
                     
+                    _dragRotateStartPosition = Mouse.current.position.ReadValue();
                     _dragRotationInitialized = true;
                 }
 
                 _dragRotateCurrentPosition = Mouse.current.position.ReadValue();
-                var differenceX = _dragRotateStartPosition.x- _dragRotateCurrentPosition.x;
-                var differenceY = _dragRotateStartPosition.y- _dragRotateCurrentPosition.y;
                 
-                _newYRotation *= Quaternion.Euler(Vector3.up * (-differenceX/ 300));
-                _newXRotation *= Quaternion.Euler(Vector3.right * (-differenceY/ 300));
-                _newXRotation = _newXRotation.ClampAxis(ExtensionMethods.Axis.X, _maxPitchAngle, _minPitchAngle);
+                // Computing the drag horizontal input
+                var differenceX = (_dragRotateStartPosition.x - _dragRotateCurrentPosition.x) / Screen.width;
+                differenceX = Mathf.Clamp(differenceX, -1, 1);
+                
+                // Computing the drag vertical input
+                var differenceY = (_dragRotateStartPosition.y - _dragRotateCurrentPosition.y) / Screen.height;
+                differenceY = Mathf.Clamp(differenceY, -1, 1);
+                
+                if (differenceY != 0 && Mathf.Abs(differenceY) > _pitchDeadZone)
+                {
+                    differenceY = _inversePitch ? -differenceY : differenceY;
+                    _newXRotation *= Quaternion.Euler(Vector3.right * (differenceY));
+                    _newXRotation = _newXRotation.ClampAxis(ExtensionMethods.Axis.X, _maxPitchAngle, _minPitchAngle);
+                }
+                if (differenceX != 0)
+                {
+                    _newYRotation *= Quaternion.Euler(Vector3.up * (-differenceX));
+                }
             }
             else
             {
