@@ -15,22 +15,37 @@ MonoBehaviour:
   version: 2
 --- !u!21 &2100000
 Material:
-  serializedVersion: 6
+  serializedVersion: 8
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: M_URPWater_Demo_Tess_Waves
   m_Shader: {fileID: 4800000, guid: b2457a866357f9a4fbb0720aef891a21, type: 3}
-  m_ShaderKeywords: _CAPS_SCATTERING_ON _CAUSTICSMODE_3D _CAUSTICS_DIRECTION_ON _COLORMODE_COLORS
-    _DISPLACEMENTMODE_GERSTNER _FOAM_ON _FOAM_WHITECAPS_ON _NORMALSMODE_DUAL _NORMAL_FADE_ON
-    _REFLECTIONMODE_REALTIME _REFLECTIONSMODE_PROBES _SCATTERING_ON _WORLD_UV
+  m_Parent: {fileID: 0}
+  m_ModifiedSerializedProperties: 0
+  m_ValidKeywords:
+  - _CAPS_SCATTERING_ON
+  - _CAUSTICSMODE_3D
+  - _CAUSTICS_DIRECTION_ON
+  - _COLORMODE_COLORS
+  - _DISPLACEMENTMODE_GERSTNER
+  - _FOAM_ON
+  - _FOAM_WHITECAPS_ON
+  - _NORMALSMODE_DUAL
+  - _REFLECTIONMODE_REALTIME
+  - _SCATTERING_ON
+  - _WORLD_UV
+  m_InvalidKeywords:
+  - _NORMAL_FADE_ON
+  - _REFLECTIONSMODE_PROBES
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
   m_CustomRenderQueue: 3000
   stringTagMap: {}
   disabledShaderPasses: []
+  m_LockedProperties: 
   m_SavedProperties:
     serializedVersion: 3
     m_TexEnvs:
@@ -98,6 +113,7 @@ Material:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
+    m_Ints: []
     m_Floats:
     - Vector1_66248650ef8644f4ba50b73c3fc79ef4: 1.8
     - _AddFoam: 0
@@ -124,11 +140,11 @@ Material:
     - _Cull: 2
     - _CullMode: 2
     - _Cutoff: 0.5
-    - _DepthEnd: 11.01
-    - _DepthStart: 0
+    - _DepthEnd: 8.42
+    - _DepthStart: 1.41
     - _DispMask: 0
     - _DisplacementMode: 1
-    - _Distortion: 40
+    - _Distortion: 45
     - _DistortionFar: 32
     - _DistortionNear: 64
     - _DoubleSided: 0
@@ -188,7 +204,7 @@ Material:
     - _ScatteringIntensity: 0.75
     - _ScatteringRangeMax: 2
     - _ScatteringRangeMin: 0.25580916
-    - _Smoothness: 0.839
+    - _Smoothness: 0.67
     - _SmoothnessTextureChannel: 0
     - _SpecularHighlights: 1
     - _SpeedMul: 0
@@ -214,8 +230,8 @@ Material:
     - _CausticsSpeed: {r: 0.2, g: 0.2, b: -0.5, a: -1}
     - _CausticsSpeed3D: {r: 0.5, g: 2, b: 0.5, a: 1}
     - _CausticsTiling: {r: 0.3, g: 0.3, b: 0.2, a: 0.2}
-    - _Color: {r: 0.6462264, g: 1, b: 0.90602887, a: 1}
-    - _DepthColor: {r: 0.11058207, g: 0.30969208, b: 0.3301887, a: 1}
+    - _Color: {r: 0.64705884, g: 0.8967262, b: 1, a: 1}
+    - _DepthColor: {r: 0.109803915, g: 0.2725336, b: 0.32941177, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
     - _FlowTiling: {r: 1, g: 1, b: 0, a: 0}
     - _FoamColor: {r: 1, g: 1, b: 1, a: 1}

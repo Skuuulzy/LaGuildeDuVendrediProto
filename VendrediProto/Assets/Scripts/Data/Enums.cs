@@ -6,24 +6,35 @@ public enum ItemsType
 	WATER
 }
 
-public enum TribesType
+public enum FactionTypes
 {
-	MONKEYTRIBE,
-	CROCODILETRIBE,
-	SKELETONTRIBE,
-	WITCHTRIBE,
-	DOGTRIBE
+	SHARKTRIBE,
+	ANGUILLATRIBE,
+	COCONUTTRIBE,
+	PERROTTRIBE,
+	TURTLETRIBE,
+	DODOTRIBE
 }
 
-public enum MerchandiseType
+public enum ResourceType : byte
 {
+	NONE,
 	BANANA,
-	WOOD,
-	CORN,
-	DIAMOND,
-	SPICES,
-	MEAT,
-	URANIUM
+	COCONUT,
+	FABRICS,
+	PRECIOUS_STONES,
+	RUM,
+	SHELL
+}
+
+public enum ShipState
+{
+	DEFAULT,
+	IN_SEA,
+	DOCKED,
+	LOAD_RESOURCES,
+	SELL_RESOURCES,
+	ATTACKED
 }
 
 public enum CompanyBaseTeam

@@ -1,21 +1,17 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
+using VComponent.Items.Merchandise;
 
-[CreateAssetMenu(menuName = "ProjectV/Island")]
 public class IslandSO : ScriptableObject
 {
-    [SerializeField] private string _islandName;
-    [SerializeField] private TribesType _tribesType;
-    [SerializeField] private SerializableDictionary<MerchandiseType, int> _merchandisesToSell;
-    [SerializeField] private SerializableDictionary<MerchandiseType, int> _merchandisesRequested;
-    [SerializeField] private float _merchandiseRequestedTimeInterval = 220f;
-    [SerializeField] private float _merchandiseToTakeTimeInterval = 180f;
+	[SerializeField] protected string _islandName;
+	public string IslandName => _islandName;
+	[SerializeField] protected uint _resourcesTimeLoadAndSell = 2;
+	[SerializeField] protected ushort _resourceAmountLoadAndSell = 50;
 
-    public string IslandName => _islandName;
-    public TribesType TribesType => _tribesType;
-    public SerializableDictionary<MerchandiseType, int> MerchandisesToSell => _merchandisesToSell;
-    public SerializableDictionary<MerchandiseType, int> MerchandisesRequested => _merchandisesRequested;
-    public float MerchandiseRequestedTimeInterval => _merchandiseRequestedTimeInterval;
-    public float MerchandiseToSellTimeInterval => _merchandiseToTakeTimeInterval;
+	public uint ResourceTimeLoadAndSell => _resourcesTimeLoadAndSell;
+	public ushort ResourceAmountLoadAndSell => _resourceAmountLoadAndSell;
+
 }

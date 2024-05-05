@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
+using VComponent.InputSystem;
 
 namespace VComponent.CameraSystem
 {
@@ -18,7 +19,6 @@ namespace VComponent.CameraSystem
         [SerializeField] private float _movementResponsiveness = 5;
         
         [Header("Components")] 
-        [SerializeField] private CameraInputs _inputs;
         [SerializeField] private Transform _cameraTransform;
         
         private Camera _mainCam;
@@ -36,7 +36,7 @@ namespace VComponent.CameraSystem
         private bool _dragMovementInitialized;
         private bool _dragRotationInitialized;
 
-        void Start()
+        void Awake()
         {
             _mainCam = Camera.main;
             
@@ -55,7 +55,7 @@ namespace VComponent.CameraSystem
         // Checkout this video: https://www.youtube.com/watch?v=3Y7TFN_DsoI
         private void HandleDragInput()
         {
-            if (_inputs.DragMovement)
+            if (InputsManager.Instance.DragMovementCamera)
             {
                 // First frame input
                 if (!_dragMovementInitialized)
@@ -84,7 +84,7 @@ namespace VComponent.CameraSystem
                 _dragMovementInitialized = false;
             }
             
-            if (_inputs.DragRotation)
+            if (InputsManager.Instance.DragRotationCamera)
             {
                 // First frame input
                 if (!_dragRotationInitialized)
@@ -108,21 +108,21 @@ namespace VComponent.CameraSystem
         private void HandleMovementInput()
         {
             // Movement
-            var movementSpeed = _inputs.QuickMove ? _fastMovementSpeed : _normalMovementSpeed;
+            var movementSpeed = InputsManager.Instance.QuickMoveCamera ? _fastMovementSpeed : _normalMovementSpeed;
 
             // Calculate movement direction relative to camera rotation
-            var movementDirection = Quaternion.Euler(0, transform.rotation.eulerAngles.y, 0) * new Vector3(_inputs.Move.x, 0, _inputs.Move.y);
+            var movementDirection = Quaternion.Euler(0, transform.rotation.eulerAngles.y, 0) * new Vector3(InputsManager.Instance.MoveCamera.x, 0, InputsManager.Instance.MoveCamera.y);
             _newPosition += movementDirection.normalized * movementSpeed;
 
             transform.position = Vector3.Lerp(transform.position, _newPosition, _movementResponsiveness * Time.deltaTime);
 
             // Rotation
-            if (_inputs.ClockwiseRotation)
+            if (InputsManager.Instance.ClockwiseRotationCamera)
             {
                 _newRotation *= Quaternion.Euler(Vector3.up * -_rotationAmount);
             }
 
-            if (_inputs.AntiClockwiseRotation)
+            if (InputsManager.Instance.AntiClockwiseRotationCamera)
             {
                 _newRotation *= Quaternion.Euler(Vector3.up * _rotationAmount);
             }
@@ -130,9 +130,17 @@ namespace VComponent.CameraSystem
             transform.rotation = Quaternion.Lerp(transform.rotation, _newRotation, _movementResponsiveness * Time.deltaTime);
 
             // Zoom
-            _newZoom += _inputs.Zoom * new Vector3(0, -_zoomAmount, _zoomAmount);
+            _newZoom += InputsManager.Instance.ZoomCamera * new Vector3(0, -_zoomAmount, _zoomAmount);
 
             _cameraTransform.localPosition = Vector3.Lerp(_cameraTransform.localPosition, _newZoom, _movementResponsiveness * Time.deltaTime);
         }
+
+        /// <summary>
+        /// Set the camera position by an extern call
+        /// </summary>
+        public void SetCameraPosition(Vector3 position)
+		{
+            _newPosition = position;
+		}
     }
 }
