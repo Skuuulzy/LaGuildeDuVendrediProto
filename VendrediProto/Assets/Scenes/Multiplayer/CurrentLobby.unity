@@ -12304,6 +12304,21 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.x
       value: 85
       objectReference: {fileID: 0}
+    - target: {fileID: 7504523197407619217, guid: c94106618fc46b24ba0d0304e37cb59b,
+        type: 3}
+      propertyPath: _zoomAmount
+      value: 25
+      objectReference: {fileID: 0}
+    - target: {fileID: 7504523197407619217, guid: c94106618fc46b24ba0d0304e37cb59b,
+        type: 3}
+      propertyPath: _fastMovementSpeed
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 7504523197407619217, guid: c94106618fc46b24ba0d0304e37cb59b,
+        type: 3}
+      propertyPath: _normalMovementSpeed
+      value: 4
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
