@@ -17,6 +17,11 @@ namespace VComponent.CameraSystem
         [SerializeField] private int _zoomAmount = 5;
         [Tooltip("The higher this value the higher the camera movement will be responsive")] [Range(0.1f,10)]
         [SerializeField] private float _movementResponsiveness = 5;
+        [Tooltip("Max angle for the pitching of the camera")] 
+        [SerializeField] private float _maxPitchAngle = 10;
+        [Tooltip("Min angle for the pitching of the camera")] 
+        [SerializeField] private float _minPitchAngle = 75;
+        
         
         [Header("Components")] 
         [SerializeField] private Transform _cameraTransform;
@@ -24,7 +29,8 @@ namespace VComponent.CameraSystem
         private Camera _mainCam;
         
         private Vector3 _newPosition;
-        private Quaternion _newRotation;
+        private Quaternion _newYRotation;
+        private Quaternion _newXRotation;
         private Vector3 _newZoom;
 
         private Vector3 _dragMovementStartPosition;
@@ -41,7 +47,8 @@ namespace VComponent.CameraSystem
             _mainCam = Camera.main;
             
             _newPosition = transform.position;
-            _newRotation = transform.rotation;
+            _newYRotation = transform.rotation;
+            _newXRotation = _cameraTransform.localRotation;
             _newZoom = _cameraTransform.localPosition;
         }
 
@@ -95,9 +102,12 @@ namespace VComponent.CameraSystem
                 }
 
                 _dragRotateCurrentPosition = Mouse.current.position.ReadValue();
-                var difference = _dragRotateStartPosition- _dragRotateCurrentPosition;
-
-                _newRotation *= Quaternion.Euler(Vector3.up * (-difference.x / 300));
+                var differenceX = _dragRotateStartPosition.x- _dragRotateCurrentPosition.x;
+                var differenceY = _dragRotateStartPosition.y- _dragRotateCurrentPosition.y;
+                
+                _newYRotation *= Quaternion.Euler(Vector3.up * (-differenceX/ 300));
+                _newXRotation *= Quaternion.Euler(Vector3.right * (-differenceY/ 300));
+                _newXRotation = _newXRotation.ClampAxis(ExtensionMethods.Axis.X, _maxPitchAngle, _minPitchAngle);
             }
             else
             {
@@ -119,20 +129,26 @@ namespace VComponent.CameraSystem
             // Rotation
             if (InputsManager.Instance.ClockwiseRotationCamera)
             {
-                _newRotation *= Quaternion.Euler(Vector3.up * -_rotationAmount);
+                _newYRotation *= Quaternion.Euler(Vector3.up * -_rotationAmount);
             }
 
             if (InputsManager.Instance.AntiClockwiseRotationCamera)
             {
-                _newRotation *= Quaternion.Euler(Vector3.up * _rotationAmount);
+                _newYRotation *= Quaternion.Euler(Vector3.up * _rotationAmount);
             }
 
-            transform.rotation = Quaternion.Lerp(transform.rotation, _newRotation, _movementResponsiveness * Time.deltaTime);
+            transform.rotation = Quaternion.Lerp(transform.rotation, _newYRotation, _movementResponsiveness * Time.deltaTime);
 
             // Zoom
             _newZoom += InputsManager.Instance.ZoomCamera * new Vector3(0, -_zoomAmount, _zoomAmount);
 
             _cameraTransform.localPosition = Vector3.Lerp(_cameraTransform.localPosition, _newZoom, _movementResponsiveness * Time.deltaTime);
+            
+            // X Rotation (local)
+            if (InputsManager.Instance.DragRotationCamera)
+            {
+                _cameraTransform.localRotation = Quaternion.Lerp(_cameraTransform.localRotation, _newXRotation, _movementResponsiveness * Time.deltaTime);
+            }
         }
 
         /// <summary>
