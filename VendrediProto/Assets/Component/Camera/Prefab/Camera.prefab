@@ -50,10 +50,11 @@ MonoBehaviour:
   _rotationAmount: 1
   _zoomAmount: 5
   _movementResponsiveness: 5
+  _rotationSensitivity: 1
   _maxPitchAngle: 10
   _minPitchAngle: 75
   _pitchDeadZone: 0.05
-  _inversePitch: 1
+  _inversePitch: 0
   _cameraTransform: {fileID: 6164596495014698393}
 --- !u!1 &3764982864073687234
 GameObject:

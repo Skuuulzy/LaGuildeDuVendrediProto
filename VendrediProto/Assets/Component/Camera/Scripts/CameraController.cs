@@ -7,23 +7,34 @@ namespace VComponent.CameraSystem
     public class CameraController : MonoBehaviour
     {
         [Header("Main Parameters")]
-        [Tooltip("The standard speed of the camera")] [Range(0.1f,10)]
-        [SerializeField] private float _normalMovementSpeed = 1;
-        [Tooltip("The fats speed of the camera, when the fast speed key is pressed")] [Range(0.1f,10)]
-        [SerializeField] private float _fastMovementSpeed = 2;
+        [Tooltip("The standard speed of the camera")] 
+        [Range(0.1f,40)] [SerializeField] private float _normalMovementSpeed = 1;
+        
+        [Tooltip("The fats speed of the camera, when the fast speed key is pressed")] 
+        [Range(0.1f,80)] [SerializeField] private float _fastMovementSpeed = 2;
+        
         [Tooltip("The rotation amount when the rotation key are pressed")] 
         [Range(0.1f,10)] [SerializeField] private float _rotationAmount = 1;
-        [Tooltip("How fast the camera will zoom")] [Range(1,40)]
-        [SerializeField] private int _zoomAmount = 5;
-        [Tooltip("The higher this value the higher the camera movement will be responsive")] [Range(0.1f,10)]
-        [SerializeField] private float _movementResponsiveness = 5;
+        
+        [Tooltip("How fast the camera will zoom")] 
+        [Range(1,90)] [SerializeField] private int _zoomAmount = 5;
+        
+        [Tooltip("The higher this value the higher the camera movement will be responsive")]
+        [Range(0.1f,10)] [SerializeField] private float _movementResponsiveness = 5;
+        
+        [Tooltip("The sensitivity for camera rotation when right click is pressed")]
+        [Range(0.1f,10)] [SerializeField] private float _rotationSensitivity = 1;
+        
         [Header("Pitch")]
         [Tooltip("Max angle for the pitching of the camera")] 
         [SerializeField] private float _maxPitchAngle = 10;
+        
         [Tooltip("Min angle for the pitching of the camera")] 
         [SerializeField] private float _minPitchAngle = 75;
+        
         [Tooltip("The screen ratio that the mouse need to travel before detecting a pitch")]
         [SerializeField] private float _pitchDeadZone = 0.05f;
+        
         [SerializeField] private bool _inversePitch;
         
         
@@ -123,12 +134,12 @@ namespace VComponent.CameraSystem
                 if (differenceY != 0 && Mathf.Abs(differenceY) > _pitchDeadZone)
                 {
                     differenceY = _inversePitch ? -differenceY : differenceY;
-                    _newXRotation *= Quaternion.Euler(Vector3.right * (differenceY));
+                    _newXRotation *= Quaternion.Euler(Vector3.right * (differenceY * _rotationSensitivity));
                     _newXRotation = _newXRotation.ClampAxis(ExtensionMethods.Axis.X, _maxPitchAngle, _minPitchAngle);
                 }
                 if (differenceX != 0)
                 {
-                    _newYRotation *= Quaternion.Euler(Vector3.up * (-differenceX));
+                    _newYRotation *= Quaternion.Euler(Vector3.up * (-differenceX * _rotationSensitivity));
                 }
             }
             else
@@ -166,7 +177,7 @@ namespace VComponent.CameraSystem
 
             _cameraTransform.localPosition = Vector3.Lerp(_cameraTransform.localPosition, _newZoom, _movementResponsiveness * Time.deltaTime);
             
-            // X Rotation (local)
+            // X Rotation (pitch)
             if (InputsManager.Instance.DragRotationCamera)
             {
                 _cameraTransform.localRotation = Quaternion.Lerp(_cameraTransform.localRotation, _newXRotation, _movementResponsiveness * Time.deltaTime);
