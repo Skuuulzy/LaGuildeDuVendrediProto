@@ -34,7 +34,7 @@ namespace VComponent.Ship
         public event Action<MultiplayerShipMilitaryController> OnShipEncountered;
 
         private CancellationTokenSource _cancellationTokenSource;
-
+        
         private void OnTriggerEnter(Collider other)
         {
             // FACTION ISLAND
