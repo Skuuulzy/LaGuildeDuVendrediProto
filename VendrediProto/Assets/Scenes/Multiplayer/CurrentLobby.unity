@@ -5704,6 +5704,37 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 113168110}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &164780562
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 164780563}
+  m_Layer: 0
+  m_Name: MidPoint
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &164780563
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 164780562}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 197903579}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &197903577
 GameObject:
   m_ObjectHideFlags: 0
@@ -5714,6 +5745,7 @@ GameObject:
   m_Component:
   - component: {fileID: 197903579}
   - component: {fileID: 197903578}
+  - component: {fileID: 197903580}
   m_Layer: 0
   m_Name: FogOfWar
   m_TagString: Untagged
@@ -5734,7 +5766,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   fogRevealers: []
-  levelMidPoint: {fileID: 433114870}
+  levelMidPoint: {fileID: 164780563}
   FogRefreshRate: 10
   fogPlaneHeight: 1
   fogPlaneMaterial: {fileID: 2100000, guid: 36b93ac6fcf129c449491654e397fe4a, type: 2}
@@ -5743,12 +5775,12 @@ MonoBehaviour:
   fogLerpSpeed: 2.5
   fogPlaneTextureLerpTarget: {fileID: 0}
   fogPlaneTextureLerpBuffer: {fileID: 0}
-  LevelDataToLoad: {fileID: 4900000, guid: d286f8e1fb6588840bf5667ef5a484cc, type: 3}
+  LevelDataToLoad: {fileID: 0}
   saveDataOnScan: 1
-  levelNameToSave: Default
+  levelNameToSave: Layout1
   levelDimensionX: 300
-  levelDimensionY: 300
-  unitScale: 1
+  levelDimensionY: 250
+  unitScale: 25
   scanSpacingPerUnit: 0.25
   rayStartHeight: 5
   rayMaxDistance: 10
@@ -5756,6 +5788,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 0
   ignoreTriggers: 1
+  _resetAfterLooseSight: 0
   drawGizmos: 0
   LogOutOfRange: 0
 --- !u!4 &197903579
@@ -5770,9 +5803,24 @@ Transform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children: []
+  m_Children:
+  - {fileID: 164780563}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &197903580
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 197903577}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 47bd73bebee1fde46bf191318c93f8f6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _fogWar: {fileID: 197903578}
+  _boatSightRange: 200
 --- !u!1001 &213290167
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -6653,12 +6701,6 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 8336ef2844f99ca47a788d64f7efa5fa, type: 3}
---- !u!4 &433114870 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 6680253864973552264, guid: 8336ef2844f99ca47a788d64f7efa5fa,
-    type: 3}
-  m_PrefabInstance: {fileID: 433114869}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &435294605
 PrefabInstance:
   m_ObjectHideFlags: 0

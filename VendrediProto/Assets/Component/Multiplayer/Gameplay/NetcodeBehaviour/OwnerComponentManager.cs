@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using TMPro;
 using Unity.Netcode;
@@ -15,6 +16,9 @@ namespace VComponent.Multiplayer
         
         [SerializeField] private List<Component> _ownerComponents;
 
+
+        public static Action<Transform> OnOwnerBoatSpawned;
+        
         public TMP_Text PlayerNameTxt => _playerNameTxt;
         
         public override void OnNetworkSpawn()
@@ -29,6 +33,10 @@ namespace VComponent.Multiplayer
                 }
 
                 _ownerComponents = null;
+            }
+            else
+            {
+                OnOwnerBoatSpawned?.Invoke(transform);
             }
         }
 
