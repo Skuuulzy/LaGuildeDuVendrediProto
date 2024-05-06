@@ -6,16 +6,16 @@ using VComponent.Ship;
 
 public class PlayerIslandController : NetworkBehaviour
 {
-    public static Action<MultiplayerShipController> OnShipAddedToFleet;
+    public static Action<PlayerShipController> OnShipAddedToFleet;
     
     [Header("Ships")]
-    [SerializeField] private MultiplayerShipController _standardShip;
+    [SerializeField] private PlayerShipController _standardShip;
 
     [Header("Component")] 
     [SerializeField] private Transform _dockTransform;
 
     private ulong _clientId;
-    private List<MultiplayerShipController> _ships;
+    private List<PlayerShipController> _ships;
      
     /// <summary>
     /// SERVER - SIDE
@@ -38,7 +38,7 @@ public class PlayerIslandController : NetworkBehaviour
             return;
         }
 
-        _ships = new List<MultiplayerShipController>();
+        _ships = new List<PlayerShipController>();
         _clientId = GetComponent<NetworkObject>().OwnerClientId;
         
         RequestSpawnShipServerRpc();
@@ -60,7 +60,7 @@ public class PlayerIslandController : NetworkBehaviour
 
         if (objectReference.TryGet(out NetworkObject targetObject))
         {
-            var ship = targetObject.GetComponent<MultiplayerShipController>();
+            var ship = targetObject.GetComponent<PlayerShipController>();
             _ships.Add(ship);
             OnShipAddedToFleet?.Invoke(ship);
             Debug.Log($"Standard ship {ship.name} added to fleet of player {_clientId}");
@@ -78,7 +78,7 @@ public class PlayerIslandController : NetworkBehaviour
     [ServerRpc]
     private void RequestSpawnShipServerRpc(ServerRpcParams rpcParams = default)
     {
-        MultiplayerShipController standardShip = Instantiate(_standardShip, _dockTransform);
+        PlayerShipController standardShip = Instantiate(_standardShip, _dockTransform);
         standardShip.GetComponent<NetworkObject>().SpawnAsPlayerObject(rpcParams.Receive.SenderClientId, true);
 
         NetworkObjectReference reference = new NetworkObjectReference(standardShip.GetComponent<NetworkObject>());
