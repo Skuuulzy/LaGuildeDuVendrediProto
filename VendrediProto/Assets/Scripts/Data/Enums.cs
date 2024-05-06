@@ -1,11 +1,4 @@
 
-public enum ItemsType
-{
-	CANNONBALL,
-	BANANA,
-	WATER
-}
-
 public enum FactionTypes
 {
 	SHARKTRIBE,
@@ -43,5 +36,10 @@ public enum CompanyBaseTeam
 	PURPLE,
 	RED,
 	GREEN
+}
+
+public enum WeaponType
+{
+	CANNONBALL
 }
 

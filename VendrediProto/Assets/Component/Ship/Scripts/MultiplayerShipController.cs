@@ -12,8 +12,8 @@ using VComponent.Multiplayer;
 
 namespace VComponent.Ship
 {
-    public class MultiplayerShipController : MonoBehaviour
-    {
+    public class MultiplayerShipController : MonoBehaviour, IDamageable
+	{
         [Header("Data")]
         [ShowInInspector] private Dictionary<ResourceType, ushort> _currentResourcesCarried = new ();
         
@@ -21,20 +21,24 @@ namespace VComponent.Ship
         [SerializeField] private ushort _capacity;
         [SerializeField] private int _maxResourcesTypeCarried = 2;
 
-        private MultiplayerFactionIslandController _factionDockedIsland;
+        [Header("Ship Usefull Values")]
+		[SerializeField] private ushort _lifeValue = 100;
+
+		private MultiplayerFactionIslandController _factionDockedIsland;
         private ResourcesIslandController _resourcesDockedIsland;
         private Delivery _currentDelivery;
         private ushort _merchandiseAmountSellable;
+		private CancellationTokenSource _cancellationTokenSource;
 
-        public event Action<ResourcesSO, int> OnResourceAdded = delegate {};
+		public event Action<ResourcesSO, int> OnResourceAdded = delegate {};
         public event Action<ResourceType, int> OnResourceCarriedUpdated;
         public event Action<ResourceType> OnResourceCarriedDelivered;
         public event Action<bool,ResourcesIslandSO> OnResourceIslandDocked;
         public event Action<ShipState, string> OnShipStateUpdated;
         public event Action<MultiplayerShipMilitaryController> OnShipEncountered;
-
-        private CancellationTokenSource _cancellationTokenSource;
         
+		public ushort LifeValue => _lifeValue;
+
         private void OnTriggerEnter(Collider other)
         {
             // FACTION ISLAND
@@ -68,13 +72,6 @@ namespace VComponent.Ship
             if (other.TryGetComponent(out PlayerIslandController playerIslandController))
             {
                 
-            }
-            // OTHER SHIP
-            if (other.TryGetComponent(out MultiplayerShipMilitaryController multiplayerShipMilitaryController))
-            {
-                string shipName = other.gameObject.GetComponent<OwnerComponentManager>().PlayerNameTxt.text;
-                Debug.Log($"Encounter ship {shipName}");
-                OnShipEncountered?.Invoke(multiplayerShipMilitaryController);
             }
         }
 
@@ -122,6 +119,7 @@ namespace VComponent.Ship
                     _cancellationTokenSource = null;
                 }
             }
+
         }
         
         
@@ -293,6 +291,27 @@ namespace VComponent.Ship
             return _capacity - currentSpace;
         }
 
-        #endregion LOAD
-    }
+		#endregion LOAD
+
+		#region LIFE 
+
+		/// <summary>
+		/// Taking dammage from a opponent weapon
+		/// </summary>
+		public void TakeDamage(int damage)
+		{
+			_lifeValue -= (ushort)damage;
+            Debug.Log("Life = " + _lifeValue);
+			if (_lifeValue <= 0)
+			{
+				OnDeath();
+			}
+		}
+
+		public void OnDeath()
+		{
+            Debug.Log("This boat is dead dead " + this);
+		}
+		#endregion LIFE
+	}
 }
