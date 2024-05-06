@@ -21,7 +21,7 @@ namespace FischlWorks_FogWar
     public class csRevealerSpawner : MonoBehaviour
     {
         [SerializeField]
-        private csFogWar fogWar = null;
+        private FogWar fogWar = null;
 
         [SerializeField]
         private GameObject exampleRevealer = null;
@@ -33,7 +33,7 @@ namespace FischlWorks_FogWar
             // This part is meant to be modified following the project's scene structure later...
             try
             {
-                fogWar = GameObject.Find("FogWar").GetComponent<csFogWar>();
+                fogWar = GameObject.Find("FogWar").GetComponent<FogWar>();
             }
             catch
             {
@@ -50,22 +50,22 @@ namespace FischlWorks_FogWar
             if (Input.GetKeyDown(KeyCode.R))
             {
                 Vector3 randomPoint = new Vector3(
-                    Random.Range(-fogWar.levelData.levelDimensionX / 2.0f, fogWar.levelData.levelDimensionX / 2.0f),
-                    fogWar._LevelMidPoint.position.y + 0.5f,
-                    Random.Range(-fogWar.levelData.levelDimensionY / 2.0f, fogWar.levelData.levelDimensionY / 2.0f));
+                    Random.Range(-fogWar.LevelData.levelDimensionX / 2.0f, fogWar.LevelData.levelDimensionX / 2.0f),
+                    fogWar.LevelMidPoint.position.y + 0.5f,
+                    Random.Range(-fogWar.LevelData.levelDimensionY / 2.0f, fogWar.LevelData.levelDimensionY / 2.0f));
 
                 // Instantiating & fetching the revealer Transform
                 Transform randomTransform = Instantiate(exampleRevealer, randomPoint, Quaternion.identity).GetComponent<Transform>();
 
                 // Utilizing the constructor, setting updateOnlyOnMove to true will not update the fog texture immediately
-                int index = fogWar.AddFogRevealer(new csFogWar.FogRevealer(randomTransform, 3, false));
+                int index = fogWar.AddFogRevealer(new FogWar.FogRevealer(randomTransform, 3, false));
             }
 
             if (Input.GetKeyDown(KeyCode.C))
             {
-                if (fogWar._FogRevealers.Count > 2)
+                if (fogWar.FogRevealers.Count > 2)
                 {
-                    fogWar.RemoveFogRevealer(fogWar._FogRevealers.Count - 1);
+                    fogWar.RemoveFogRevealer(fogWar.FogRevealers.Count - 1);
                 }
             }
         }

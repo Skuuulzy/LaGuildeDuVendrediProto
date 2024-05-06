@@ -183,7 +183,7 @@ namespace FischlWorks_FogWar
         /// https://www.albertford.com/shadowcasting
         private class QuadrantIterator
         {
-            public QuadrantIterator(csFogWar fogWar)
+            public QuadrantIterator(FogWar fogWar)
             {
                 this.fogWar = fogWar;
             }
@@ -225,7 +225,7 @@ namespace FischlWorks_FogWar
             public Vector2Int originPoint { get; set; } = new Vector2Int();
 
             // To be initialized within the constructor, needed for reference
-            private csFogWar fogWar = null;
+            private FogWar fogWar = null;
         }
 
 
@@ -285,7 +285,7 @@ namespace FischlWorks_FogWar
 
 
         // Parent manager module, passed with initialization
-        private csFogWar fogWar = null;
+        private FogWar fogWar = null;
 
         public FogField fogField { get; private set; } = new FogField();
 
@@ -295,15 +295,15 @@ namespace FischlWorks_FogWar
 
 
         /// Initializes the shadowcaster module with properties from the dependant csFogWar object.
-        public void Initialize(csFogWar fogWar)
+        public void Initialize(FogWar fogWar)
         {
             this.fogWar = fogWar;
 
-            for (int xIterator = 0; xIterator < fogWar.levelData.levelDimensionX; xIterator++)
+            for (int xIterator = 0; xIterator < fogWar.LevelData.levelDimensionX; xIterator++)
             {
                 // Adding a new list for column (y axis) for each unit in row (x axis)
                 fogField.AddColumn(new LevelColumn(
-                    Enumerable.Repeat(LevelColumn.ETileVisibility.Hidden, fogWar.levelData.levelDimensionY)));
+                    Enumerable.Repeat(LevelColumn.ETileVisibility.Hidden, fogWar.LevelData.levelDimensionY)));
             }
 
             quadrantIterator = new QuadrantIterator(fogWar);
@@ -442,7 +442,7 @@ namespace FischlWorks_FogWar
                 return true;
             }
 
-            return (fogWar.levelData[levelCoordinates.x][levelCoordinates.y] == csFogWar.LevelColumn.ETileState.Empty);
+            return (fogWar.LevelData[levelCoordinates.x][levelCoordinates.y] == FogWar.LevelColumn.ETileState.Empty);
         }
 
 
@@ -456,7 +456,7 @@ namespace FischlWorks_FogWar
                 return false;
             }
 
-            return (fogWar.levelData[levelCoordinates.x][levelCoordinates.y] == csFogWar.LevelColumn.ETileState.Obstacle);
+            return (fogWar.LevelData[levelCoordinates.x][levelCoordinates.y] == FogWar.LevelColumn.ETileState.Obstacle);
         }
 
 

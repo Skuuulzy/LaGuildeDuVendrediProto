@@ -5765,32 +5765,32 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b5de54c084f472845b61ee9a97cb8a48, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  fogRevealers: []
-  levelMidPoint: {fileID: 164780563}
-  FogRefreshRate: 10
-  fogPlaneHeight: 1
-  fogPlaneMaterial: {fileID: 2100000, guid: 36b93ac6fcf129c449491654e397fe4a, type: 2}
-  fogColor: {r: 0.735849, g: 0.735849, b: 0.735849, a: 1}
-  fogPlaneAlpha: 1
-  fogLerpSpeed: 2.5
-  fogPlaneTextureLerpTarget: {fileID: 0}
-  fogPlaneTextureLerpBuffer: {fileID: 0}
-  LevelDataToLoad: {fileID: 0}
-  saveDataOnScan: 1
-  levelNameToSave: Layout1
-  levelDimensionX: 300
-  levelDimensionY: 250
-  unitScale: 25
-  scanSpacingPerUnit: 0.25
-  rayStartHeight: 5
-  rayMaxDistance: 10
-  obstacleLayers:
+  _fogRevealers: []
+  _levelMidPoint: {fileID: 164780563}
+  _fogRefreshRate: 10
+  _fogPlaneHeight: 1
+  _fogPlaneMaterial: {fileID: 2100000, guid: 36b93ac6fcf129c449491654e397fe4a, type: 2}
+  _fogColor: {r: 0.6792453, g: 0.6792453, b: 0.6792453, a: 1}
+  _fogPlaneAlpha: 1
+  _fogLerpSpeed: 2.5
+  _fogPlaneTextureLerpTarget: {fileID: 0}
+  _fogPlaneTextureLerpBuffer: {fileID: 0}
+  _levelDataToLoad: {fileID: 4900000, guid: 932b28e165708044fa4ac60345ebd252, type: 3}
+  _saveDataOnScan: 1
+  _levelNameToSave: Default
+  _levelDimensionX: 150
+  _levelDimensionY: 200
+  _unitScale: 25
+  _scanSpacingPerUnit: 0.25
+  _rayStartHeight: 5
+  _rayMaxDistance: 10
+  _obstacleLayers:
     serializedVersion: 2
     m_Bits: 0
-  ignoreTriggers: 1
+  _ignoreTriggers: 1
   _resetAfterLooseSight: 0
-  drawGizmos: 0
-  LogOutOfRange: 0
+  _drawGizmos: 0
+  _logOutOfRange: 0
 --- !u!4 &197903579
 Transform:
   m_ObjectHideFlags: 0
