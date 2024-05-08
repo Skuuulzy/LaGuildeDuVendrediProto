@@ -8,7 +8,7 @@ namespace VComponent.Ship
     /// <summary>
     /// This class control all ship sub controller.
     /// </summary>
-    public class PlayerShipController : NetworkBehaviour
+    public class PlayerShipController : NetworkBehaviour, IDamageable
     {
         [Header("Components")]
         [SerializeField] private ShipUIController _uiController;
@@ -29,13 +29,35 @@ namespace VComponent.Ship
             
             if (IsOwner)
             {
-                OnOwnerBoatSpawned?.Invoke(transform);
+                // Initializing controllers                
                 _movementController.Initialize(transform);
+                _militaryController.Initialize();
+                _resourcesController.Initialize();
+                
+                OnOwnerBoatSpawned?.Invoke(transform);
             }
             else
             {
                 
             }
         }
+
+        #region DAMAGE
+
+        public void TakeDamage(int damage)
+        {
+            _militaryController.TakeDamage(damage);
+            if (_militaryController.LifeValue <= 0)
+            {
+                OnDeath();
+            }
+        }
+
+        public void OnDeath()
+        {
+            Debug.Log("The ship is dead.");
+        }
+
+        #endregion DAMAGE
     }
 }

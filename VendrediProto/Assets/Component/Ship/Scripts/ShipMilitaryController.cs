@@ -12,19 +12,29 @@ namespace VComponent.Ship
 		[SerializeField] private WeaponController _weaponController;
 		[SerializeField] private Transform _spawnWeaponTransform;
 
-		private List<ShipMilitaryController> _opponentShipController;
-		private bool _currentlyAttackingOpponent = false;
-		private bool _stopAttacking = false;
+		private readonly List<ShipMilitaryController> _opponentShipController = new();
+		private bool _currentlyAttackingOpponent;
+		private bool _stopAttacking;
 		public ushort AttackSpeedValue => _attackSpeedValue;
 		public ushort DefenseValue => _defenseValue;
-		
-		private void Start()
+
+		private bool _initialized;
+		private ushort _lifeValue;
+
+		public ushort LifeValue => _lifeValue;
+
+		public void Initialize()
 		{
-			_opponentShipController = new List<ShipMilitaryController>();
+			_initialized = true;
 		}
 
 		private void Update()
 		{
+			if (!_initialized)
+			{
+				return;
+			}
+			
 			if (_opponentShipController.Count != 0 && InputsManager.Instance.OnInteract)
 			{
 				// Raycast to detect if the player clicked on another ship
@@ -37,7 +47,7 @@ namespace VComponent.Ship
 					{
 						if (_currentlyAttackingOpponent == false)
 						{
-							//Attack The ennemy for his position
+							//Attack The enemy for his position
 							AttackEnemy(hit.collider.transform.position);
 						}
 					}
@@ -64,7 +74,7 @@ namespace VComponent.Ship
 				//Wait the attackSpeedValue to reattack again
 				await UniTask.Delay(_attackSpeedValue * 1000);
 
-				//Start the loop of reattacking (I am currently taking the first ship on the list but we need the reference of the ship that we clicked on (mais flemme de le faire ce soir xDDDDD))
+				//Start the loop of re attacking (I am currently taking the first ship on the list, but we need the reference of the ship that we clicked on (mais flemme de le faire ce soir xDDDDD))
 				AttackEnemy(_opponentShipController[0].transform.position);
 			}
 			else
@@ -100,5 +110,14 @@ namespace VComponent.Ship
 		}
 
 		#endregion TRIGGER
+
+		#region DAMAGE
+
+		public void TakeDamage(int damage)
+		{
+			_lifeValue -= (ushort)damage;
+		}
+
+		#endregion
 	}
 }

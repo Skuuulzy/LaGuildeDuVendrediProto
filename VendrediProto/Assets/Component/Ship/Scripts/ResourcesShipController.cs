@@ -11,7 +11,7 @@ using System.Threading;
 
 namespace VComponent.Ship
 {
-    public class ResourcesShipController : MonoBehaviour, IDamageable
+    public class ResourcesShipController : MonoBehaviour
 	{
         [Header("Data")]
         [ShowInInspector] private Dictionary<ResourceType, ushort> _currentResourcesCarried = new ();
@@ -20,26 +20,32 @@ namespace VComponent.Ship
         [SerializeField] private ushort _capacity;
         [SerializeField] private int _maxResourcesTypeCarried = 2;
 
-        [Header("Ship Usefull Values")]
-		[SerializeField] private ushort _lifeValue = 100;
-
 		private MultiplayerFactionIslandController _factionDockedIsland;
         private ResourcesIslandController _resourcesDockedIsland;
         private Delivery _currentDelivery;
         private ushort _merchandiseAmountSellable;
 		private CancellationTokenSource _cancellationTokenSource;
 
+        private bool _initialized;
+
 		public event Action<ResourcesSO, int> OnResourceAdded = delegate {};
         public event Action<ResourceType, int> OnResourceCarriedUpdated;
         public event Action<ResourceType> OnResourceCarriedDelivered;
         public event Action<bool,ResourcesIslandSO> OnResourceIslandDocked;
         public event Action<ShipState, string> OnShipStateUpdated;
-        public event Action<ShipMilitaryController> OnShipEncountered;
-        
-		public ushort LifeValue => _lifeValue;
+
+        public void Initialize()
+        {
+            _initialized = true;
+        }
 
         private void OnTriggerEnter(Collider other)
         {
+            if (!_initialized)
+            {
+                return;
+            }
+            
             // FACTION ISLAND
             if (other.TryGetComponent(out MultiplayerFactionIslandController factionIslandController))
             {
@@ -76,6 +82,11 @@ namespace VComponent.Ship
 
         private void OnTriggerExit(Collider other)
         {
+            if (!_initialized)
+            {
+                return;
+            }
+            
             // FACTION ISLAND
             if (other.TryGetComponent(out MultiplayerFactionIslandController factionIslandController))
             {
@@ -291,26 +302,5 @@ namespace VComponent.Ship
         }
 
 		#endregion LOAD
-
-		#region LIFE 
-
-		/// <summary>
-		/// Taking dammage from a opponent weapon
-		/// </summary>
-		public void TakeDamage(int damage)
-		{
-			_lifeValue -= (ushort)damage;
-            Debug.Log("Life = " + _lifeValue);
-			if (_lifeValue <= 0)
-			{
-				OnDeath();
-			}
-		}
-
-		public void OnDeath()
-		{
-            Debug.Log("This boat is dead dead " + this);
-		}
-		#endregion LIFE
 	}
 }
