@@ -9,13 +9,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3fa16636f16320740b913e6532430a32, type: 3}
+  m_Script: {fileID: 11500000, guid: 41b1522af5df02a46b02f464249a7c3b, type: 3}
   m_Name: CoconutIslandSO
   m_EditorClassIdentifier: 
   _islandName: CoconutIsland
-  _merchandisesToSell:
-    m_Dictionnary: []
-  _merchandisesRequested:
-    m_Dictionnary: []
-  _merchandiseRequestedTimeInterval: 220
-  _merchandiseToTakeTimeInterval: 180
+  _resourcesTimeLoadAndSell: 2
+  _resourceAmountLoadAndSell: 50
+  _merchandisesToSell: {fileID: 11400000, guid: af84c950fb269404d97ae956760d5065,
+    type: 2}

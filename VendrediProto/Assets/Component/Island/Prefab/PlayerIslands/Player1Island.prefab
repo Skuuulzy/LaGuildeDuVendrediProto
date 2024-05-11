@@ -157,6 +157,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Player1Island
       objectReference: {fileID: 0}
+    - target: {fileID: 5824072056644233347, guid: 840cc21083f576b46b907711602df11b,
+        type: 3}
+      propertyPath: GlobalObjectIdHash
+      value: 951099334
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects:

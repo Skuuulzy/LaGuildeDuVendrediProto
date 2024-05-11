@@ -1,4 +1,6 @@
+using System;
 using System.Collections.Generic;
+using TMPro;
 using Unity.Netcode;
 using UnityEngine;
 using VComponent.Island;
@@ -10,11 +12,18 @@ namespace VComponent.Multiplayer
     /// </summary>
     public class OwnerComponentManager : NetworkBehaviour
     {
+        [SerializeField] private TMP_Text _playerNameTxt;
+        
         [SerializeField] private List<Component> _ownerComponents;
+
+
+        public static Action<Transform> OnOwnerBoatSpawned;
+        
+        public TMP_Text PlayerNameTxt => _playerNameTxt;
         
         public override void OnNetworkSpawn()
         {
-            base.OnNetworkSpawn();
+            SetPlayerName();
             
             if (!IsOwner)
             {
@@ -25,19 +34,15 @@ namespace VComponent.Multiplayer
 
                 _ownerComponents = null;
             }
-
-            if (IsOwner)
+            else
             {
-                MultiplayerIslandController.OnDeliveryRequested += (delivery) =>
-                {
-                    Debug.Log($"Delivery Requested type: {delivery.Merchandise}");
-                };
-                
-                MultiplayerIslandController.OnDeliveryUpdated += (delivery) =>
-                {
-                    Debug.Log($"Delivery Updated type: {delivery.Merchandise}, current amount: {delivery.MerchandiseCurrentAmount}");
-                };
+                OnOwnerBoatSpawned?.Invoke(transform);
             }
+        }
+
+        private void SetPlayerName()
+        {
+            _playerNameTxt.text = MultiplayerGameplayManager.Instance.GetPlayerNameFromId(GetComponent<NetworkObject>().OwnerClientId);
         }
     }
 }

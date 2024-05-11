@@ -13,11 +13,6 @@ PrefabInstance:
       propertyPath: m_Radius
       value: 114.9
       objectReference: {fileID: 0}
-    - target: {fileID: 1025610996904184189, guid: ba37394f42d8ff34d8381ddec4fee927,
-        type: 3}
-      propertyPath: m_Radius
-      value: 200
-      objectReference: {fileID: 0}
     - target: {fileID: 1539097489826229226, guid: ba37394f42d8ff34d8381ddec4fee927,
         type: 3}
       propertyPath: m_Name
@@ -73,6 +68,17 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6343900902902582581, guid: ba37394f42d8ff34d8381ddec4fee927,
+        type: 3}
+      propertyPath: _islandData
+      value: 
+      objectReference: {fileID: 11400000, guid: c2571d66d5d77d04e8cf56b1c080f90b,
+        type: 2}
+    - target: {fileID: 6721587855063375098, guid: ba37394f42d8ff34d8381ddec4fee927,
+        type: 3}
+      propertyPath: m_Material
+      value: 
+      objectReference: {fileID: 2100000, guid: e0099932da59ee94c8ae541e0185cfd6, type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects:
