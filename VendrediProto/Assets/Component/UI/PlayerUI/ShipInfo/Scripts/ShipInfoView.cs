@@ -14,10 +14,10 @@ public class ShipInfoView : MonoBehaviour
 	[SerializeField] private List<ShipResourcesCarriedView> _shipResourcesCarriedViews;
 	[SerializeField] private LoadResourcesInteraction _loadResourcesInteraction;
 	
-	private MultiplayerShipController _shipController;
+	private PlayerShipController _shipController;
 	private CameraController _cameraController;
 
-	public void Init(MultiplayerShipController shipController, CameraController cameraController)
+	public void Init(PlayerShipController shipController, CameraController cameraController)
 	{
 		_shipController = shipController;
 		_cameraController = cameraController;
@@ -28,11 +28,11 @@ public class ShipInfoView : MonoBehaviour
 			resourcesView.Hide();
 		}
 
-		_shipController.OnResourceIslandDocked += HandleShipDockedToResourceIsland;
-		_shipController.OnResourceAdded += HandleResourcesAdded;
-		_shipController.OnResourceCarriedUpdated += HandleResourceCarriedUpdated;
-		_shipController.OnResourceCarriedDelivered += HandleResourcesDelivered;
-		_shipController.OnShipStateUpdated += HandleStateUpdated;
+		_shipController.Resources.OnResourceIslandDocked += HandleShipDockedToResourceIsland;
+		_shipController.Resources.OnResourceAdded += HandleResourcesAdded;
+		_shipController.Resources.OnResourceCarriedUpdated += HandleResourceCarriedUpdated;
+		_shipController.Resources.OnResourceCarriedDelivered += HandleResourcesDelivered;
+		_shipController.Resources.OnShipStateUpdated += HandleStateUpdated;
 
 		HandleStateUpdated(ShipState.DEFAULT, "");
 		SetCameraPositionToShipPosition();
@@ -40,11 +40,11 @@ public class ShipInfoView : MonoBehaviour
 
 	private void OnDestroy()
 	{
-		_shipController.OnResourceIslandDocked -= HandleShipDockedToResourceIsland;
-		_shipController.OnResourceAdded -= HandleResourcesAdded;
-		_shipController.OnResourceCarriedUpdated -= HandleResourceCarriedUpdated;
-		_shipController.OnResourceCarriedDelivered -= HandleResourcesDelivered;
-		_shipController.OnShipStateUpdated -= HandleStateUpdated;
+		_shipController.Resources.OnResourceIslandDocked -= HandleShipDockedToResourceIsland;
+		_shipController.Resources.OnResourceAdded -= HandleResourcesAdded;
+		_shipController.Resources.OnResourceCarriedUpdated -= HandleResourceCarriedUpdated;
+		_shipController.Resources.OnResourceCarriedDelivered -= HandleResourcesDelivered;
+		_shipController.Resources.OnShipStateUpdated -= HandleStateUpdated;
 
 	}
 
@@ -102,7 +102,7 @@ public class ShipInfoView : MonoBehaviour
 		}
 		
 		// We cannot load anything the ship is already full
-		if (_shipController.GetFreeSpace() <= 0)
+		if (_shipController.Resources.GetFreeSpace() <= 0)
 		{
 			return;
 		}

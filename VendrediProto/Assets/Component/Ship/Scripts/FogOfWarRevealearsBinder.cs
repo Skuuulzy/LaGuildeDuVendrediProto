@@ -1,7 +1,6 @@
 using FischlWorks_FogWar;
 using UnityEngine;
-using VComponent.Multiplayer;
-
+using VComponent.Ship;
 
 public class FogOfWarRevealearsBinder : MonoBehaviour
 {
@@ -10,7 +9,7 @@ public class FogOfWarRevealearsBinder : MonoBehaviour
 
     private void Awake()
     {
-        OwnerComponentManager.OnOwnerBoatSpawned += HandlePlayerBoatSpawned;
+        PlayerShipController.OnOwnerBoatSpawned += HandlePlayerBoatSpawned;
     }
 
     private void HandlePlayerBoatSpawned(Transform boatTransform)
