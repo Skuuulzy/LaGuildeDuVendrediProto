@@ -159,28 +159,35 @@ namespace VComponent.CameraSystem
 
             transform.position = Vector3.Lerp(transform.position, _newPosition, _movementResponsiveness * Time.deltaTime);
 
-            // Rotation
+            // ROTATION KEYBOARD
             if (InputsManager.Instance.ClockwiseRotationCamera)
             {
                 _newYRotation *= Quaternion.Euler(Vector3.up * -_rotationAmount);
+                transform.rotation = Quaternion.Lerp(transform.rotation, _newYRotation, _movementResponsiveness * Time.deltaTime);
             }
-
             if (InputsManager.Instance.AntiClockwiseRotationCamera)
             {
                 _newYRotation *= Quaternion.Euler(Vector3.up * _rotationAmount);
+                transform.rotation = Quaternion.Lerp(transform.rotation, _newYRotation, _movementResponsiveness * Time.deltaTime);
             }
 
-            transform.rotation = Quaternion.Lerp(transform.rotation, _newYRotation, _movementResponsiveness * Time.deltaTime);
-
-            // Zoom
-            _newZoom += InputsManager.Instance.ZoomCamera * new Vector3(0, -_zoomAmount, _zoomAmount);
-
-            _cameraTransform.localPosition = Vector3.Lerp(_cameraTransform.localPosition, _newZoom, _movementResponsiveness * Time.deltaTime);
-            
-            // X Rotation (pitch)
+            // ROTATION MOUSE
             if (InputsManager.Instance.DragRotationCamera)
             {
+                // X Rotation PITCH
                 _cameraTransform.localRotation = Quaternion.Lerp(_cameraTransform.localRotation, _newXRotation, _movementResponsiveness * Time.deltaTime);
+                
+                // Y Rotation YAW
+                transform.rotation = Quaternion.Lerp(transform.rotation, _newYRotation, _movementResponsiveness * Time.deltaTime);
+            }
+
+            // Zoom
+            if (InputsManager.Instance.ZoomCamera != 0)
+            {
+                float zoomDeltaY = InputsManager.Instance.ZoomCamera * _zoomAmount;
+                _newZoom = _cameraTransform.position + new Vector3(0, zoomDeltaY, 0);
+
+                _cameraTransform.position = Vector3.Lerp(_cameraTransform.position, _newZoom, _movementResponsiveness * Time.deltaTime);
             }
         }
 
