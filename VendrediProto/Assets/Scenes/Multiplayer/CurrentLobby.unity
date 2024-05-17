@@ -5752,7 +5752,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &197903578
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5770,8 +5770,8 @@ MonoBehaviour:
   _fogRefreshRate: 10
   _fogPlaneHeight: 1
   _fogPlaneMaterial: {fileID: 2100000, guid: 36b93ac6fcf129c449491654e397fe4a, type: 2}
-  _fogColor: {r: 0.6792453, g: 0.6792453, b: 0.6792453, a: 1}
-  _fogPlaneAlpha: 0.8
+  _fogColor: {r: 0.21698111, g: 0.21698111, b: 0.21698111, a: 1}
+  _fogPlaneAlpha: 0.6
   _fogLerpSpeed: 2.5
   _fogPlaneTextureLerpTarget: {fileID: 0}
   _fogPlaneTextureLerpBuffer: {fileID: 0}
@@ -5788,7 +5788,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 0
   _ignoreTriggers: 1
-  _resetAfterLooseSight: 0
+  _resetAfterLooseSight: 1
   _drawGizmos: 0
   _logOutOfRange: 0
 --- !u!4 &197903579
@@ -12423,6 +12423,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7504523197407619217, guid: c94106618fc46b24ba0d0304e37cb59b,
         type: 3}
+      propertyPath: _zoomSpeed
+      value: 90
+      objectReference: {fileID: 0}
+    - target: {fileID: 7504523197407619217, guid: c94106618fc46b24ba0d0304e37cb59b,
+        type: 3}
       propertyPath: _zoomAmount
       value: 70
       objectReference: {fileID: 0}
@@ -12435,11 +12440,6 @@ PrefabInstance:
         type: 3}
       propertyPath: _normalMovementSpeed
       value: 35
-      objectReference: {fileID: 0}
-    - target: {fileID: 7504523197407619217, guid: c94106618fc46b24ba0d0304e37cb59b,
-        type: 3}
-      propertyPath: _rotationSensitivity
-      value: 10
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

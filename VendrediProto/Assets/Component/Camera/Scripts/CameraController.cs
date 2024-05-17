@@ -6,37 +6,27 @@ namespace VComponent.CameraSystem
 {
     public class CameraController : MonoBehaviour
     {
-        [Header("Main Parameters")]
-        [Tooltip("The standard speed of the camera")] 
+        [Header("MOVEMENT PARAMETERS")]
+        [Tooltip("The standard speed of the camera.")] 
         [Range(0.1f,40)] [SerializeField] private float _normalMovementSpeed = 1;
-        
-        [Tooltip("The fats speed of the camera, when the fast speed key is pressed")] 
+        [Tooltip("The fats speed of the camera, when the fast speed key is pressed.")] 
         [Range(0.1f,80)] [SerializeField] private float _fastMovementSpeed = 2;
-        
-        [Tooltip("The rotation amount when the rotation key are pressed")] 
-        [Range(0.1f,10)] [SerializeField] private float _rotationAmount = 1;
-        
-        [Tooltip("How fast the camera will zoom")] 
-        [Range(1,90)] [SerializeField] private int _zoomAmount = 5;
-        
-        [Tooltip("The higher this value the higher the camera movement will be responsive")]
+        [Tooltip("How fast the camera will zoom")]
+        [Range(1,90)] [SerializeField] private int _zoomSpeed = 5;
+        [Tooltip("The higher this value the higher the camera movement will be responsive.")]
         [Range(0.1f,10)] [SerializeField] private float _movementResponsiveness = 5;
         
-        [Tooltip("The sensitivity for camera rotation when right click is pressed")]
+        [Header("ROTATION PARAMETERS")]
+        [Tooltip("The higher this value the higher the camera rotation will be sensitive.")] 
         [Range(0.1f,10)] [SerializeField] private float _rotationSensitivity = 1;
-        
-        [Header("Pitch")]
-        [Tooltip("Max angle for the pitching of the camera")] 
-        [SerializeField] private float _maxPitchAngle = 10;
-        
-        [Tooltip("Min angle for the pitching of the camera")] 
-        [SerializeField] private float _minPitchAngle = 75;
-        
-        [Tooltip("The screen ratio that the mouse need to travel before detecting a pitch")]
+        [Tooltip("The higher this value the higher the camera rotation will be responsive.")]
+        [Range(0.1f,10)] [SerializeField] private float _rotationResponsiveness = 5;
+        [Tooltip("Max angle for the pitching of the camera.")]
+        [SerializeField] private Vector2 _pitchRange = new (10, 75);
+        [Tooltip("The screen ratio that the mouse need to travel before detecting a pitch.")]
         [SerializeField] private float _pitchDeadZone = 0.05f;
-        
+        [Tooltip("If pitch inverted, when dragging mouse down the cam look up.")]
         [SerializeField] private bool _inversePitch;
-        
         
         [Header("Components")] 
         [SerializeField] private Transform _cameraTransform;
@@ -61,7 +51,7 @@ namespace VComponent.CameraSystem
         {
             _mainCam = Camera.main;
             
-            _cameraTransform.localRotation = Quaternion.Euler(_minPitchAngle, 0, 0);
+            _cameraTransform.localRotation = Quaternion.Euler(_pitchRange.x, 0, 0);
             
             _newPosition = transform.position;
             _newYRotation = transform.rotation;
@@ -135,7 +125,7 @@ namespace VComponent.CameraSystem
                 {
                     differenceY = _inversePitch ? -differenceY : differenceY;
                     _newXRotation *= Quaternion.Euler(Vector3.right * (differenceY * _rotationSensitivity));
-                    _newXRotation = _newXRotation.ClampAxis(ExtensionMethods.Axis.X, _maxPitchAngle, _minPitchAngle);
+                    _newXRotation = _newXRotation.ClampAxis(ExtensionMethods.Axis.X, _pitchRange.x, _pitchRange.y);
                 }
                 if (differenceX != 0)
                 {
@@ -162,29 +152,29 @@ namespace VComponent.CameraSystem
             // ROTATION KEYBOARD
             if (InputsManager.Instance.ClockwiseRotationCamera)
             {
-                _newYRotation *= Quaternion.Euler(Vector3.up * -_rotationAmount);
-                transform.rotation = Quaternion.Lerp(transform.rotation, _newYRotation, _movementResponsiveness * Time.deltaTime);
+                _newYRotation *= Quaternion.Euler(Vector3.up * -_rotationSensitivity);
+                transform.rotation = Quaternion.Lerp(transform.rotation, _newYRotation, _rotationResponsiveness * Time.deltaTime);
             }
             if (InputsManager.Instance.AntiClockwiseRotationCamera)
             {
-                _newYRotation *= Quaternion.Euler(Vector3.up * _rotationAmount);
-                transform.rotation = Quaternion.Lerp(transform.rotation, _newYRotation, _movementResponsiveness * Time.deltaTime);
+                _newYRotation *= Quaternion.Euler(Vector3.up * _rotationSensitivity);
+                transform.rotation = Quaternion.Lerp(transform.rotation, _newYRotation, _rotationResponsiveness * Time.deltaTime);
             }
 
             // ROTATION MOUSE
             if (InputsManager.Instance.DragRotationCamera)
             {
                 // X Rotation PITCH
-                _cameraTransform.localRotation = Quaternion.Lerp(_cameraTransform.localRotation, _newXRotation, _movementResponsiveness * Time.deltaTime);
+                _cameraTransform.localRotation = Quaternion.Lerp(_cameraTransform.localRotation, _newXRotation, _rotationResponsiveness * Time.deltaTime);
                 
                 // Y Rotation YAW
-                transform.rotation = Quaternion.Lerp(transform.rotation, _newYRotation, _movementResponsiveness * Time.deltaTime);
+                transform.rotation = Quaternion.Lerp(transform.rotation, _newYRotation, _rotationResponsiveness * Time.deltaTime);
             }
 
             // Zoom
             if (InputsManager.Instance.ZoomCamera != 0)
             {
-                float zoomDeltaY = InputsManager.Instance.ZoomCamera * _zoomAmount;
+                float zoomDeltaY = InputsManager.Instance.ZoomCamera * _zoomSpeed;
                 _newZoom = _cameraTransform.position + new Vector3(0, zoomDeltaY, 0);
 
                 _cameraTransform.position = Vector3.Lerp(_cameraTransform.position, _newZoom, _movementResponsiveness * Time.deltaTime);
