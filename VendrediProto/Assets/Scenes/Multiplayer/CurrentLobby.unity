@@ -10058,7 +10058,7 @@ MonoBehaviour:
   separateSunLightAndTransform: 0
   sunAngle: 0.5
   sunFlare:
-    flare: {fileID: 11400000, guid: b7bd2fcbf47c015488d42ef693c6db7d, type: 2}
+    flare: {fileID: 0}
     intensity: 1
     scale: 1
     screenAttenuation:
@@ -10098,7 +10098,7 @@ MonoBehaviour:
     occlusionRadius: 0.5
     allowOffscreen: 1
   moonFlare:
-    flare: {fileID: 11400000, guid: e3db97a2c8764cf4d9b4e3a9a81e38a7, type: 2}
+    flare: {fileID: 0}
     intensity: 1
     scale: 1
     screenAttenuation:
@@ -10152,7 +10152,7 @@ MonoBehaviour:
   - {fileID: 2038223210}
   m_CloudParticles:
   - {fileID: 84017596}
-  perennialProfile: {fileID: 11400000, guid: 8ce0d8458b4495b4593c1e03027a0ce5, type: 2}
+  perennialProfile: {fileID: 0}
   sunLight: {fileID: 905096733}
   sunTransform: {fileID: 905096732}
   centerAroundCustomObject: 1
@@ -10465,7 +10465,7 @@ MonoBehaviour:
   weatherSphere: {fileID: 1316219189}
   system: {fileID: 1316219189}
   satellites:
-  - {fileID: 11400000, guid: 6c5237c919631d043a73040c63874662, type: 2}
+  - {fileID: 0}
   satHolder: {fileID: 0}
   hideInHierarchy: 1
   mainMoon: 0
@@ -10502,12 +10502,10 @@ MonoBehaviour:
   weatherSphere: {fileID: 1316219189}
   system: {fileID: 1316219189}
   ambienceProfiles:
-  - {fileID: 11400000, guid: 9889efdfa07fcdc4f9f79c7a3df54f8f, type: 2}
+  - {fileID: 0}
   weightedAmbience: []
-  currentAmbienceProfile: {fileID: 11400000, guid: 9889efdfa07fcdc4f9f79c7a3df54f8f,
-    type: 2}
-  ambienceChangeCheck: {fileID: 11400000, guid: e1524d194ad97f34ebbaddeea31a44ca,
-    type: 2}
+  currentAmbienceProfile: {fileID: 0}
+  ambienceChangeCheck: {fileID: 0}
   timeToChangeProfiles: 7
   weight: 1
   biomes: []
@@ -10735,7 +10733,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   weatherSphere: {fileID: 1316219189}
   system: {fileID: 1316219189}
-  defaultWindProfile: {fileID: 11400000, guid: 94bed43d2a7d48f428f62cb4dcb20a81, type: 2}
+  defaultWindProfile: {fileID: 0}
   windZone: {fileID: 1370206194}
   windSpeed: 1
   windChangeSpeed: 1
@@ -10758,7 +10756,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   weatherSphere: {fileID: 1316219189}
   system: {fileID: 1316219189}
-  atmosphereProfile: {fileID: 11400000, guid: 8cc0487e978305c49a20079f78f36ba0, type: 2}
+  atmosphereProfile: {fileID: 0}
   transitioningAtmosphere: 0
   biomes: []
 --- !u!114 &1420069419
@@ -10776,7 +10774,7 @@ MonoBehaviour:
   weatherSphere: {fileID: 1316219189}
   system: {fileID: 1316219189}
   transit: {fileID: 1420069416}
-  perennialProfile: {fileID: 11400000, guid: ccc860aba72091a4f890c7216ca2a727, type: 2}
+  perennialProfile: {fileID: 0}
   overrideDate: {fileID: 0}
   m_DayPercentage: 0.3125
   yearPercentage: 0.13151042
@@ -10819,27 +10817,26 @@ MonoBehaviour:
   sunFilter: {r: 1, g: 1, b: 1, a: 0}
   cloudFilter: {r: 1, g: 1, b: 1, a: 0}
   ecosystem:
-    forecastProfile: {fileID: 11400000, guid: 8a6296a55ec94494fa4791955335bbcc, type: 2}
+    forecastProfile: {fileID: 0}
     weatherSelectionMode: 1
     currentForecast: []
     weatherTransitionTime: 15
     weatherSphere: {fileID: 1316219189}
     system: {fileID: 1316219189}
-    currentWeather: {fileID: 11400000, guid: 134d60bbf3db4074599790ce6df65c88, type: 2}
-    weatherChangeCheck: {fileID: 11400000, guid: 134d60bbf3db4074599790ce6df65c88,
-      type: 2}
+    currentWeather: {fileID: 0}
+    weatherChangeCheck: {fileID: 0}
     weightedWeatherProfiles:
     - weight: 1
-      profile: {fileID: 11400000, guid: 134d60bbf3db4074599790ce6df65c88, type: 2}
+      profile: {fileID: 0}
       transitioning: 1
   parentModule: {fileID: 0}
   biomes: []
   currentWeatherProfiles:
   - weight: 1
-    profile: {fileID: 11400000, guid: 134d60bbf3db4074599790ce6df65c88, type: 2}
+    profile: {fileID: 0}
     transitioning: 1
-  defaultFilter: {fileID: 11400000, guid: b3b90f04f4696264c9aab62e9c3c68a5, type: 2}
-  defaultClouds: {fileID: 11400000, guid: 40c748033998bf243ae542ca195124b7, type: 2}
+  defaultFilter: {fileID: 0}
+  defaultClouds: {fileID: 0}
 --- !u!114 &1420069421
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -10854,7 +10851,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   weatherSphere: {fileID: 1316219189}
   system: {fileID: 1316219189}
-  climateProfile: {fileID: 11400000, guid: e1a4bf0206b48d4428e0e961e057af39, type: 2}
+  climateProfile: {fileID: 0}
   controlMethod: 1
   localTemperatureFilter: 0
   localPrecipitationFilter: 0
@@ -11485,6 +11482,11 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 607945307}
     m_Modifications:
+    - target: {fileID: 3010050667283092228, guid: feb9dee3df8dc7c429f5da0f17252bb9,
+        type: 3}
+      propertyPath: GlobalObjectIdHash
+      value: 3534050290
+      objectReference: {fileID: 0}
     - target: {fileID: 6504644615723321490, guid: feb9dee3df8dc7c429f5da0f17252bb9,
         type: 3}
       propertyPath: m_Name
@@ -13197,6 +13199,11 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 607945307}
     m_Modifications:
+    - target: {fileID: 3010050667283092228, guid: 6a1e1c5ec19114a49ae65027ead835d9,
+        type: 3}
+      propertyPath: GlobalObjectIdHash
+      value: 4220717912
+      objectReference: {fileID: 0}
     - target: {fileID: 6504644615723321490, guid: 6a1e1c5ec19114a49ae65027ead835d9,
         type: 3}
       propertyPath: m_Name
@@ -23313,6 +23320,11 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 607945307}
     m_Modifications:
+    - target: {fileID: 3010050667283092228, guid: c7b73771a50ad064ba30db417c9d4c35,
+        type: 3}
+      propertyPath: GlobalObjectIdHash
+      value: 2301161296
+      objectReference: {fileID: 0}
     - target: {fileID: 6504644615723321490, guid: c7b73771a50ad064ba30db417c9d4c35,
         type: 3}
       propertyPath: m_Name
