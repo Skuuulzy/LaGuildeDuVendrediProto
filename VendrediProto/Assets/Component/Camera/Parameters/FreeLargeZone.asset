@@ -17,6 +17,8 @@ MonoBehaviour:
   _fastMovementSpeed: 60
   _zoomSpeed: 90
   _movementResponsiveness: 5
+  _lockPitch: 0
+  _lockYaw: 1
   _rotationSensitivity: 1
   _rotationResponsiveness: 5
   _pitchRange: {x: 10, y: 75}
