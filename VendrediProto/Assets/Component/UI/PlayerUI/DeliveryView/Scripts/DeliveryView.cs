@@ -8,6 +8,7 @@ public class DeliveryView : MonoBehaviour
     [SerializeField] private TextMeshProUGUI _islandName;
     [SerializeField] private Image _merchandiseAskedImage;
     [SerializeField] private TextMeshProUGUI _merchandiseAskedText;
+    [SerializeField] private TextMeshProUGUI _merchandisPriceText;
 	[SerializeField] private Button _sellButton;
 
 	[Header("Data")]
@@ -23,7 +24,8 @@ public class DeliveryView : MonoBehaviour
 		_islandName.text = _currentDelivery.Buyer.IslandData.IslandName;
 		ResourcesSO merchandiseSO = _allMerchandise.GetMerchandiseByType(_currentDelivery.Data.Resource);
 		_merchandiseAskedImage.sprite = merchandiseSO.Sprite;
-		
+		_merchandisPriceText.text = $"{merchandiseSO.SellValue * _currentDelivery.Data.MerchandiseDesiredAmount}";
+
 		// Security
 		_sellButton.gameObject.SetActive(false);
 		
@@ -35,7 +37,9 @@ public class DeliveryView : MonoBehaviour
 	
 	private void UpdateDeliveryInformation()
 	{
-		_merchandiseAskedText.text = $"{_currentDelivery.Data.MerchandiseCurrentAmount}/{_currentDelivery.Data.MerchandiseDesiredAmount}";
+		//_merchandiseAskedText.text = $"{_currentDelivery.Data.MerchandiseCurrentAmount}/{_currentDelivery.Data.MerchandiseDesiredAmount}";
+		_merchandiseAskedText.text = $"{_currentDelivery.Data.MerchandiseDesiredAmount - _currentDelivery.Data.MerchandiseCurrentAmount}";
+        _merchandisPriceText.text = $"{1 * _currentDelivery.Data.MerchandiseDesiredAmount - _currentDelivery.Data.MerchandiseCurrentAmount}";
 		BindButtonIfPossible();
 	}
 
