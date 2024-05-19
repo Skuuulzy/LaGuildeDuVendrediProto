@@ -11,7 +11,7 @@ namespace VComponent.Items.Merchandise
     {
         public DeliveryNetworkPackage Data;
         public MultiplayerFactionIslandController Buyer;
-        public MultiplayerShipController Seller;
+        public ResourcesShipController Seller;
         
         public bool IsExpired { get; private set; }
         public bool IsDone => Data.MerchandiseDesiredAmount == Data.MerchandiseCurrentAmount;
@@ -50,7 +50,7 @@ namespace VComponent.Items.Merchandise
             OnDataUpdated?.Invoke();
         }
 
-        public void AddNewSeller(MultiplayerShipController shipController)
+        public void AddNewSeller(ResourcesShipController shipController)
         {
             if (HasSeller)
             {
@@ -62,7 +62,7 @@ namespace VComponent.Items.Merchandise
             OnDataUpdated?.Invoke();
         }
 
-        public void RemoveSeller(MultiplayerShipController shipController)
+        public void RemoveSeller(ResourcesShipController shipController)
         {
             if (!HasSeller)
             {

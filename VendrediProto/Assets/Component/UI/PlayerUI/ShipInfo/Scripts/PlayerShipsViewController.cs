@@ -20,7 +20,7 @@ public class PlayerShipsViewController : MonoBehaviour
     /// <summary>
     /// On one of our ship is created called this function to spawn an UI shipInfoController and view 
     /// </summary>
-    private void HandleShipCreated(MultiplayerShipController shipController)
+    private void HandleShipCreated(PlayerShipController shipController)
     {
 	    ShipInfoView shipView = Instantiate(_shipView, transform);
 	    shipView.Init(shipController, _cameraController);

@@ -147,6 +147,7 @@ Material:
     - _QueueControl: 0
     - _QueueOffset: 0
     - _ReceiveShadows: 1
+    - _Roughness: 0.3
     - _SAT_Var_01: 1
     - _SSS_Contrast: 10.95
     - _SSS_Power: 0.099
@@ -163,7 +164,7 @@ Material:
     - _WorkflowMode: 1
     - _ZWrite: 1
     m_Colors:
-    - _Ambiant_Occlusion_Color: {r: 0.6010232, g: 0.5961196, b: 0.6415094, a: 0.92941177}
+    - _Ambiant_Occlusion_Color: {r: 0.764151, g: 0.764151, b: 0.764151, a: 0.92156863}
     - _BaseColor: {r: 1, g: 1, b: 1, a: 1}
     - _Color: {r: 1, g: 1, b: 1, a: 1}
     - _Color_01: {r: 1, g: 1, b: 1, a: 0}
@@ -173,7 +174,7 @@ Material:
     - _Color_03: {r: 1, g: 1, b: 1, a: 0}
     - _Color_03_Top: {r: 1, g: 1, b: 1, a: 0}
     - _Color_04_Var: {r: 1, g: 1, b: 1, a: 0}
-    - _Color_Under_05_A: {r: 0.509434, g: 0.509434, b: 0.509434, a: 0}
+    - _Color_Under_05_A: {r: 1, g: 1, b: 1, a: 0}
     - _Color_VAR_01_Base: {r: 1.2311444, g: 1.2311444, b: 1.2311444, a: 0}
     - _Color_VAR_02_R: {r: 1.5336025, g: 1.3767276, b: 0.74509937, a: 0}
     - _Color_VAR_03_G: {r: 0.7381185, g: 0.8139653, b: 0.9150943, a: 0}

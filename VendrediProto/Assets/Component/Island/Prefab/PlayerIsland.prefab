@@ -142,7 +142,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b500597284fc7564b8e755eb50dc01fc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _standardShip: {fileID: 7602440660852365168, guid: 8eff6b8991bc3f9479faa5168c6c2f2a,
+  _standardShip: {fileID: 3468389439110931831, guid: 9bbbb3275b26c3e4d9ecbb9246a6d716,
     type: 3}
   _dockTransform: {fileID: 2446853008596079592}
 --- !u!114 &5824072056644233347

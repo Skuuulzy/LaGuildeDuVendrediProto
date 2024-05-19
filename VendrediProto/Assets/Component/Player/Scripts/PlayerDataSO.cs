@@ -1,22 +1,22 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using VComponent.Ship;
 
 [CreateAssetMenu(menuName ="ProjectV/PlayerData")]
 public class PlayerDataSO : ScriptableObject
 {
     [SerializeField] private PlayerInventorySO _playerInventory;
-    [SerializeField] private List<ShipController> _shipControllersList;
+    [SerializeField] private List<PlayerShipController> _shipControllersList;
     public PlayerInventorySO PlayerInventory => _playerInventory;
-    public List<ShipController> ShipControllersList => _shipControllersList;
+    public List<PlayerShipController> ShipControllersList => _shipControllersList;
     public Action OnShipAdded;
     
-    public void AddShipToShipController(ShipController shipController)
+    public void AddShipToShipController(PlayerShipController shipController)
     {
         if(_shipControllersList == null)
         {
-			_shipControllersList = new List<ShipController>();
+			_shipControllersList = new List<PlayerShipController>();
 		}
 
         _shipControllersList.Add(shipController);

@@ -11,13 +11,13 @@ public class LoadResourcesInteraction : MonoBehaviour
 	[SerializeField] private Image _resourceImage;
 	[SerializeField] private GameObject _loadingGO;
 
-	private MultiplayerShipController _shipController;
+	private PlayerShipController _shipController;
 	
 	private ResourcesSO _resourceSO;
 	private int _ressourceStepValue = 50;
 	private bool _initialized;
 
-	public void Show(ResourcesSO resourceSO, MultiplayerShipController shipController)
+	public void Show(ResourcesSO resourceSO, PlayerShipController shipController)
 	{
 		gameObject.SetActive(true);
 		_shipController = shipController;
@@ -37,7 +37,7 @@ public class LoadResourcesInteraction : MonoBehaviour
 			return;
 		}
 		
-		_shipController.LoadResourceToShip(_resourceSO, (int)_resourceSlider.value);
+		_shipController.Resources.LoadResourceToShip(_resourceSO, (int)_resourceSlider.value);
 	}
 
 	public void Hide()
@@ -54,7 +54,7 @@ public class LoadResourcesInteraction : MonoBehaviour
 	{
 		//Go 50 by 50 for the loading
 		float steppedValue = Mathf.Round(sliderValue / _ressourceStepValue) * _ressourceStepValue;
-		if (steppedValue != sliderValue)
+		if (Mathf.Approximately(steppedValue, sliderValue))
 		{
 			_resourceSlider.value = steppedValue;
 		}
@@ -63,7 +63,7 @@ public class LoadResourcesInteraction : MonoBehaviour
 
 	public void SetSliderMaxValue()
 	{
-		_resourceSlider.maxValue = _shipController.GetFreeSpace();
+		_resourceSlider.maxValue = _shipController.Resources.GetFreeSpace();
 		_resourceSlider.value = 0;
 		SetSliderValue(_resourceSlider.value);
 	}
