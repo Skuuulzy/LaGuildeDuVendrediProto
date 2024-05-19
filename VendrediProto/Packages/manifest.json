@@ -1,7 +1,9 @@
 {
   "dependencies": {
+    "com.antonysze.custom-play-button": "file:C:/Users/yonar/Documents/UNITY/Projects/PROTO_VENDREDI/Packages/unity-custom-play-button-1.0",
     "com.cysharp.unitask": "2.5.4",
     "com.eflatun.scenereference": "4.0.0",
+    "com.marijnzwemmer.unity-toolbar-extender": "1.4.2",
     "com.mygamedevtools.scene-loader": "2.3.2",
     "com.unity.2d.sprite": "1.0.0",
     "com.unity.cinemachine": "2.9.7",
@@ -63,7 +65,8 @@
         "com.mygamedevtools.scene-loader",
         "com.cysharp.unitask",
         "com.eflatun.scenereference",
-        "com.veriorpies.parrelsync"
+        "com.veriorpies.parrelsync",
+        "com.marijnzwemmer.unity-toolbar-extender"
       ]
     }
   ]

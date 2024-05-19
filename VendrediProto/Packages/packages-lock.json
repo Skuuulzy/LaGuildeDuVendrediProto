@@ -1,17 +1,17 @@
 {
   "dependencies": {
+    "com.antonysze.custom-play-button": {
+      "version": "file:C:/Users/yonar/Documents/UNITY/Projects/PROTO_VENDREDI/Packages/unity-custom-play-button-1.0",
+      "depth": 0,
+      "source": "local",
+      "dependencies": {}
+    },
     "com.cysharp.unitask": {
       "version": "2.5.4",
       "depth": 0,
       "source": "registry",
       "dependencies": {},
       "url": "https://package.openupm.com"
-    },
-    "com.distantlands.cozy.core": {
-      "version": "file:com.distantlands.cozy.core",
-      "depth": 0,
-      "source": "embedded",
-      "dependencies": {}
     },
     "com.eflatun.scenereference": {
       "version": "4.0.0",
@@ -21,6 +21,13 @@
         "com.unity.settings-manager": "2.0.1",
         "com.unity.nuget.newtonsoft-json": "3.0.2"
       },
+      "url": "https://package.openupm.com"
+    },
+    "com.marijnzwemmer.unity-toolbar-extender": {
+      "version": "1.4.2",
+      "depth": 0,
+      "source": "registry",
+      "dependencies": {},
       "url": "https://package.openupm.com"
     },
     "com.mygamedevtools.scene-loader": {

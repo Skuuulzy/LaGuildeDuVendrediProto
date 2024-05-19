@@ -34,6 +34,7 @@ MonoBehaviour:
     - com.cysharp.unitask
     - com.eflatun.scenereference
     - com.veriorpies.parrelsync
+    - com.marijnzwemmer.unity-toolbar-extender
     m_IsDefault: 0
     m_Capabilities: 0
     m_ConfigSource: 4
