@@ -5,11 +5,17 @@ using VComponent.Items.Merchandise;
 
 public class DeliveryView : MonoBehaviour
 {
+	[Header("Merchandises")]
     [SerializeField] private TextMeshProUGUI _islandName;
     [SerializeField] private Image _merchandiseAskedImage;
-    [SerializeField] private TextMeshProUGUI _merchandiseAskedText;
+    [SerializeField] private TextMeshProUGUI _merchandiseQuantityText;
     [SerializeField] private TextMeshProUGUI _merchandisPriceText;
 	[SerializeField] private Button _sellButton;
+	private ResourcesSO _merchandisesAsked;
+
+	[Header("Total")]
+    [SerializeField] private TextMeshProUGUI _totalMerchandisQuantityText;
+    [SerializeField] private TextMeshProUGUI _totalMerchandisPriceText;
 
 	[Header("Data")]
 	[SerializeField] private ResourcesListSO _allMerchandise;
@@ -22,9 +28,11 @@ public class DeliveryView : MonoBehaviour
 		_currentDelivery = delivery;
 		
 		_islandName.text = _currentDelivery.Buyer.IslandData.IslandName;
-		ResourcesSO merchandiseSO = _allMerchandise.GetMerchandiseByType(_currentDelivery.Data.Resource);
-		_merchandiseAskedImage.sprite = merchandiseSO.Sprite;
-		_merchandisPriceText.text = $"{merchandiseSO.SellValue * _currentDelivery.Data.MerchandiseDesiredAmount}";
+		//ResourcesSO merchandiseSO = _allMerchandise.GetMerchandiseByType(_currentDelivery.Data.Resource);
+		//_merchandiseAskedImage.sprite = merchandiseSO.Sprite;
+
+		_merchandisesAsked = _allMerchandise.GetMerchandiseByType(_currentDelivery.Data.Resource);
+		_merchandiseAskedImage.sprite = _merchandisesAsked.Sprite;
 
 		// Security
 		_sellButton.gameObject.SetActive(false);
@@ -38,9 +46,12 @@ public class DeliveryView : MonoBehaviour
 	private void UpdateDeliveryInformation()
 	{
 		//_merchandiseAskedText.text = $"{_currentDelivery.Data.MerchandiseCurrentAmount}/{_currentDelivery.Data.MerchandiseDesiredAmount}";
-		_merchandiseAskedText.text = $"{_currentDelivery.Data.MerchandiseDesiredAmount - _currentDelivery.Data.MerchandiseCurrentAmount}";
-        _merchandisPriceText.text = $"{1 * _currentDelivery.Data.MerchandiseDesiredAmount - _currentDelivery.Data.MerchandiseCurrentAmount}";
-		BindButtonIfPossible();
+		_merchandiseQuantityText.text = $"{_currentDelivery.Data.MerchandiseDesiredAmount - _currentDelivery.Data.MerchandiseCurrentAmount}";
+		_totalMerchandisQuantityText.text = $"{_currentDelivery.Data.MerchandiseDesiredAmount - _currentDelivery.Data.MerchandiseCurrentAmount}"; //ajouter la 2eme merchandise
+
+        _merchandisPriceText.text = $"{_merchandisesAsked.SellValue}";
+        _totalMerchandisPriceText.text = $"{_merchandisesAsked.SellValue * (_currentDelivery.Data.MerchandiseDesiredAmount - _currentDelivery.Data.MerchandiseCurrentAmount)}";//ajouter la 2eme merchandise
+        BindButtonIfPossible();
 	}
 
 	/// <summary>
