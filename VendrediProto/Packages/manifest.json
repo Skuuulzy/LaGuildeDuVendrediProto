@@ -1,6 +1,5 @@
 {
   "dependencies": {
-    "com.antonysze.custom-play-button": "file:C:/Users/yonar/Documents/UNITY/Projects/PROTO_VENDREDI/Packages/unity-custom-play-button-1.0",
     "com.cysharp.unitask": "2.5.4",
     "com.eflatun.scenereference": "4.0.0",
     "com.marijnzwemmer.unity-toolbar-extender": "1.4.2",
