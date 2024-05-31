@@ -6,25 +6,17 @@ namespace VComponent.CameraSystem
 {
     public class CameraController : MonoBehaviour
     {
-        [Header("Parameters")]
-        [Tooltip("The standard speed of the camera")] [Range(0.1f,10)]
-        [SerializeField] private float _normalMovementSpeed = 1;
-        [Tooltip("The fats speed of the camera, when the fast speed key is pressed")] [Range(0.1f,10)]
-        [SerializeField] private float _fastMovementSpeed = 2;
-        [Tooltip("The rotation amount when the rotation key are pressed")] [Range(0.1f,10)]
-        [SerializeField] private float _rotationAmount = 1;
-        [Tooltip("How fast the camera will zoom")] [Range(1,20)]
-        [SerializeField] private int _zoomAmount = 5;
-        [Tooltip("The higher this value the higher the camera movement will be responsive")] [Range(0.1f,10)]
-        [SerializeField] private float _movementResponsiveness = 5;
+        [Header("Parameters")] 
+        [SerializeField] private CameraParameters _parameters;
         
-        [Header("Components")] 
+        [Header("Components")]
         [SerializeField] private Transform _cameraTransform;
         
         private Camera _mainCam;
         
         private Vector3 _newPosition;
-        private Quaternion _newRotation;
+        private Quaternion _newYRotation;
+        private Quaternion _newXRotation;
         private Vector3 _newZoom;
 
         private Vector3 _dragMovementStartPosition;
@@ -40,8 +32,11 @@ namespace VComponent.CameraSystem
         {
             _mainCam = Camera.main;
             
+            _cameraTransform.localRotation = Quaternion.Euler(_parameters.PitchRange.x, 0, 0);
+            
             _newPosition = transform.position;
-            _newRotation = transform.rotation;
+            _newYRotation = transform.rotation;
+            _newXRotation = _cameraTransform.localRotation;
             _newZoom = _cameraTransform.localPosition;
         }
 
@@ -50,9 +45,7 @@ namespace VComponent.CameraSystem
             HandleDragInput();
             HandleMovementInput();
         }
-
-        // WIP : Do not work yet, start and current drag position are always the same
-        // Checkout this video: https://www.youtube.com/watch?v=3Y7TFN_DsoI
+        
         private void HandleDragInput()
         {
             if (InputsManager.Instance.DragMovementCamera)
@@ -89,15 +82,43 @@ namespace VComponent.CameraSystem
                 // First frame input
                 if (!_dragRotationInitialized)
                 {
-                    _dragRotateStartPosition = Mouse.current.position.ReadValue();
+                    // Reset previous rotation since it may not be reached because of the lerp.
+                    _newXRotation = _cameraTransform.localRotation;
+                    _newYRotation = transform.rotation;
                     
+                    _dragRotateStartPosition = Mouse.current.position.ReadValue();
                     _dragRotationInitialized = true;
                 }
 
                 _dragRotateCurrentPosition = Mouse.current.position.ReadValue();
-                var difference = _dragRotateStartPosition- _dragRotateCurrentPosition;
 
-                _newRotation *= Quaternion.Euler(Vector3.up * (-difference.x / 300));
+                // PITCH
+                if (!_parameters.LockPitch)
+                {
+                    // Computing the drag vertical input
+                    var differenceY = (_dragRotateStartPosition.y - _dragRotateCurrentPosition.y) / Screen.height;
+                    differenceY = Mathf.Clamp(differenceY, -1, 1);
+                
+                    if (differenceY != 0 && Mathf.Abs(differenceY) > _parameters.PitchDeadZone)
+                    {
+                        differenceY = _parameters.InversePitch ? -differenceY : differenceY;
+                        _newXRotation *= Quaternion.Euler(Vector3.right * (differenceY * _parameters.RotationSensitivity));
+                        _newXRotation = _newXRotation.ClampAxis(ExtensionMethods.Axis.X, _parameters.PitchRange.x, _parameters.PitchRange.y);
+                    }
+                }
+
+                // YAW
+                if (!_parameters.LockYaw)
+                {
+                    // Computing the drag horizontal input
+                    var differenceX = (_dragRotateStartPosition.x - _dragRotateCurrentPosition.x) / Screen.width;
+                    differenceX = Mathf.Clamp(differenceX, -1, 1);
+                
+                    if (differenceX != 0)
+                    {
+                        _newYRotation *= Quaternion.Euler(Vector3.up * (-differenceX * _parameters.RotationSensitivity));
+                    }
+                }
             }
             else
             {
@@ -108,31 +129,50 @@ namespace VComponent.CameraSystem
         private void HandleMovementInput()
         {
             // Movement
-            var movementSpeed = InputsManager.Instance.QuickMoveCamera ? _fastMovementSpeed : _normalMovementSpeed;
+            var movementSpeed = InputsManager.Instance.QuickMoveCamera ? _parameters.FastMovementSpeed : _parameters.NormalMovementSpeed;
 
             // Calculate movement direction relative to camera rotation
             var movementDirection = Quaternion.Euler(0, transform.rotation.eulerAngles.y, 0) * new Vector3(InputsManager.Instance.MoveCamera.x, 0, InputsManager.Instance.MoveCamera.y);
             _newPosition += movementDirection.normalized * movementSpeed;
 
-            transform.position = Vector3.Lerp(transform.position, _newPosition, _movementResponsiveness * Time.deltaTime);
+            transform.position = Vector3.Lerp(transform.position, _newPosition, _parameters.MovementResponsiveness * Time.deltaTime);
 
-            // Rotation
-            if (InputsManager.Instance.ClockwiseRotationCamera)
+            // ROTATION KEYBOARD
+            if (!_parameters.LockYaw && InputsManager.Instance.ClockwiseRotationCamera)
             {
-                _newRotation *= Quaternion.Euler(Vector3.up * -_rotationAmount);
+                _newYRotation *= Quaternion.Euler(Vector3.up * -_parameters.RotationSensitivity);
+                transform.rotation = Quaternion.Lerp(transform.rotation, _newYRotation, _parameters.RotationResponsiveness * Time.deltaTime);
+            }
+            if (!_parameters.LockYaw && InputsManager.Instance.AntiClockwiseRotationCamera)
+            {
+                _newYRotation *= Quaternion.Euler(Vector3.up * _parameters.RotationSensitivity);
+                transform.rotation = Quaternion.Lerp(transform.rotation, _newYRotation, _parameters.RotationResponsiveness * Time.deltaTime);
             }
 
-            if (InputsManager.Instance.AntiClockwiseRotationCamera)
+            // ROTATION MOUSE
+            if (InputsManager.Instance.DragRotationCamera)
             {
-                _newRotation *= Quaternion.Euler(Vector3.up * _rotationAmount);
-            }
+                if (!_parameters.LockPitch)
+                {
+                    // X Rotation PITCH
+                    _cameraTransform.localRotation = Quaternion.Lerp(_cameraTransform.localRotation, _newXRotation, _parameters.RotationResponsiveness * Time.deltaTime);
+                }
 
-            transform.rotation = Quaternion.Lerp(transform.rotation, _newRotation, _movementResponsiveness * Time.deltaTime);
+                if (!_parameters.LockYaw)
+                {
+                    // Y Rotation YAW
+                    transform.rotation = Quaternion.Lerp(transform.rotation, _newYRotation, _parameters.RotationResponsiveness * Time.deltaTime);
+                }
+            }
 
             // Zoom
-            _newZoom += InputsManager.Instance.ZoomCamera * new Vector3(0, -_zoomAmount, _zoomAmount);
+            if (InputsManager.Instance.ZoomCamera != 0)
+            {
+                float zoomDeltaY = InputsManager.Instance.ZoomCamera * _parameters.ZoomSpeed;
+                _newZoom = _cameraTransform.position + new Vector3(0, zoomDeltaY, 0);
 
-            _cameraTransform.localPosition = Vector3.Lerp(_cameraTransform.localPosition, _newZoom, _movementResponsiveness * Time.deltaTime);
+                _cameraTransform.position = Vector3.Lerp(_cameraTransform.position, _newZoom, _parameters.MovementResponsiveness * Time.deltaTime);
+            }
         }
 
         /// <summary>

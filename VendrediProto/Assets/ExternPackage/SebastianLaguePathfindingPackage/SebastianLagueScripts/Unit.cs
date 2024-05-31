@@ -12,9 +12,6 @@ namespace SebastianLague
 		[SerializeField] private float _turnSpeed = 3;
 		[SerializeField] private float _turnDst = 5;
 		[SerializeField] private float _stoppingDst = 10;
-
-		[Header("Components")] 
-		[SerializeField] private ShipInputs _inputs;
 		
 		private const float MIN_PATH_UPDATE_TIME = .2f;
 		private const float PATH_UPDATE_MOVE_THRESHOLD = .5f;
@@ -22,6 +19,7 @@ namespace SebastianLague
 		private Plane _plane;
 		private Vector3 _position;
 		private Transform _planeTransform;
+		private Transform _shipTransform;
 		
 		private Path _path;
 		public float Speed => _speed;
@@ -31,19 +29,16 @@ namespace SebastianLague
 
 		private bool _initialized;
 
-		private void Init()
+		public void Initialize(Transform shipTransform)
 		{
-			if (_initialized)
-			{
-				return;
-			}
-			
 			if (_planeTransform == null)
 			{
 				_planeTransform = GameObject.FindGameObjectWithTag("PathFindingPlane").transform;
 			}
-            
-			_position = transform.position;
+
+			_shipTransform = shipTransform;
+			
+			_position = _shipTransform.position;
 			_plane = new Plane(_planeTransform.up, _planeTransform.position);
 			StartCoroutine(UpdatePath());
 
@@ -56,9 +51,9 @@ namespace SebastianLague
 			{
 				if (!_initialized)
 				{
-					Init();
+					return;
 				}
-				
+
 				Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
 				if (_plane.Raycast(ray, out var entry))
 				{
@@ -72,7 +67,7 @@ namespace SebastianLague
 		{
 			if (pathSuccessful) 
 			{
-				_path = new Path(waypoints, transform.position, _turnDst, _stoppingDst);
+				_path = new Path(waypoints, _shipTransform.position, _turnDst, _stoppingDst);
 
 				StopCoroutine("FollowPath");
 				StartCoroutine("FollowPath");
@@ -86,7 +81,7 @@ namespace SebastianLague
 				yield return new WaitForSeconds(.3f);
 			}
 
-			PathRequestManager.RequestPath(new PathRequest(transform.position, _position, OnPathFound));
+			PathRequestManager.RequestPath(new PathRequest(_shipTransform.position, _position, OnPathFound));
 
 			float sqrMoveThreshold = PATH_UPDATE_MOVE_THRESHOLD * PATH_UPDATE_MOVE_THRESHOLD;
 			Vector3 targetPosOld = _position;
@@ -97,7 +92,7 @@ namespace SebastianLague
 
 				if ((_position - targetPosOld).sqrMagnitude > sqrMoveThreshold)
 				{
-					PathRequestManager.RequestPath(new PathRequest(transform.position, _position, OnPathFound));
+					PathRequestManager.RequestPath(new PathRequest(_shipTransform.position, _position, OnPathFound));
 					targetPosOld = _position;
 				}
 			}
@@ -107,12 +102,12 @@ namespace SebastianLague
 		{
 			bool followingPath = true;
 			int pathIndex = 0;
-			transform.LookAt(_path.LookPoints[0]);
+			_shipTransform.LookAt(_path.LookPoints[0]);
 			float speedPercent = 1;
 
 			while (followingPath) 
 			{
-				Vector2 pos2D = new Vector2 (transform.position.x, transform.position.z);
+				Vector2 pos2D = new Vector2 (_shipTransform.position.x, _shipTransform.position.z);
 
 				while (_path.TurnBoundaries[pathIndex].HasCrossedLine(pos2D)) 
 				{
@@ -139,9 +134,9 @@ namespace SebastianLague
 						}
 					}
 
-					Quaternion targetRotation = Quaternion.LookRotation(_path.LookPoints[pathIndex] - transform.position);
-					transform.rotation = Quaternion.Lerp(transform.rotation, targetRotation, Time.deltaTime * _turnSpeed);
-					transform.Translate(Vector3.forward * (Time.deltaTime * Speed * speedPercent), Space.Self);
+					Quaternion targetRotation = Quaternion.LookRotation(_path.LookPoints[pathIndex] - _shipTransform.position);
+					_shipTransform.rotation = Quaternion.Lerp(_shipTransform.rotation, targetRotation, Time.deltaTime * _turnSpeed);
+					_shipTransform.Translate(Vector3.forward * (Time.deltaTime * Speed * speedPercent), Space.Self);
 				}
 
 				yield return null;

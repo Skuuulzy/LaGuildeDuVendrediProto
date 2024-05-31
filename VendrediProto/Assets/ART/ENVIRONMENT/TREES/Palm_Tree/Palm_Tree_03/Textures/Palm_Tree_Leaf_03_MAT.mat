@@ -164,7 +164,7 @@ Material:
     - _WorkflowMode: 1
     - _ZWrite: 1
     m_Colors:
-    - _Ambiant_Occlusion_Color: {r: 0.6010232, g: 0.5961196, b: 0.6415094, a: 0.92941177}
+    - _Ambiant_Occlusion_Color: {r: 0.60102314, g: 0.5961196, b: 0.6415094, a: 0.93333334}
     - _BaseColor: {r: 1, g: 1, b: 1, a: 1}
     - _Color: {r: 1, g: 1, b: 1, a: 1}
     - _Color_01: {r: 1, g: 1, b: 1, a: 0}
