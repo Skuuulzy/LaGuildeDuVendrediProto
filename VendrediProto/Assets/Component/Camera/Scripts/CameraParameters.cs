@@ -34,6 +34,10 @@ namespace VComponent.CameraSystem
         [Header("Yaw")]
         [SerializeField] private bool _lockYaw;
 
+        [Header("START VALUES")] 
+        [SerializeField] private Vector3 _startPosition;
+        [SerializeField] private Vector3 _startRotation;
+        
         public float NormalMovementSpeed => _normalMovementSpeed;
         public float FastMovementSpeed => _fastMovementSpeed;
         public int ZoomSpeed => _zoomSpeed;
@@ -47,5 +51,8 @@ namespace VComponent.CameraSystem
         public Vector2 PitchRange => _pitchRange;
         public float PitchDeadZone => _pitchDeadZone;
         public bool InversePitch => _inversePitch;
+
+        public Vector3 StartPosition => _startPosition;
+        public Vector3 StartRotation => _startRotation;
     }
 }

@@ -28,11 +28,12 @@ namespace VComponent.CameraSystem
         private bool _dragMovementInitialized;
         private bool _dragRotationInitialized;
 
-        void Awake()
+        private void Awake()
         {
             _mainCam = Camera.main;
             
-            _cameraTransform.localRotation = Quaternion.Euler(_parameters.PitchRange.x, 0, 0);
+            _cameraTransform.localPosition = _parameters.StartPosition;
+            _cameraTransform.localRotation = Quaternion.Euler(_parameters.StartRotation);
             
             _newPosition = transform.position;
             _newYRotation = transform.rotation;
