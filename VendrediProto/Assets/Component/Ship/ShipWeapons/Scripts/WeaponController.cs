@@ -1,8 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.Netcode;
 using UnityEngine;
 
-public class WeaponController : MonoBehaviour
+public class WeaponController : NetworkBehaviour
 {
     [SerializeField] protected WeaponSO _weaponSO;
 	[SerializeField] protected Rigidbody _rigidbody;

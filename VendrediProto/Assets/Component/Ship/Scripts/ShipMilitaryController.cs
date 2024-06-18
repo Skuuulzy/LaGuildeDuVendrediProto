@@ -1,5 +1,6 @@
 using Cysharp.Threading.Tasks;
 using System.Collections.Generic;
+using Unity.Netcode;
 using UnityEngine;
 using VComponent.InputSystem;
 
@@ -43,7 +44,7 @@ namespace VComponent.Ship
 
 				if (Physics.Raycast(ray, out hit))
 				{
-					if (hit.collider.CompareTag("Ship")) // Assuming boats have a "Boat" tag
+					if (hit.collider.CompareTag("Ship")) // Assuming boats have a "Ship" tag
 					{
 						if (_currentlyAttackingOpponent == false)
 						{
@@ -60,7 +61,7 @@ namespace VComponent.Ship
 			}
 		}
 
-		private async void AttackEnemy(Vector3 enemyShipPosition)
+		private async void AttackEnemy(Vector3 enemyShipPosition, ServerRpcParams rpcParams = default)
 		{
 			//Checking if we have opponent on our range and if we can attack (if we start the loop)
 			if (_opponentShipController.Count != 0 && _stopAttacking == false)
@@ -69,6 +70,9 @@ namespace VComponent.Ship
 
 				//Instantiate and fire the weapon that we carried (Cannonball by default)
 				WeaponController weaponController = Instantiate(_weaponController, transform.position, transform.rotation, null);
+				weaponController.GetComponent<NetworkObject>().SpawnAsPlayerObject(rpcParams.Receive.SenderClientId, true);
+				NetworkObjectReference reference = new NetworkObjectReference(weaponController.GetComponent<NetworkObject>());
+
 				weaponController.FireWeapon(enemyShipPosition);
 
 				//Wait the attackSpeedValue to reattack again
