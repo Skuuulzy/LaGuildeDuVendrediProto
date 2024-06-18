@@ -69,6 +69,7 @@ namespace VComponent.Ship
 				_currentlyAttackingOpponent = true;
 
 				//Instantiate and fire the weapon that we carried (Cannonball by default)
+				Debug.Log("I'm attacking = " + _opponentShipController[0]);
 				WeaponController weaponController = Instantiate(_weaponController, transform.position, transform.rotation, null);
 				weaponController.GetComponent<NetworkObject>().SpawnAsPlayerObject(rpcParams.Receive.SenderClientId, true);
 				NetworkObjectReference reference = new NetworkObjectReference(weaponController.GetComponent<NetworkObject>());
@@ -119,6 +120,7 @@ namespace VComponent.Ship
 
 		public void TakeDamage(int damage)
 		{
+			Debug.Log("I'm taking damage = " + damage);
 			_lifeValue -= (ushort)damage;
 		}
 
